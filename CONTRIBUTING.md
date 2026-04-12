@@ -2,6 +2,8 @@
 
 Thank you for helping improve the IPA Unicode inventory.
 
+Maintainer: [Josh Daugherty](https://github.com/joshdaugherty).
+
 ## Tracing changes to authorities (for PRs)
 
 There is no official **`Is_IPA`** API or UCD property. Pull requests should still **tie decisions to traceable sources** so the inventory is not arbitrary:

@@ -94,6 +94,10 @@ Together, **IPA (symbols)** + **Unicode (code points)** + optionally **SIL (mapp
 
 Scalar identities and names follow the [Unicode Standard](https://www.unicode.org/versions/latest/). This dataset is **not** an official Unicode “IPA property”; it is a versioned, machine-readable allowlist plus optional normalization rules under explicit policy in `data/inventory.json` → `meta`.
 
+## Maintainer
+
+[Josh Daugherty](https://github.com/joshdaugherty)
+
 ## License
 
 SPDX: **MIT** — see `LICENSE`.
