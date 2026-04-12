@@ -27,7 +27,7 @@ In your PR description, a short bullet such as “U+XXXX — Unicode IPA Extensi
 5. **Run checks locally:**
    - `npm run validate` — JSON Schema + normalization target checks
    - `npm test` — full pipeline including build (refreshes `src/MetaConstants.php` from `meta`), `MetaConstants` sync check, reference validator fixtures, and manifest digests
-   - `composer install` then `composer test` — PHPUnit (PHP package golden strings)
+   - `composer install` then `composer test` — PHPUnit (golden strings, strict JSON Schema when `justinrainbow/json-schema` is present in dev)
 
 If you change `dataset_version`, `policy_id`, or `schema_version` in `data/inventory.json` → `meta`, run **`npm run build`** (or **`npm test`**) and commit the updated **`src/MetaConstants.php`**.
 

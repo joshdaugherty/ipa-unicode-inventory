@@ -33,6 +33,16 @@ The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plu
 
 If you apply `data/normalization.json`, apply rules **longest-`from` first**, then validate scalars against the inventory. **U+2018** and **U+2019** map to MODIFIER LETTER APOSTROPHE (U+02BC). Both are also listed as in-band **delimiters**, so strings may validate without normalization; use normalization when you want a single preferred glottal apostrophe scalar.
 
+### Optional strict JSON Schema validation (PHP)
+
+By default, **`InventoryLoader`** only checks that **`meta`** and **`code_points`** / **`rules`** exist. To validate the full document against the bundled **draft 2020-12** wrappers under **`schema/`**:
+
+1. Install the optional dependency: **`composer require justinrainbow/json-schema`** (see **`suggest`** in this package’s `composer.json`). The repo’s **`require-dev`** includes it so **`composer test`** can cover strict mode.
+2. Pass **`true`** as the second argument: **`InventoryLoader::loadInventory($path, true)`**, **`loadNormalization($path, true)`**, **`codePointLookup($path, true)`**, **`delimiterScalarSet($path, true)`**; **`Inventory::fromDisk($path, true)`**; **`TranscriptionValidator::fromDisk(..., $validateSchema: true)`** (last parameter).
+3. Or decode JSON yourself and call **`BundleSchemaValidator::assertInventoryDocumentValid($data)`** / **`assertNormalizationDocumentValid($data)`**. Use **`BundleSchemaValidator::isAvailable()`** if you need to branch before requiring the package.
+
+If strict mode is requested but **`justinrainbow/json-schema`** is not installed, a **`RuntimeException`** explains how to add it. Validation failures throw **`RuntimeException`** with schema error details.
+
 ### Validation model: Unicode scalars, not grapheme clusters
 
 **Guarantee:** `Inventory::isScalarAllowed()` and `TranscriptionValidator::isValid()` treat the string as a sequence of **Unicode scalar values** (code points). Each scalar is checked against the allowlist independently.
@@ -116,7 +126,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 ### Quality and trust
 
 - **Done (in repo).** **PHPUnit** — `composer test`; golden strings cover **ʧ**, Latin + combining acute (U+0301), delimiter strip vs preserve, normalization (U+2019), Wikimedia ASCII, invalid UTF-8, and non-inventory scalars.
-- **Optional strict load** — validate `inventory.json` against JSON Schema when a flag is set (or in dev), e.g. via `justinrainbow/json-schema` as an **optional** dependency.
+- **Done.** **Optional strict load** — `BundleSchemaValidator` + `justinrainbow/json-schema` (`suggest`); see Consumer quick start above.
 
 ### Documentation
 
@@ -139,7 +149,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 2. **Phase B** — Contracts and optional strict loading.
    - **Done.** **Build-time PHP constants** — `MetaConstants` in `src/MetaConstants.php` via `npm run build` / `scripts/meta-constants-php.mjs`.
    - **Done.** **`composer.json` `extra`** — `extra.ipa-unicode-inventory.paths`.
-   - **Optional strict load**: validate bundled JSON against schema in dev or behind a flag (e.g. optional **`justinrainbow/json-schema`**), documented in README.
+   - **Done.** **Optional strict load** — `InventoryLoader` / `Inventory` / `TranscriptionValidator` + `BundleSchemaValidator`; optional **`justinrainbow/json-schema`**; see **Optional strict JSON Schema validation (PHP)**.
 
 3. **Phase C** — Profiles, parity visibility, distribution clarity.
    - **Policy profiles**: e.g. separate **`phonetic_strict`** vs **`corpus_inclusive`** inventories (or one `meta` flag plus multiple JSON files).
