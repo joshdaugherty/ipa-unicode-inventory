@@ -231,7 +231,7 @@ def main() -> None:
     entries.sort(key=lambda e: e["cp"])
     meta = {
         "schema_version": "1.0.0",
-        "dataset_version": "1.0.0",
+        "dataset_version": "1.1.0",
         "unicode_version_min": "15.1.0",
         "policy_id": "ipa-extipa-corpus-inclusive",
         "policy_title": "IPA and extIPA with modifiers, transcription delimiters, and corpus tier punctuation",

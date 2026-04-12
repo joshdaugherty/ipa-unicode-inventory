@@ -1,0 +1,44 @@
+{
+  "name": "joshdaugherty/ipa-unicode-inventory",
+  "description": "Versioned IPA and extIPA Unicode allowlist (JSON + JSON Schema) with optional normalization rules.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "ipa",
+    "unicode",
+    "phonetics",
+    "extipa",
+    "transcription",
+    "json-schema"
+  ],
+  "homepage": "https://github.com/joshdaugherty/ipa-unicode-inventory",
+  "support": {
+    "issues": "https://github.com/joshdaugherty/ipa-unicode-inventory/issues",
+    "source": "https://github.com/joshdaugherty/ipa-unicode-inventory"
+  },
+  "authors": [
+    {
+      "name": "Josh Daugherty",
+      "homepage": "https://github.com/joshdaugherty"
+    }
+  ],
+  "require": {
+    "php": "^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "JoshDaugherty\\IpaUnicodeInventory\\": "src/"
+    }
+  },
+  "archive": {
+    "exclude": [
+      "/.github",
+      "/node_modules",
+      "/tests",
+      "/scripts",
+      "/package.json",
+      "/package-lock.json",
+      "/.gitignore"
+    ]
+  }
+}

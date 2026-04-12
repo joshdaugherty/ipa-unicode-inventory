@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 for `dataset_version` and `schema_version` as described in `schema/` and inventory `meta`.
 
+## [Unreleased]
+
+## [1.1.0] - 2026-04-12
+
+### Added
+
+- Composer / [Packagist](https://packagist.org/) support: root `composer.json` (`joshdaugherty/ipa-unicode-inventory`), PSR-4 namespace `JoshDaugherty\IpaUnicodeInventory\` with `Resources` and `InventoryLoader`, and `.gitattributes` `export-ignore` rules to slim distribution archives.
+
+### Changed
+
+- `dataset_version` **1.1.0** (npm package and inventory `meta`; `schema_version` remains **1.0.0**).
+
 ## [1.0.0] - 2026-04-12
 
 ### Added
@@ -23,4 +35,5 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
-[1.0.0]: https://github.com/ipa-unicode-inventory/ipa-unicode-inventory/releases/tag/v1.0.0
+[1.1.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.1.0
+[1.0.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.0.0

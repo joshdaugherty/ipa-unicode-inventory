@@ -1,2 +1,8 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Slim Composer / GitHub release archives (git archive / Packagist dist)
+/.github export-ignore
+/node_modules export-ignore
+/tests export-ignore
+/scripts export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
+/.gitignore export-ignore

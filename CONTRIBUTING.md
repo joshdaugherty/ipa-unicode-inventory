@@ -40,6 +40,12 @@ In your PR description, a short bullet such as “U+XXXX — Unicode IPA Extensi
 
 After changing the inventory, optionally run `npm run compare:mediawiki` and `npm run compare:ipa-chart` (network) to see gaps vs [mediawiki-libs-IPAValidator](https://github.com/wikimedia/mediawiki-libs-IPAValidator) and [westonruter/ipa-chart](https://github.com/westonruter/ipa-chart).
 
+## Composer / Packagist
+
+- Run `composer validate` after editing `composer.json`.
+- The package name is **`joshdaugherty/ipa-unicode-inventory`**. Public PHP API lives under `src/` (PSR-4: `JoshDaugherty\IpaUnicodeInventory\`).
+- New **Git tags** (e.g. `v1.1.0`) drive new versions on [Packagist](https://packagist.org/) once the repo is connected; enable the GitHub webhook so Packagist updates automatically.
+
 ## Schemas and breaking changes
 
 - Structural or semantic breaking changes require a **major** `schema_version` bump and an entry in `CHANGELOG.md`.
