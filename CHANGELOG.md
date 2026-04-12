@@ -8,9 +8,18 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-04-13
+
 ### Added
 
-- Dev dependency **PHPUnit** (`composer test`), `phpunit.xml.dist`, and golden-string tests under `tests/` (ʧ, combining marks, delimiters, normalization, Wikimedia ASCII, invalid UTF-8).
+- **PHP (Composer):** `Inventory` (cached allowlist via `fromDisk()` / constructor map, `isScalarAllowed(int $cp)` with surrogate and out-of-range rejection); `TranscriptionValidator` (delimiter stripping: none, inventory `delimiter` rows, or custom code points; `normalization.json` longest-`from` first; optional Wikimedia ASCII `'`→ˈ, `:`→ː, `,`→ˌ; `isValid()` per scalar); `InventoryLoader::delimiterScalarSet()`.
+- Require **`ext-mbstring`** for UTF-8 scalar iteration in PHP.
+- **PHPUnit** (`composer test`), `phpunit.xml.dist`, golden-string tests under `tests/` (ʧ, combining marks, delimiters, normalization, Wikimedia ASCII, invalid UTF-8). GitHub Actions runs `composer install && composer test` after `npm test`.
+- **README:** Unicode **scalar** vs grapheme-cluster validation guarantee; **migrating from Wikimedia IPAValidator** comparison table (normalize, delimiters, `@`, Google mode, pipeline order).
+
+### Changed
+
+- `dataset_version` **1.2.0** (npm package and inventory `meta`; allowlist bytes unchanged; `schema_version` remains **1.0.0**).
 
 ## [1.1.0] - 2026-04-12
 
@@ -39,5 +48,6 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
+[1.2.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.2.0
 [1.1.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.1.0
 [1.0.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.0.0

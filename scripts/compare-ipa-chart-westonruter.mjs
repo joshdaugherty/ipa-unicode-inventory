@@ -43,7 +43,7 @@ async function loadChartCodePoints() {
     const url = `${RAW_BASE}/${name}`;
     try {
       const res = await fetch(url, {
-        headers: { "user-agent": "ipa-unicode-inventory-compare/1.1" },
+        headers: { "user-agent": "ipa-unicode-inventory-compare/1.2" },
       });
       if (!res.ok) throw new Error(`${name}: HTTP ${res.status}`);
       const html = await res.text();
