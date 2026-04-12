@@ -136,56 +136,6 @@ This fetches `index.html` and `accessiblechart.html` from the default branch. Us
 
 `build/output/` is gitignored; CI builds on every push/PR. See **Consumer quick start → Distribution** for what Composer ships vs what to attach to **GitHub Releases**.
 
-## Roadmap
-
-High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpers. Order is indicative; issues and PRs can reprioritize.
-
-### Validation and normalization (PHP)
-
-- **Done (in package).** **`TranscriptionValidator`** — `fromDisk()` / constructor; delimiter modes `STRIP_DELIMITERS_NONE`, `STRIP_DELIMITERS_INVENTORY`, `STRIP_DELIMITERS_CUSTOM`; `normalization.json` longest-`from` first; optional Wikimedia ASCII (`'`→ˈ, `:`→ː, `,`→ˌ); `isValid()` per scalar. Does not implement Google-TTS normalization or Wikimedia `stripRegex`.
-- **Done.** **`Inventory`** / **`isScalarAllowed(int $cp)`** — cached allowlist facade (see Phase A).
-- **Normalization / policy profiles** — e.g. `corpus_inclusive` vs `phonetic_strict` as **separate bundled inventories** (or one `meta` flag plus multiple JSON assets) so consumers do not fork data to drop `@` or tier punctuation.
-
-### Discoverability and contracts
-
-- **Done.** **`MetaConstants`** — `DATASET_VERSION`, `POLICY_ID`, `SCHEMA_VERSION` from `meta` (see Consumer quick start).
-- **Done.** **`composer.json` `extra`** — `extra.ipa-unicode-inventory.paths` (see Consumer quick start).
-
-### Quality and trust
-
-- **Done (in repo).** **PHPUnit** — `composer test`; golden strings cover **ʧ**, Latin + combining acute (U+0301), delimiter strip vs preserve, normalization (U+2019), Wikimedia ASCII, invalid UTF-8, and non-inventory scalars.
-- **Done.** **Optional strict load** — `BundleSchemaValidator` + `justinrainbow/json-schema` (`suggest`); see Consumer quick start above.
-
-### Documentation
-
-- **Done.** **Migrating from Wikimedia IPAValidator** — see **Consumer quick start → Migrating from Wikimedia IPAValidator** (table: `@`, delimiters, normalize, Google mode, pipeline order).
-- **Done.** **Scalar guarantee** — see **Validation model: Unicode scalars, not grapheme clusters**.
-
-### Nice-to-have
-
-- **Done.** **`compare:mediawiki` parity** — committed [`docs/mediawiki-parity.md`](docs/mediawiki-parity.md), CI artifact **`mediawiki-parity`**, release uploads via **`release-parity.yml`**.
-- **Done.** **Dist clarity** — **Consumer quick start → Distribution** documents Composer vs GitHub source vs release assets (PCRE fragment and `build/output/` are not in Composer installs).
-
-### Suggested phasing
-
-1. **Phase A (released as 1.2.0)** — Core PHP validation surface and tests.
-   - **Done.** **`Inventory`** — **`fromDisk(?string $path)`** loads **`inventory.json`** once per instance; **`__construct(array $allowedScalars)`** accepts a prebuilt map for tests; **`isScalarAllowed(int $cp)`** consults the cached allowlist and returns false for surrogates and out-of-range scalars.
-   - **Done.** **`TranscriptionValidator`** — same pipeline as above; see class PHPDoc for delimiter vs Wikimedia order (U+0027).
-   - **Done.** **PHPUnit** — `tests/*GoldenStringsTest.php`; run via `composer test`.
-   - **Done.** **README** — scalar vs grapheme-cluster section and Wikimedia migration table under Consumer quick start.
-
-2. **Phase B (released as 1.3.0)** — Contracts and optional strict loading.
-   - **Done.** **Build-time PHP constants** — `MetaConstants` in `src/MetaConstants.php` via `npm run build` / `scripts/meta-constants-php.mjs`.
-   - **Done.** **`composer.json` `extra`** — `extra.ipa-unicode-inventory.paths`.
-   - **Done.** **Optional strict load** — `InventoryLoader` / `Inventory` / `TranscriptionValidator` + `BundleSchemaValidator`; optional **`justinrainbow/json-schema`**; see **Optional strict JSON Schema validation (PHP)**.
-
-3. **Phase C (released as 1.4.0)** — Profiles, parity visibility, distribution clarity.
-   - **Done.** **Policy profiles** — `data/inventory.json` (**corpus_inclusive**) and `data/inventory.phonetic-strict.json` (**phonetic_strict**); `meta.profile_id`; `Resources::inventoryJsonPathForProfile()` and `extra.paths.profiles`.
-   - **Done.** **`compare:mediawiki`** — `docs/mediawiki-parity.md`, CI artifact **`mediawiki-parity`**, release asset upload workflow.
-   - **Done.** **Distribution** — README section on Composer dist vs GitHub source vs release assets (`pcre-class-fragment.txt` and other `build/output/` files).
-
-The largest payoff for maintainers and consumers is likely a **first-party PHP validator** with an **optional legacy compatibility layer**, so application code becomes a thin wrapper instead of re-implementing Wikimedia steps locally.
-
 ## Sources, authorities, and why this repo is still “policy-defined”
 
 No live service exposes a complete, normative **`Is_IPA`** property the way the [UCD](https://www.unicode.org/ucd/) exposes character properties. What you can cite and trace is a **small set of authorities**, then **this repository applies policy** wherever Unicode is ambiguous or broader than you want.
