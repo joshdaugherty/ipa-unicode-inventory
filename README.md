@@ -39,6 +39,22 @@ The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plu
 4. **PHP (generated array):** After `npm run build`, include `build/output/php/AllowedCodePoints.php` or **`AllowedCodePoints.phonetic-strict.php`** for a `0xNNN => true` map (generated only; not committed).
 5. **Integrity:** Check `build/output/manifest.json` SHA-256 digests after downloading release assets.
 
+### Distribution: Composer archives, git clones, and release assets
+
+**Packagist / Composer dist** (what you get from `composer require joshdaugherty/ipa-unicode-inventory`) is a **slim zip** defined by **`composer.json` → `archive.exclude`** and **`.gitattributes` → `export-ignore`**. It **includes** at least:
+
+- **`src/`** — PHP (`Inventory`, `TranscriptionValidator`, `Resources`, `MetaConstants`, etc.)
+- **`data/`** — `inventory.json`, `inventory.phonetic-strict.json`, `normalization.json`
+- **`schema/`** — JSON Schemas for strict validation
+- **`docs/`** — e.g. `mediawiki-parity.md`
+- Root **`composer.json`**, **`README.md`**, **`LICENSE`**, **`CONTRIBUTING.md`**, **`CHANGELOG.md`**, **`phpunit.xml.dist`** (present in the archive even though tests are omitted)
+
+It **omits** **`tests/`**, **`scripts/`**, **`package.json`**, **`package-lock.json`**, **`.github/`**, **`.gitignore`**, and **`node_modules/`** (not committed). **`build/output/`** is **not** in the git tag at all (`build/` is gitignored), so **`pcre-class-fragment.txt`**, **`inventory.min.json`**, **`manifest.json`**, and generated **`AllowedCodePoints*.php`** under **`build/output/`** do **not** ship with Composer. **PHP-only consumers** who want the PCRE fragment or minified JSON should **build locally** (`npm ci && npm run build`) or **download release assets** (below).
+
+**GitHub “Source code”** archives (zip/tarball on a tag) are the **full repository tree** at that revision: same as a `git clone` without unpublished files. They still **exclude** generated **`build/output/`** unless you commit it (this project does not).
+
+**GitHub Releases — attached binaries:** This repository’s **maintainer checklist** is to attach **`npm run build`** outputs for consumers who do not use Node, for example **`inventory.min.json`**, **`inventory.phonetic-strict.min.json`**, **`manifest.json`**, **`pcre-class-fragment.txt`**, **`pcre-class-fragment.phonetic-strict.txt`**, **`code_points.txt`**, **`code_points.phonetic-strict.txt`**, and optionally **`php/AllowedCodePoints.php`** / **`php/AllowedCodePoints.phonetic-strict.php`**. Published releases also receive **`mediawiki-parity.md`** (and **`.log`**) from **`.github/workflows/release-parity.yml`** automatically.
+
 ### Normalization
 
 If you apply `data/normalization.json`, apply rules **longest-`from` first**, then validate scalars against the inventory. **U+2018** and **U+2019** map to MODIFIER LETTER APOSTROPHE (U+02BC). Both are also listed as in-band **delimiters**, so strings may validate without normalization; use normalization when you want a single preferred glottal apostrophe scalar.
@@ -118,7 +134,7 @@ This fetches `index.html` and `accessiblechart.html` from the default branch. Us
 
 **Runtime:** Node **18+** for `scripts/build.js`, `scripts/validate-schemas.mjs`, and tests. **Python 3** is optional, for `scripts/gen-inventory.py` when regenerating the default inventory from Unicode ranges.
 
-`build/output/` is gitignored; CI builds on every push/PR. **Releases** should attach at least `inventory.min.json`, `manifest.json`, and `pcre-class-fragment.txt` (see build outputs above).
+`build/output/` is gitignored; CI builds on every push/PR. See **Consumer quick start → Distribution** for what Composer ships vs what to attach to **GitHub Releases**.
 
 ## Roadmap
 
@@ -148,7 +164,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 ### Nice-to-have
 
 - **Done.** **`compare:mediawiki` parity** — committed [`docs/mediawiki-parity.md`](docs/mediawiki-parity.md), CI artifact **`mediawiki-parity`**, release uploads via **`release-parity.yml`**.
-- **Dist clarity** — if Composer archives omit `build/output/`, document whether **release zips** ship `pcre-class-fragment.txt` for PHP-only consumers who want regex without Node.
+- **Done.** **Dist clarity** — **Consumer quick start → Distribution** documents Composer vs GitHub source vs release assets (PCRE fragment and `build/output/` are not in Composer installs).
 
 ### Suggested phasing
 
@@ -166,7 +182,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 3. **Phase C** — Profiles, parity visibility, distribution clarity.
    - **Done.** **Policy profiles** — `data/inventory.json` (**corpus_inclusive**) and `data/inventory.phonetic-strict.json` (**phonetic_strict**); `meta.profile_id`; `Resources::inventoryJsonPathForProfile()` and `extra.paths.profiles`.
    - **Done.** **`compare:mediawiki`** — `docs/mediawiki-parity.md`, CI artifact **`mediawiki-parity`**, release asset upload workflow.
-   - **Document** what Composer archives and **release zips** include (e.g. whether **`pcre-class-fragment.txt`** ships for PHP-only consumers).
+   - **Done.** **Distribution** — README section on Composer dist vs GitHub source vs release assets (`pcre-class-fragment.txt` and other `build/output/` files).
 
 The largest payoff for maintainers and consumers is likely a **first-party PHP validator** with an **optional legacy compatibility layer**, so application code becomes a thin wrapper instead of re-implementing Wikimedia steps locally.
 

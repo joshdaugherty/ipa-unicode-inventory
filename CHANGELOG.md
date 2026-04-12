@@ -12,6 +12,10 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - **MediaWiki parity visibility:** `scripts/compare-mediawiki-validator.mjs` **`--write-markdown <path>`**; committed **`docs/mediawiki-parity.md`**; **`npm run compare:mediawiki:doc`**; CI uploads **`mediawiki-parity`** artifact (`.md` + `.log`); **`.github/workflows/release-parity.yml`** attaches the same files to **published** GitHub Releases.
 
+### Changed
+
+- **Documentation:** **README** — **Distribution** subsection (Composer dist vs GitHub source vs release assets; **`pcre-class-fragment.txt`** and **`build/output/`** not shipped via Composer). **CONTRIBUTING** — dist zip notes and **GitHub Releases** artifact checklist.
+
 ## [1.4.0] - 2026-04-12
 
 ### Added

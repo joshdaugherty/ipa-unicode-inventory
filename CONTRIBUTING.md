@@ -50,6 +50,11 @@ After changing the inventory, optionally run `npm run compare:mediawiki` and `np
 - Run `composer validate` after editing `composer.json`.
 - The package name is **`joshdaugherty/ipa-unicode-inventory`**. Public PHP API lives under `src/` (PSR-4: `JoshDaugherty\IpaUnicodeInventory\`).
 - New **Git tags** (e.g. `v1.4.0`) drive new versions on [Packagist](https://packagist.org/) once the repo is connected; enable the GitHub webhook so Packagist updates automatically.
+- **Dist zip contents:** `composer.json` → **`archive.exclude`** and **`.gitattributes`** **`export-ignore`** control what Packagist ships (no `tests/`, `scripts/`, or `package.json`; **`build/output/`** is not in git, so **`pcre-class-fragment.txt`** and friends are **not** in Composer installs). See **README.md → Consumer quick start → Distribution** for the full matrix.
+
+## GitHub Releases (build artifacts)
+
+Composer consumers do not receive generated **`build/output/`** files. For **PHP-only** or **regex** users, attach **`npm run build`** outputs to the GitHub Release when you publish a tag, for example: **`inventory.min.json`**, **`inventory.phonetic-strict.min.json`**, **`manifest.json`**, **`pcre-class-fragment.txt`**, **`pcre-class-fragment.phonetic-strict.txt`**, **`code_points.txt`**, **`code_points.phonetic-strict.txt`**, and optionally **`php/AllowedCodePoints.php`** / **`php/AllowedCodePoints.phonetic-strict.php`**. **`mediawiki-parity.md`** (and **`.log`**) are uploaded automatically by **`.github/workflows/release-parity.yml`**.
 
 ## Schemas and breaking changes
 
