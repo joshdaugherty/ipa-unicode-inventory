@@ -102,7 +102,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 ### Suggested phasing
 
 1. **Phase A** — Core PHP validation surface and tests.
-   - Small **`Inventory`** (or similar) facade with **`isScalarAllowed(int $cp)`** and a cached allowlist.
+   - **Done.** **`Inventory`** — **`fromDisk(?string $path)`** loads **`inventory.json`** once per instance; **`__construct(array $allowedScalars)`** accepts a prebuilt map for tests; **`isScalarAllowed(int $cp)`** consults the cached allowlist and returns false for surrogates and out-of-range scalars.
    - **`TranscriptionValidator`** (or equivalent): configurable delimiter stripping, **`normalization.json`** application (**longest-`from` first**), optional **legacy Wikimedia** ASCII pass, then **per-scalar** checks.
    - **PHPUnit** with golden strings (e.g. **ʧ**, combining marks, delimiters).
    - **README** updates: explicit **scalar** (not grapheme-cluster) guarantee; short **migrating from wikimedia/ipa-validator** table.
