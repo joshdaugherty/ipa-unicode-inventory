@@ -2,7 +2,7 @@
 
 Standalone, language-agnostic **source data** and **generated artifacts** for Unicode scalars treated as IPA-relevant under an explicit, documented policy. Use this instead of ad hoc regex allowlists inside apps.
 
-- **Canonical data:** `data/inventory.json` (required), optional `data/normalization.json`
+- **Canonical data:** `data/inventory.json` (**corpus_inclusive**), `data/inventory.phonetic-strict.json` (**phonetic_strict**), optional `data/normalization.json`
 - **Schemas:** `schema/` (JSON Schema draft 2020-12)
 - **PHP:** Composer package `joshdaugherty/ipa-unicode-inventory` (see Consumer quick start)
 - **Build:** Node.js 18+ — `npm ci` then `npm run build` → `build/output/`
@@ -13,20 +13,30 @@ Versioning and data shape for `schema_version`, `dataset_version`, and categorie
 
 | Field | Value |
 |--------|--------|
-| `policy_id` | `ipa-extipa-corpus-inclusive` |
-| `dataset_version` | `1.3.0` |
+| `policy_id` | `ipa-extipa-corpus-inclusive` (default bundle) |
+| `profile_id` | `corpus_inclusive` (in `inventory.json` meta) |
+| `dataset_version` | `1.4.0` |
 | `schema_version` | `1.0.0` |
 
-`dataset_version` **1.3.0** matches the current npm/Composer release line. **PHP:** install via Composer on [Packagist](https://packagist.org/) as `joshdaugherty/ipa-unicode-inventory` (submit the repo and tag releases such as **`v1.3.0`**).
+`dataset_version` **1.4.0** matches the current npm/Composer release line. **PHP:** install via Composer on [Packagist](https://packagist.org/) as `joshdaugherty/ipa-unicode-inventory` (submit the repo and tag releases such as **`v1.4.0`**).
 
-The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plus **in-band transcription and corpus punctuation**: parentheses, square brackets, slashes, braces, angle brackets (ASCII and U+27E8/U+27E9), comma, full stop, pipe, colon, hyphen, equals, plus, underscore, quotes (ASCII and common typographic), guillemets, ellipsis, and similar tier markers, all tagged **`delimiter`** where applicable; **ASCII digits and space** are **`other`** for tone indices, timing labels, and running text. Consumers can **strip `delimiter`** (and optionally space/digits) for phonetic-only checks. It still **does not** assert phonological well-formedness or a Unicode `Is_IPA` property — see the policy paragraph above and [Extensions to the IPA](https://en.wikipedia.org/wiki/Extensions_to_the_International_Phonetic_Alphabet) for the clinical symbol set.
+The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plus **in-band transcription and corpus punctuation**: parentheses, square brackets, slashes, braces, angle brackets (ASCII and U+27E8/U+27E9), comma, full stop, pipe, colon, hyphen, equals, plus, underscore, quotes (ASCII and common typographic), guillemets, ellipsis, and similar tier markers, all tagged **`delimiter`** where applicable; **ASCII digits and space** are **`other`** for tone indices, timing labels, and running text. Consumers can **strip `delimiter`** (and optionally space/digits) for phonetic-only checks, or load the bundled **`phonetic_strict`** inventory (below), which omits those rows. It still **does not** assert phonological well-formedness or a Unicode `Is_IPA` property — see the policy paragraph above and [Extensions to the IPA](https://en.wikipedia.org/wiki/Extensions_to_the_International_Phonetic_Alphabet) for the clinical symbol set.
+
+### Policy profiles
+
+| `profile_id` | File | `policy_id` | Role |
+|----------------|------|-------------|------|
+| `corpus_inclusive` | `data/inventory.json` | `ipa-extipa-corpus-inclusive` | Default: phonetic symbols **plus** delimiter rows and ASCII space/digits for transcriptions and corpora. |
+| `phonetic_strict` | `data/inventory.phonetic-strict.json` | `ipa-extipa-phonetic-strict` | Subset: same phonetic Unicode rows **without** `delimiter` category, ASCII space, or ASCII digits (ASCII Latin letters remain for mixed orthography). Normalization targets (e.g. U+02BC) stay valid. |
+
+**`meta.dataset_version`**, **`schema_version`**, and **`unicode_version_min`** match across both profiles and **`normalization.json`**. **`MetaConstants`** reflects the **default** (`corpus_inclusive`) bundle only. PHP: **`Resources::inventoryJsonPathForProfile(PolicyProfile::PHONETIC_STRICT)`** (or **`CORPUS_INCLUSIVE`**) and **`composer.json` → `extra.ipa-unicode-inventory.paths.profiles`**.
 
 ## Consumer quick start
 
-1. **JSON:** Read `data/inventory.json` or the minified `build/output/inventory.min.json` (from a release asset). Build a `Set` of `cp` integers in memory.
-2. **PCRE (UTF-8 + `/u`):** Insert `build/output/pcre-class-fragment.txt` inside a character class, e.g. `/^[...fragment...]+$/u` — the fragment uses `\x{H...}` escapes only (no surrounding `[` `]`).
-3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists canonical paths **relative to the package root** (`inventory_json`, `normalization_json`, `schema_directory`) so scripts and plugins can resolve assets without hardcoding `vendor/...` segments. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, and **`SCHEMA_VERSION`** from `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.3.0`**) so the package resolves.
-4. **PHP (generated array):** After `npm run build`, include `build/output/php/AllowedCodePoints.php` for a `0xNNN => true` map (generated only; not committed).
+1. **JSON:** Read `data/inventory.json` (or **`inventory.phonetic-strict.json`**) or the minified `build/output/inventory.min.json` / **`inventory.phonetic-strict.min.json`**. Build a `Set` of `cp` integers in memory.
+2. **PCRE (UTF-8 + `/u`):** Insert `build/output/pcre-class-fragment.txt` or **`pcre-class-fragment.phonetic-strict.txt`** inside a character class, e.g. `/^[...fragment...]+$/u` — the fragment uses `\x{H...}` escapes only (no surrounding `[` `]`).
+3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists **`inventory_json`**, **`normalization_json`**, **`schema_directory`**, and **`profiles`** (`corpus_inclusive`, `phonetic_strict`) relative to the package root. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, **`PROFILE_ID`**, and **`SCHEMA_VERSION`** from the default `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. For **phonetic-only** validation without stripping, point loaders at **`Resources::inventoryJsonPathForProfile(PolicyProfile::PHONETIC_STRICT)`**. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.4.0`**) so the package resolves.
+4. **PHP (generated array):** After `npm run build`, include `build/output/php/AllowedCodePoints.php` or **`AllowedCodePoints.phonetic-strict.php`** for a `0xNNN => true` map (generated only; not committed).
 5. **Integrity:** Check `build/output/manifest.json` SHA-256 digests after downloading release assets.
 
 ### Normalization
@@ -152,7 +162,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
    - **Done.** **Optional strict load** — `InventoryLoader` / `Inventory` / `TranscriptionValidator` + `BundleSchemaValidator`; optional **`justinrainbow/json-schema`**; see **Optional strict JSON Schema validation (PHP)**.
 
 3. **Phase C** — Profiles, parity visibility, distribution clarity.
-   - **Policy profiles**: e.g. separate **`phonetic_strict`** vs **`corpus_inclusive`** inventories (or one `meta` flag plus multiple JSON files).
+   - **Done.** **Policy profiles** — `data/inventory.json` (**corpus_inclusive**) and `data/inventory.phonetic-strict.json` (**phonetic_strict**); `meta.profile_id`; `Resources::inventoryJsonPathForProfile()` and `extra.paths.profiles`.
    - **`compare:mediawiki`** output as **CI artifact** or **per-release parity table** on GitHub.
    - **Document** what Composer archives and **release zips** include (e.g. whether **`pcre-class-fragment.txt`** ships for PHP-only consumers).
 

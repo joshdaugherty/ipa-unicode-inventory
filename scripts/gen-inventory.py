@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-time / maintainer tool: emit data/inventory.json for the default policy ranges."""
+"""Maintainer tool: emit data/inventory.json (corpus_inclusive) and data/inventory.phonetic-strict.json."""
 from __future__ import annotations
 
 import json
@@ -84,6 +84,21 @@ def add_corpus_in_band(seen: set[int], entries: list[dict]) -> None:
                 "notes": "ASCII space; word or syllable separation in running transcription.",
             }
         )
+
+
+def filter_phonetic_strict(entries: list[dict]) -> list[dict]:
+    """Subset for phonetic_strict: IPA/extIPA symbols and marks without corpus-tier scalars."""
+    out: list[dict] = []
+    for row in entries:
+        cat = row.get("category")
+        if cat == "delimiter":
+            continue
+        cp = row["cp"]
+        if cat == "other":
+            if cp == 0x0020 or 0x0030 <= cp <= 0x0039:
+                continue
+        out.append(row)
+    return out
 
 
 def category_bucket(cp: int) -> str | None:
@@ -229,10 +244,13 @@ def main() -> None:
             )
 
     entries.sort(key=lambda e: e["cp"])
-    meta = {
+    strict_entries = sorted(filter_phonetic_strict(entries), key=lambda e: e["cp"])
+
+    meta_corpus = {
         "schema_version": "1.0.0",
-        "dataset_version": "1.3.0",
+        "dataset_version": "1.4.0",
         "unicode_version_min": "15.1.0",
+        "profile_id": "corpus_inclusive",
         "policy_id": "ipa-extipa-corpus-inclusive",
         "policy_title": "IPA and extIPA with modifiers, transcription delimiters, and corpus tier punctuation",
         "policy_description": (
@@ -255,19 +273,48 @@ def main() -> None:
             "labels, and running text. Also common Latin/Greek IPA letters (æ ç ð ø ħ ŋ œ, β θ χ), Latin "
             "clicks U+01C0 through U+01C3, undertie U+203F, double vertical line U+2016, labiodental flap "
             "U+2C71, and ASCII Latin letters. Does not include arbitrary CJK or whole mathematical blocks. "
-            "Consumers may strip category delimiter before phonetic-only validation. Surrogate code points "
+            "Consumers may strip category delimiter before phonetic-only validation, or load "
+            "inventory.phonetic-strict.json (profile phonetic_strict). Surrogate code points "
             "are never listed."
         ),
     }
-    doc = {
+    meta_strict = {
+        "schema_version": "1.0.0",
+        "dataset_version": "1.4.0",
+        "unicode_version_min": "15.1.0",
+        "profile_id": "phonetic_strict",
+        "policy_id": "ipa-extipa-phonetic-strict",
+        "policy_title": "IPA and extIPA phonetic symbols and marks (no corpus delimiters or tier punctuation)",
+        "policy_description": (
+            "Same Unicode ranges and phonetic categories as the corpus_inclusive profile, but excludes "
+            "all rows with category delimiter (transcription brackets, slashes, punctuation tier markers, "
+            "typographic quotes used as delimiters, etc.) and excludes ASCII space and ASCII digits "
+            "(category other) used for running text and numeric labels. Intended for phonetic-only "
+            "allowlists after you have stripped or externalized corpus markup. ASCII Latin letters remain "
+            "listed for mixed orthography beside IPA. Pair with data/normalization.json when you map "
+            "typographic apostrophes to U+02BC before validating. Surrogate code points are never listed."
+        ),
+    }
+    data_dir = Path(__file__).resolve().parent.parent / "data"
+    data_dir.mkdir(parents=True, exist_ok=True)
+
+    doc_corpus = {
         "$schema": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/inventory.wrapper.schema.json",
-        "meta": meta,
+        "meta": meta_corpus,
         "code_points": entries,
     }
-    out = Path(__file__).resolve().parent.parent / "data" / "inventory.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Wrote {len(entries)} code points to {out}")
+    out_corpus = data_dir / "inventory.json"
+    out_corpus.write_text(json.dumps(doc_corpus, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Wrote {len(entries)} code points to {out_corpus}")
+
+    doc_strict = {
+        "$schema": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/inventory.wrapper.schema.json",
+        "meta": meta_strict,
+        "code_points": strict_entries,
+    }
+    out_strict = data_dir / "inventory.phonetic-strict.json"
+    out_strict.write_text(json.dumps(doc_strict, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Wrote {len(strict_entries)} code points to {out_strict}")
 
 
 if __name__ == "__main__":

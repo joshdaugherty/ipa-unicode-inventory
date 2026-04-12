@@ -21,7 +21,7 @@ In your PR description, a short bullet such as “U+XXXX — Unicode IPA Extensi
 ## Proposing code points
 
 1. **Policy first.** Read `data/inventory.json` → `meta.policy_description` and confirm your code point fits the stated policy, or open a discussion to extend policy (which may require a `schema_version` or `dataset_version` bump per `schema/` and `CHANGELOG.md`).
-2. **Edit the canonical file.** Add or adjust entries in `data/inventory.json` only (not generated files under `build/`).
+2. **Edit the canonical files.** Prefer **`python scripts/gen-inventory.py`** so `data/inventory.json` and `data/inventory.phonetic-strict.json` stay consistent; or edit `data/inventory.json` by hand and regenerate the strict profile with the same tool if range logic changes (not generated files under `build/`).
 3. **Sort order.** Keep `code_points` sorted by numeric `cp` for stable diffs.
 4. **Fields.** Each entry needs `cp` (decimal), `cp_hex` (`U+` + uppercase hex, minimum four digits), and `category` from the normative enum in `schema/inventory.code_points.schema.json`. Optional: `aliases`, `notes`, `deprecated`.
 5. **Run checks locally:**
@@ -49,7 +49,7 @@ After changing the inventory, optionally run `npm run compare:mediawiki` and `np
 
 - Run `composer validate` after editing `composer.json`.
 - The package name is **`joshdaugherty/ipa-unicode-inventory`**. Public PHP API lives under `src/` (PSR-4: `JoshDaugherty\IpaUnicodeInventory\`).
-- New **Git tags** (e.g. `v1.3.0`) drive new versions on [Packagist](https://packagist.org/) once the repo is connected; enable the GitHub webhook so Packagist updates automatically.
+- New **Git tags** (e.g. `v1.4.0`) drive new versions on [Packagist](https://packagist.org/) once the repo is connected; enable the GitHub webhook so Packagist updates automatically.
 
 ## Schemas and breaking changes
 

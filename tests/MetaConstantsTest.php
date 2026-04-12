@@ -17,5 +17,6 @@ final class MetaConstantsTest extends TestCase
         $this->assertSame($meta['dataset_version'], MetaConstants::DATASET_VERSION);
         $this->assertSame($meta['policy_id'], MetaConstants::POLICY_ID);
         $this->assertSame($meta['schema_version'], MetaConstants::SCHEMA_VERSION);
+        $this->assertSame($meta['profile_id'], MetaConstants::PROFILE_ID);
     }
 }

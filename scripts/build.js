@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Reads data/inventory.json (and optional data/normalization.json), writes build/output/.
+ * Reads data/inventory.json and data/inventory.phonetic-strict.json, writes build/output/.
  * Encoding: UTF-8. PCRE fragments assume a UTF-8 pattern with the /u flag (e.g. PHP preg_match).
  */
 
@@ -57,24 +57,19 @@ function hashFileContent(buf) {
   return createHash("sha256").update(buf).digest("hex");
 }
 
-async function main() {
-  const invPath = join(root, "data", "inventory.json");
-  const invRaw = await readFile(invPath, "utf8");
-  const inv = JSON.parse(invRaw);
-  assertInventory(inv);
-
+/**
+ * @param {object} inv
+ * @returns {{ minJson: string, codePointHexLines: string, pcreFragment: string, phpBody: string, count: number }}
+ */
+function inventoryArtifacts(inv) {
   const sorted = [...inv.code_points].sort((a, b) => a.cp - b.cp);
   const invOut = {
     ...inv,
     code_points: sorted,
   };
-
-  await mkdir(outDir, { recursive: true });
-
   const minJson = JSON.stringify(invOut);
   const codePointHexLines = sorted.map((r) => r.cp_hex).join("\n") + "\n";
   const pcreFragment = toPcreClassFragment(sorted.map((r) => r.cp)) + "\n";
-
   const phpLines = [
     "<?php",
     "declare(strict_types=1);",
@@ -86,14 +81,58 @@ async function main() {
     "",
   ];
   const phpBody = phpLines.join("\n");
+  return { minJson, codePointHexLines, pcreFragment, phpBody, count: sorted.length };
+}
 
-  await writeFile(join(outDir, "inventory.min.json"), minJson, "utf8");
-  await writeFile(join(outDir, "code_points.txt"), codePointHexLines, "utf8");
-  await writeFile(join(outDir, "pcre-class-fragment.txt"), pcreFragment, "utf8");
+async function main() {
+  await mkdir(outDir, { recursive: true });
   await mkdir(join(outDir, "php"), { recursive: true });
-  await writeFile(join(outDir, "php", "AllowedCodePoints.php"), phpBody, "utf8");
 
-  const metaConstantsBody = renderMetaConstantsPhp(inv.meta);
+  const profiles = [
+    {
+      path: join(root, "data", "inventory.json"),
+      outNames: {
+        minJson: "inventory.min.json",
+        codePointsTxt: "code_points.txt",
+        pcreTxt: "pcre-class-fragment.txt",
+        phpRel: "php/AllowedCodePoints.php",
+      },
+    },
+    {
+      path: join(root, "data", "inventory.phonetic-strict.json"),
+      outNames: {
+        minJson: "inventory.phonetic-strict.min.json",
+        codePointsTxt: "code_points.phonetic-strict.txt",
+        pcreTxt: "pcre-class-fragment.phonetic-strict.txt",
+        phpRel: "php/AllowedCodePoints.phonetic-strict.php",
+      },
+    },
+  ];
+
+  const files = {};
+  let primaryMeta = null;
+  const logCounts = [];
+
+  for (const p of profiles) {
+    const invRaw = await readFile(p.path, "utf8");
+    const inv = JSON.parse(invRaw);
+    assertInventory(inv);
+    if (primaryMeta === null) {
+      primaryMeta = inv.meta;
+    }
+    const art = inventoryArtifacts(inv);
+    await writeFile(join(outDir, p.outNames.minJson), art.minJson, "utf8");
+    await writeFile(join(outDir, p.outNames.codePointsTxt), art.codePointHexLines, "utf8");
+    await writeFile(join(outDir, p.outNames.pcreTxt), art.pcreFragment, "utf8");
+    await writeFile(join(outDir, p.outNames.phpRel), art.phpBody, "utf8");
+    files[p.outNames.minJson] = hashFileContent(Buffer.from(art.minJson, "utf8"));
+    files[p.outNames.codePointsTxt] = hashFileContent(Buffer.from(art.codePointHexLines, "utf8"));
+    files[p.outNames.pcreTxt] = hashFileContent(Buffer.from(art.pcreFragment, "utf8"));
+    files[p.outNames.phpRel] = hashFileContent(Buffer.from(art.phpBody, "utf8"));
+    logCounts.push(`${inv.meta.profile_id ?? p.path}: ${art.count}`);
+  }
+
+  const metaConstantsBody = renderMetaConstantsPhp(primaryMeta);
   await writeFile(join(root, "src", "MetaConstants.php"), metaConstantsBody, "utf8");
 
   const pkgPath = join(root, "package.json");
@@ -105,16 +144,9 @@ async function main() {
     /* optional */
   }
 
-  const files = {
-    "inventory.min.json": hashFileContent(Buffer.from(minJson, "utf8")),
-    "code_points.txt": hashFileContent(Buffer.from(codePointHexLines, "utf8")),
-    "pcre-class-fragment.txt": hashFileContent(Buffer.from(pcreFragment, "utf8")),
-    "php/AllowedCodePoints.php": hashFileContent(Buffer.from(phpBody, "utf8")),
-  };
-
   const manifest = {
-    dataset_version: inv.meta.dataset_version,
-    schema_version: inv.meta.schema_version,
+    dataset_version: primaryMeta.dataset_version,
+    schema_version: primaryMeta.schema_version,
     files,
     generator: {
       name: "ipa-unicode-inventory",
@@ -125,7 +157,7 @@ async function main() {
   const manifestStr = JSON.stringify(manifest, null, 2) + "\n";
   await writeFile(join(outDir, "manifest.json"), manifestStr, "utf8");
 
-  console.log(`Wrote build outputs to ${outDir} (${sorted.length} code points).`);
+  console.log(`Wrote build outputs to ${outDir} (${logCounts.join("; ")}).`);
 }
 
 main().catch((err) => {

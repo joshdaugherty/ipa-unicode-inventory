@@ -28,6 +28,11 @@
     "policy_id": { "type": "string", "minLength": 1 },
     "policy_title": { "type": "string", "minLength": 1 },
     "policy_description": { "type": "string", "minLength": 1 },
+    "profile_id": {
+      "type": "string",
+      "description": "Optional stable id when multiple policy inventories ship in one package (e.g. corpus_inclusive vs phonetic_strict).",
+      "enum": ["corpus_inclusive", "phonetic_strict"]
+    },
     "generated_at": { "type": "string", "format": "date-time" }
   }
 }

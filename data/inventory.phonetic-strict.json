@@ -4,192 +4,12 @@
     "schema_version": "1.0.0",
     "dataset_version": "1.4.0",
     "unicode_version_min": "15.1.0",
-    "profile_id": "corpus_inclusive",
-    "policy_id": "ipa-extipa-corpus-inclusive",
-    "policy_title": "IPA and extIPA with modifiers, transcription delimiters, and corpus tier punctuation",
-    "policy_description": "Core IPA: IPA Extensions (U+0250 through U+02AF), spacing modifier letters U+02B0 through U+02FF, combining diacritical marks U+0300 through U+036F, phonetic extensions U+1D00 through U+1DBF. extIPA / disordered-speech extensions: Combining Diacritical Marks Extended U+1AB0 through U+1AFF, Combining Diacritical Marks Supplement U+1DC0 through U+1DFF, Latin Extended-G U+1DF00 through U+1DFFF, Modifier Letters Supplement U+10780 through U+107BF, modifier tone letters U+A700 through U+A71F, Latin Extended-D letters ꞎ U+A78E and ꞯ U+A7AF, superscripts and subscripts U+2070 through U+209C, circled Latin wildcards U+24B6 through U+24E9, prosodic brackets U+2E28/U+2E29 and U+2987/U+2988, inverted exclamation U+00A1, airstream arrows U+2191/U+2193, global rise/fall U+2197/U+2198 (IPA chart suprasegmentals), combining enclosing circle U+20DD, backslash U+005C for reiterated articulation, and selected musical dynamics U+1D18F through U+1D193. Transcription and corpus-in-band delimiters (category delimiter): parentheses, square brackets, slashes, braces, ASCII and mathematical angle brackets ⟨ ⟩ (U+27E8/U+27E9), full stop, pipe, comma, colon, semicolon, hyphen-minus, equals, plus, low line, commercial at, number sign, asterisk, question mark, tilde, percent, ASCII and typographic quotes, guillemets, horizontal ellipsis. ASCII digits and ASCII space (category other) for tone indices, timing labels, and running text. Also common Latin/Greek IPA letters (æ ç ð ø ħ ŋ œ, β θ χ), Latin clicks U+01C0 through U+01C3, undertie U+203F, double vertical line U+2016, labiodental flap U+2C71, and ASCII Latin letters. Does not include arbitrary CJK or whole mathematical blocks. Consumers may strip category delimiter before phonetic-only validation, or load inventory.phonetic-strict.json (profile phonetic_strict). Surrogate code points are never listed."
+    "profile_id": "phonetic_strict",
+    "policy_id": "ipa-extipa-phonetic-strict",
+    "policy_title": "IPA and extIPA phonetic symbols and marks (no corpus delimiters or tier punctuation)",
+    "policy_description": "Same Unicode ranges and phonetic categories as the corpus_inclusive profile, but excludes all rows with category delimiter (transcription brackets, slashes, punctuation tier markers, typographic quotes used as delimiters, etc.) and excludes ASCII space and ASCII digits (category other) used for running text and numeric labels. Intended for phonetic-only allowlists after you have stripped or externalized corpus markup. ASCII Latin letters remain listed for mixed orthography beside IPA. Pair with data/normalization.json when you map typographic apostrophes to U+02BC before validating. Surrogate code points are never listed."
   },
   "code_points": [
-    {
-      "cp": 32,
-      "cp_hex": "U+0020",
-      "category": "other",
-      "notes": "ASCII space; word or syllable separation in running transcription."
-    },
-    {
-      "cp": 34,
-      "cp_hex": "U+0022",
-      "category": "delimiter",
-      "notes": "Delimiter: ASCII quotation mark; cited forms beside IPA."
-    },
-    {
-      "cp": 35,
-      "cp_hex": "U+0023",
-      "category": "delimiter",
-      "notes": "Delimiter: number sign; word-boundary or rule notation in some linguistics corpora."
-    },
-    {
-      "cp": 37,
-      "cp_hex": "U+0025",
-      "category": "delimiter",
-      "notes": "Delimiter: percent; rare tier or label conventions."
-    },
-    {
-      "cp": 39,
-      "cp_hex": "U+0027",
-      "category": "delimiter",
-      "notes": "Delimiter: ASCII apostrophe; orthographic; prefer MODIFIER LETTER APOSTROPHE (U+02BC) for IPA glottals when normalizing."
-    },
-    {
-      "cp": 40,
-      "cp_hex": "U+0028",
-      "category": "delimiter",
-      "notes": "Delimiter: left parenthesis; optional segments, grouping, pause/silent-articulation markup."
-    },
-    {
-      "cp": 41,
-      "cp_hex": "U+0029",
-      "category": "delimiter",
-      "notes": "Delimiter: right parenthesis."
-    },
-    {
-      "cp": 42,
-      "cp_hex": "U+002A",
-      "category": "delimiter",
-      "notes": "Delimiter: asterisk; ungrammatical/reconstructed forms adjacent to IPA in examples."
-    },
-    {
-      "cp": 43,
-      "cp_hex": "U+002B",
-      "category": "delimiter",
-      "notes": "Delimiter: plus; morphological boundary in some gloss tiers."
-    },
-    {
-      "cp": 44,
-      "cp_hex": "U+002C",
-      "category": "delimiter",
-      "notes": "Delimiter: comma; minor boundaries and lists in running text."
-    },
-    {
-      "cp": 45,
-      "cp_hex": "U+002D",
-      "category": "delimiter",
-      "notes": "Delimiter: hyphen-minus; morpheme or compound boundaries next to IPA."
-    },
-    {
-      "cp": 46,
-      "cp_hex": "U+002E",
-      "category": "delimiter",
-      "notes": "Delimiter: full stop; abbreviations and mixed prose beside IPA."
-    },
-    {
-      "cp": 47,
-      "cp_hex": "U+002F",
-      "category": "delimiter",
-      "notes": "Delimiter: solidus; phonemic slashes and similar tiering."
-    },
-    {
-      "cp": 48,
-      "cp_hex": "U+0030",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 49,
-      "cp_hex": "U+0031",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 50,
-      "cp_hex": "U+0032",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 51,
-      "cp_hex": "U+0033",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 52,
-      "cp_hex": "U+0034",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 53,
-      "cp_hex": "U+0035",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 54,
-      "cp_hex": "U+0036",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 55,
-      "cp_hex": "U+0037",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 56,
-      "cp_hex": "U+0038",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 57,
-      "cp_hex": "U+0039",
-      "category": "other",
-      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
-    },
-    {
-      "cp": 58,
-      "cp_hex": "U+003A",
-      "category": "delimiter",
-      "notes": "Delimiter: colon; timing, lists, or orthographic snippets."
-    },
-    {
-      "cp": 59,
-      "cp_hex": "U+003B",
-      "category": "delimiter",
-      "notes": "Delimiter: semicolon."
-    },
-    {
-      "cp": 60,
-      "cp_hex": "U+003C",
-      "category": "delimiter",
-      "notes": "Delimiter: less-than; grapheme or orthographic tier (ASCII)."
-    },
-    {
-      "cp": 61,
-      "cp_hex": "U+003D",
-      "category": "delimiter",
-      "notes": "Delimiter: equals sign; clitic boundaries (e.g. Leipzig-style glossing)."
-    },
-    {
-      "cp": 62,
-      "cp_hex": "U+003E",
-      "category": "delimiter",
-      "notes": "Delimiter: greater-than."
-    },
-    {
-      "cp": 63,
-      "cp_hex": "U+003F",
-      "category": "delimiter",
-      "notes": "Delimiter: question mark; uncertain segment in some transcription styles."
-    },
-    {
-      "cp": 64,
-      "cp_hex": "U+0040",
-      "category": "delimiter",
-      "notes": "Delimiter: commercial at; annotation conventions in some datasets."
-    },
     {
       "cp": 65,
       "cp_hex": "U+0041",
@@ -347,28 +167,10 @@
       "notes": "ASCII Latin; included for mixed orthography and normalization targets."
     },
     {
-      "cp": 91,
-      "cp_hex": "U+005B",
-      "category": "delimiter",
-      "notes": "Delimiter: left square bracket; narrow (phonetic) transcription."
-    },
-    {
       "cp": 92,
       "cp_hex": "U+005C",
       "category": "other",
       "notes": "extIPA reiterated articulation (stutter) marker in narrow transcription."
-    },
-    {
-      "cp": 93,
-      "cp_hex": "U+005D",
-      "category": "delimiter",
-      "notes": "Delimiter: right square bracket."
-    },
-    {
-      "cp": 95,
-      "cp_hex": "U+005F",
-      "category": "delimiter",
-      "notes": "Delimiter: low line; pause slots or format conventions."
     },
     {
       "cp": 97,
@@ -527,46 +329,10 @@
       "notes": "ASCII Latin; included for mixed orthography and normalization targets."
     },
     {
-      "cp": 123,
-      "cp_hex": "U+007B",
-      "category": "delimiter",
-      "notes": "Delimiter: left brace; prosodic / VoQS commentary spans."
-    },
-    {
-      "cp": 124,
-      "cp_hex": "U+007C",
-      "category": "delimiter",
-      "notes": "Delimiter: vertical bar; alternation or parallel gloss conventions."
-    },
-    {
-      "cp": 125,
-      "cp_hex": "U+007D",
-      "category": "delimiter",
-      "notes": "Delimiter: right brace."
-    },
-    {
-      "cp": 126,
-      "cp_hex": "U+007E",
-      "category": "delimiter",
-      "notes": "Delimiter: tilde; fusion or informal variant notation."
-    },
-    {
       "cp": 161,
       "cp_hex": "U+00A1",
       "category": "other",
       "notes": "Inverted exclamation; extIPA sublaminal percussive with click letters."
-    },
-    {
-      "cp": 171,
-      "cp_hex": "U+00AB",
-      "category": "delimiter",
-      "notes": "Delimiter: left-pointing double angle quotation mark."
-    },
-    {
-      "cp": 187,
-      "cp_hex": "U+00BB",
-      "category": "delimiter",
-      "notes": "Delimiter: right-pointing double angle quotation mark."
     },
     {
       "cp": 230,
@@ -3519,36 +3285,6 @@
       "category": "other"
     },
     {
-      "cp": 8216,
-      "cp_hex": "U+2018",
-      "category": "delimiter",
-      "notes": "Delimiter: left single quotation mark; cited forms."
-    },
-    {
-      "cp": 8217,
-      "cp_hex": "U+2019",
-      "category": "delimiter",
-      "notes": "Delimiter: right single quotation mark; may normalize to U+02BC for IPA."
-    },
-    {
-      "cp": 8220,
-      "cp_hex": "U+201C",
-      "category": "delimiter",
-      "notes": "Delimiter: left double quotation mark."
-    },
-    {
-      "cp": 8221,
-      "cp_hex": "U+201D",
-      "category": "delimiter",
-      "notes": "Delimiter: right double quotation mark."
-    },
-    {
-      "cp": 8230,
-      "cp_hex": "U+2026",
-      "category": "delimiter",
-      "notes": "Delimiter: horizontal ellipsis; truncation or pause in commentary."
-    },
-    {
       "cp": 8255,
       "cp_hex": "U+203F",
       "category": "other"
@@ -4104,18 +3840,6 @@
       "cp_hex": "U+24E9",
       "category": "other",
       "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
-    },
-    {
-      "cp": 10216,
-      "cp_hex": "U+27E8",
-      "category": "delimiter",
-      "notes": "Delimiter: mathematical left angle bracket; grapheme notation ⟨ ⟩."
-    },
-    {
-      "cp": 10217,
-      "cp_hex": "U+27E9",
-      "category": "delimiter",
-      "notes": "Delimiter: mathematical right angle bracket."
     },
     {
       "cp": 10631,

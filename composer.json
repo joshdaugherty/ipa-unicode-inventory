@@ -51,7 +51,11 @@
       "paths": {
         "inventory_json": "data/inventory.json",
         "normalization_json": "data/normalization.json",
-        "schema_directory": "schema"
+        "schema_directory": "schema",
+        "profiles": {
+          "corpus_inclusive": "data/inventory.json",
+          "phonetic_strict": "data/inventory.phonetic-strict.json"
+        }
       }
     }
   },

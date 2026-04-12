@@ -35,9 +35,13 @@ const normId =
   "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/normalization.wrapper.schema.json";
 
 validateFile(invId, join(root, "data", "inventory.json"));
+validateFile(invId, join(root, "data", "inventory.phonetic-strict.json"));
 validateFile(normId, join(root, "data", "normalization.json"));
 
 const inventory = JSON.parse(readFileSync(join(root, "data", "inventory.json"), "utf8"));
+const inventoryStrict = JSON.parse(
+  readFileSync(join(root, "data", "inventory.phonetic-strict.json"), "utf8")
+);
 const norm = JSON.parse(readFileSync(join(root, "data", "normalization.json"), "utf8"));
 
 const META_KEYS = [
@@ -57,7 +61,30 @@ for (const k of META_KEYS) {
   }
 }
 
+const ALIGN_STRICT_WITH_NORM = ["dataset_version", "schema_version", "unicode_version_min"];
+for (const k of ALIGN_STRICT_WITH_NORM) {
+  const a = inventoryStrict.meta[k];
+  const b = norm.meta[k];
+  if (a !== b) {
+    throw new Error(
+      `inventory.phonetic-strict.json and normalization.json disagree on meta.${k}: ${JSON.stringify(a)} vs ${JSON.stringify(b)}`
+    );
+  }
+}
+
+if (inventoryStrict.meta.profile_id !== "phonetic_strict") {
+  throw new Error(
+    `inventory.phonetic-strict.json meta.profile_id must be "phonetic_strict", got ${JSON.stringify(inventoryStrict.meta.profile_id)}`
+  );
+}
+if (inventory.meta.profile_id !== "corpus_inclusive") {
+  throw new Error(
+    `inventory.json meta.profile_id must be "corpus_inclusive", got ${JSON.stringify(inventory.meta.profile_id)}`
+  );
+}
+
 const allowed = new Set(inventory.code_points.map((r) => r.cp));
+const allowedStrict = new Set(inventoryStrict.code_points.map((r) => r.cp));
 function* scalars(str) {
   for (let i = 0; i < str.length; ) {
     const cp = str.codePointAt(i);
@@ -72,6 +99,19 @@ for (const rule of norm.rules || []) {
         `Normalization rule "${rule.id}" maps to scalar U+${cp.toString(16).toUpperCase()} not in inventory.`
       );
     }
+    if (!allowedStrict.has(cp)) {
+      throw new Error(
+        `Normalization rule "${rule.id}" maps to scalar U+${cp.toString(16).toUpperCase()} not in inventory.phonetic-strict.json.`
+      );
+    }
+  }
+}
+
+for (const cp of allowedStrict) {
+  if (!allowed.has(cp)) {
+    throw new Error(
+      `phonetic_strict contains U+${cp.toString(16).toUpperCase()} not present in corpus_inclusive inventory.`
+    );
   }
 }
 

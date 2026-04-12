@@ -8,6 +8,20 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-04-12
+
+### Added
+
+- **Policy profiles:** `data/inventory.phonetic-strict.json` (**`phonetic_strict`**, `policy_id` **`ipa-extipa-phonetic-strict`**) — phonetic subset without `delimiter` rows, ASCII space, or ASCII digits; `meta.profile_id` on both inventories (`corpus_inclusive` | `phonetic_strict`) in `schema/inventory.meta.schema.json`.
+- **PHP:** `PolicyProfile` and `Resources::inventoryJsonPathForProfile()`; `composer.json` → **`extra.ipa-unicode-inventory.paths.profiles`**.
+- **Build:** `inventory.phonetic-strict.min.json`, `code_points.phonetic-strict.txt`, `pcre-class-fragment.phonetic-strict.txt`, `php/AllowedCodePoints.phonetic-strict.php` and manifest hashes for all eight artifacts.
+- **`MetaConstants::PROFILE_ID`** (default bundle).
+- **Maintainer:** `scripts/gen-inventory.py` writes both inventory files; `scripts/validate-schemas.mjs` validates the strict file and checks normalization rule targets against it.
+
+### Changed
+
+- `dataset_version` **1.4.0** (npm package, both inventories, `normalization.json`; allowlist rows unchanged aside from the new strict file; `schema_version` **1.0.0**).
+
 ## [1.3.0] - 2026-04-14
 
 ### Added
@@ -62,6 +76,7 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
+[1.4.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.4.0
 [1.3.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.3.0
 [1.2.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.2.0
 [1.1.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.1.0
