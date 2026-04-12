@@ -12,16 +12,16 @@ There is no official **`Is_IPA`** API or UCD property. Pull requests should stil
 
 **extIPA** and further extensions are **policy-defined**: the default dataset (`ipa-extipa-corpus-inclusive`) includes extIPA Unicode scalars plus transcription/corpus delimiters; anything beyond `meta.policy_description` still needs an explicit policy bump and maintainer review, because Unicode does not expose an `Is_IPA` / `Is_extIPA` property.
 
-For the full discussion (secondary references, community charts, and how this relates to the spec), see **README.md → “Sources, authorities, and why this repo is still ‘policy-defined’”.**
+For the full discussion (secondary references, community charts, and policy-defined scope), see **README.md → “Sources, authorities, and why this repo is still ‘policy-defined’”.**
 
 In your PR description, a short bullet such as “U+XXXX — Unicode IPA Extensions; IPA chart cell …” (or equivalent) is enough when the mapping is straightforward.
 
 ## Proposing code points
 
-1. **Policy first.** Read `data/inventory.json` → `meta.policy_description` and confirm your code point fits the stated policy, or open a discussion to extend policy (which may require a `schema_version` or `dataset_version` bump per the repository spec).
+1. **Policy first.** Read `data/inventory.json` → `meta.policy_description` and confirm your code point fits the stated policy, or open a discussion to extend policy (which may require a `schema_version` or `dataset_version` bump per `schema/` and `CHANGELOG.md`).
 2. **Edit the canonical file.** Add or adjust entries in `data/inventory.json` only (not generated files under `build/`).
 3. **Sort order.** Keep `code_points` sorted by numeric `cp` for stable diffs.
-4. **Fields.** Each entry needs `cp` (decimal), `cp_hex` (`U+` + uppercase hex, minimum four digits), and `category` from the normative enum in the spec. Optional: `aliases`, `notes`, `deprecated`.
+4. **Fields.** Each entry needs `cp` (decimal), `cp_hex` (`U+` + uppercase hex, minimum four digits), and `category` from the normative enum in `schema/inventory.code_points.schema.json`. Optional: `aliases`, `notes`, `deprecated`.
 5. **Run checks locally:**
    - `npm run validate` — JSON Schema + normalization target checks
    - `npm test` — full pipeline including build and reference validator fixtures

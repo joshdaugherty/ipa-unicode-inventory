@@ -4,7 +4,7 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
-for `dataset_version` and `schema_version` as defined in the repository specification.
+for `dataset_version` and `schema_version` as described in `schema/` and inventory `meta`.
 
 ## [1.0.0] - 2026-04-12
 
@@ -18,5 +18,9 @@ for `dataset_version` and `schema_version` as defined in the repository specific
 - CI workflow: schema validation, build, reference tests, manifest digest check.
 - Maintainer tool `scripts/gen-inventory.py` to regenerate the default inventory from Unicode ranges (Python `unicodedata`).
 - Maintainer scripts `scripts/compare-mediawiki-validator.mjs` and `scripts/compare-ipa-chart-westonruter.mjs` (`npm run compare:mediawiki`, `npm run compare:ipa-chart`) to diff against [mediawiki-libs-IPAValidator](https://github.com/wikimedia/mediawiki-libs-IPAValidator) and [westonruter/ipa-chart](https://github.com/westonruter/ipa-chart).
+
+### Removed
+
+- `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
 [1.0.0]: https://github.com/ipa-unicode-inventory/ipa-unicode-inventory/releases/tag/v1.0.0
