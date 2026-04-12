@@ -31,6 +31,8 @@ In your PR description, a short bullet such as “U+XXXX — Unicode IPA Extensi
 
 If you change `dataset_version`, `policy_id`, or `schema_version` in `data/inventory.json` → `meta`, run **`npm run build`** (or **`npm test`**) and commit the updated **`src/MetaConstants.php`**.
 
+If you **move** bundled JSON or the schema directory, update **`composer.json` → `extra.ipa-unicode-inventory.paths`** so tooling that reads `extra` stays correct.
+
 ## Normalization rules
 
 - Edit `data/normalization.json`.

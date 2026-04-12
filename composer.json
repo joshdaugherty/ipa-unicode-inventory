@@ -42,6 +42,15 @@
   "scripts": {
     "test": "phpunit"
   },
+  "extra": {
+    "ipa-unicode-inventory": {
+      "paths": {
+        "inventory_json": "data/inventory.json",
+        "normalization_json": "data/normalization.json",
+        "schema_directory": "schema"
+      }
+    }
+  },
   "archive": {
     "exclude": [
       "/.github",

@@ -25,7 +25,7 @@ The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plu
 
 1. **JSON:** Read `data/inventory.json` or the minified `build/output/inventory.min.json` (from a release asset). Build a `Set` of `cp` integers in memory.
 2. **PCRE (UTF-8 + `/u`):** Insert `build/output/pcre-class-fragment.txt` inside a character class, e.g. `/^[...fragment...]+$/u` — the fragment uses `\x{H...}` escapes only (no surrounding `[` `]`).
-3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, and **`SCHEMA_VERSION`** from `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.2.0`**) so the package resolves.
+3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists canonical paths **relative to the package root** (`inventory_json`, `normalization_json`, `schema_directory`) so scripts and plugins can resolve assets without hardcoding `vendor/...` segments. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, and **`SCHEMA_VERSION`** from `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.2.0`**) so the package resolves.
 4. **PHP (generated array):** After `npm run build`, include `build/output/php/AllowedCodePoints.php` for a `0xNNN => true` map (generated only; not committed).
 5. **Integrity:** Check `build/output/manifest.json` SHA-256 digests after downloading release assets.
 
@@ -111,7 +111,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 ### Discoverability and contracts
 
 - **Done.** **`MetaConstants`** — `DATASET_VERSION`, `POLICY_ID`, `SCHEMA_VERSION` from `meta` (see Consumer quick start).
-- **`composer.json` `extra`** — e.g. default policy path, so tooling can resolve canonical files without hardcoding vendor paths.
+- **Done.** **`composer.json` `extra`** — `extra.ipa-unicode-inventory.paths` (see Consumer quick start).
 
 ### Quality and trust
 
@@ -138,7 +138,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 
 2. **Phase B** — Contracts and optional strict loading.
    - **Done.** **Build-time PHP constants** — `MetaConstants` in `src/MetaConstants.php` via `npm run build` / `scripts/meta-constants-php.mjs`.
-   - **`composer.json` `extra`** for default asset paths (tooling-friendly).
+   - **Done.** **`composer.json` `extra`** — `extra.ipa-unicode-inventory.paths`.
    - **Optional strict load**: validate bundled JSON against schema in dev or behind a flag (e.g. optional **`justinrainbow/json-schema`**), documented in README.
 
 3. **Phase C** — Profiles, parity visibility, distribution clarity.
