@@ -69,6 +69,56 @@ This fetches `index.html` and `accessiblechart.html` from the default branch. Us
 
 `build/output/` is gitignored; CI builds on every push/PR. **Releases** should attach at least `inventory.min.json`, `manifest.json`, and `pcre-class-fragment.txt` (see build outputs above).
 
+## Roadmap
+
+High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpers. Order is indicative; issues and PRs can reprioritize.
+
+### Validation and normalization (PHP)
+
+- **`TranscriptionValidator` (or similar)** — One entry point that: optionally strips **delimiter** scalars (configurable), applies `normalization.json` (**longest-`from` first**), optional **legacy Wikimedia** ASCII normalization (`'` / `:` / `,` and related), optional Google-TTS-oriented passes if we document them, then a **per-scalar** scan against the allowlist. Keeps apps like Statamic thin and aligns behavior across PHP consumers.
+- **`isScalarAllowed(int $cp): bool`** on a small **`Inventory`** (or similar) facade over the cached map — clearer than raw `isset($map[$cp])`.
+- **Normalization / policy profiles** — e.g. `corpus_inclusive` vs `phonetic_strict` as **separate bundled inventories** (or one `meta` flag plus multiple JSON assets) so consumers do not fork data to drop `@` or tier punctuation.
+
+### Discoverability and contracts
+
+- **PHP constants** generated at build time: `DATASET_VERSION`, `POLICY_ID`, `SCHEMA_VERSION` from `meta` for logging and cache keys without parsing JSON first.
+- **`composer.json` `extra`** — e.g. default policy path, so tooling can resolve canonical files without hardcoding vendor paths.
+
+### Quality and trust
+
+- **PHPUnit** in the package: scalar checks plus golden strings (e.g. **ʧ**, combining marks, delimiters).
+- **Optional strict load** — validate `inventory.json` against JSON Schema when a flag is set (or in dev), e.g. via `justinrainbow/json-schema` as an **optional** dependency.
+
+### Documentation
+
+- **Migrating from wikimedia/ipa-validator** — table of behavior differences (`@`, ligatures, delimiter policy, what “normalize” means here vs upstream).
+- **Explicit guarantee:** validation is **per Unicode scalar** (code point), not grapheme cluster, unless a second API is added later.
+
+### Nice-to-have
+
+- Publish **`compare:mediawiki` parity** as a CI artifact or a **per-release table** so downstream projects see drift without running Node.
+- **Dist clarity** — if Composer archives omit `build/output/`, document whether **release zips** ship `pcre-class-fragment.txt` for PHP-only consumers who want regex without Node.
+
+### Suggested phasing
+
+1. **Phase A** — Core PHP validation surface and tests.
+   - Small **`Inventory`** (or similar) facade with **`isScalarAllowed(int $cp)`** and a cached allowlist.
+   - **`TranscriptionValidator`** (or equivalent): configurable delimiter stripping, **`normalization.json`** application (**longest-`from` first**), optional **legacy Wikimedia** ASCII pass, then **per-scalar** checks.
+   - **PHPUnit** with golden strings (e.g. **ʧ**, combining marks, delimiters).
+   - **README** updates: explicit **scalar** (not grapheme-cluster) guarantee; short **migrating from wikimedia/ipa-validator** table.
+
+2. **Phase B** — Contracts and optional strict loading.
+   - **Build-time PHP constants** (`DATASET_VERSION`, `POLICY_ID`, `SCHEMA_VERSION`) generated from `meta`.
+   - **`composer.json` `extra`** for default asset paths (tooling-friendly).
+   - **Optional strict load**: validate bundled JSON against schema in dev or behind a flag (e.g. optional **`justinrainbow/json-schema`**), documented in README.
+
+3. **Phase C** — Profiles, parity visibility, distribution clarity.
+   - **Policy profiles**: e.g. separate **`phonetic_strict`** vs **`corpus_inclusive`** inventories (or one `meta` flag plus multiple JSON files).
+   - **`compare:mediawiki`** output as **CI artifact** or **per-release parity table** on GitHub.
+   - **Document** what Composer archives and **release zips** include (e.g. whether **`pcre-class-fragment.txt`** ships for PHP-only consumers).
+
+The largest payoff for maintainers and consumers is likely a **first-party PHP validator** with an **optional legacy compatibility layer**, so application code becomes a thin wrapper instead of re-implementing Wikimedia steps locally.
+
 ## Sources, authorities, and why this repo is still “policy-defined”
 
 No live service exposes a complete, normative **`Is_IPA`** property the way the [UCD](https://www.unicode.org/ucd/) exposes character properties. What you can cite and trace is a **small set of authorities**, then **this repository applies policy** wherever Unicode is ambiguous or broader than you want.
