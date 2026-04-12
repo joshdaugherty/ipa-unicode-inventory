@@ -136,6 +136,113 @@ This fetches `index.html` and `accessiblechart.html` from the default branch. Us
 
 `build/output/` is gitignored; CI builds on every push/PR. See **Consumer quick start → Distribution** for what Composer ships vs what to attach to **GitHub Releases**.
 
+## Roadmap
+
+### Feature request: Wikimedia `stripRegex`, Google/TTS mode, grapheme-cluster validation
+
+**Package:** [joshdaugherty/ipa-unicode-inventory](https://github.com/joshdaugherty/ipa-unicode-inventory)  
+**Context:** `TranscriptionValidator` currently documents that Wikimedia `stripRegex`, Google/TTS normalization, and grapheme-cluster segmentation are **not** implemented. Downstream apps (e.g. Laravel validation rules) re-implement delimiter stripping and Google/TTS steps locally. Consolidating these in the package would reduce duplication and keep behavior aligned with [mediawiki-libs-IPAValidator](https://github.com/wikimedia/mediawiki-libs-IPAValidator).
+
+---
+
+### 1. Wikimedia `stripRegex` parity
+
+#### Problem
+
+[Wikimedia `Validator`](https://github.com/wikimedia/mediawiki-libs-IPAValidator/blob/main/src/Validator.php) removes **`/` ` [` `]`** via `$stripRegex` before matching `$ipaRegex`. Consumers that want **byte-for-byte** parity with that PHP class need that exact strip set and order, independent of inventory `category === delimiter`.
+
+Today the package offers:
+
+- `STRIP_DELIMITERS_INVENTORY` (all rows tagged `delimiter`)
+- `STRIP_DELIMITERS_CUSTOM`
+- `STRIP_DELIMITERS_NONE`
+
+Custom mode can emulate `stripRegex`, but a **named preset** avoids every consumer hard-coding `U+002F`, `U+005B`, `U+005D`.
+
+#### Proposed behavior
+
+- Add a **fourth strip mode** (or a named factory option), e.g. `STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`, that removes **only** `/` `[` `]` in UTF-8, in one pass, **before** normalization (same order as Wikimedia `validate()` when `$strip` is true).
+- Document equivalence: “matches `preg_replace('/[\/\[\]]/u', '', $s)` on valid UTF-8.”
+- Optional: document interaction with **legacy ASCII** normalization (ASCII `U+0027` is not removed by this preset; only the three Wikimedia delimiter scalars are).
+
+#### Acceptance criteria
+
+- [ ] Public API constant or documented preset equivalent to Wikimedia `$stripRegex`.
+- [ ] PHPUnit: input `"/[ˈtɛst]/"` → internal pipeline sees `ˈtɛst` (or documented equivalent).
+- [ ] README / migrating-from-Wikimedia: when to use this preset vs `STRIP_DELIMITERS_INVENTORY` vs custom.
+
+---
+
+### 2. Google/TTS normalization mode
+
+#### Problem
+
+Wikimedia’s validator optionally applies a **Google TTS–oriented** branch after base normalization: remove parens, map superscript/modifier letters to ASCII-friendly letters, then strip combining marks in **U+0300–U+036F** (see `Validator::normalizeIPA` with `$google`).
+
+`TranscriptionValidator` PHPDoc states this mode is **not implemented**, so apps duplicate that logic next to `isValid()`.
+
+#### Proposed behavior
+
+- Extend `TranscriptionValidator::fromDisk` / constructor with a boolean, e.g. **`$googleTtsNormalization`**, valid only when **`$wikimediaLegacyAscii`** (or broader **`$normalize`**) is true — mirroring Wikimedia’s “Google requires normalize” invariant.
+- Pipeline order (align with Wikimedia unless spec documents a deliberate change):
+  1. Delimiter stripping (per selected mode).
+  2. `normalization.json` rules (longest `from` first).
+  3. Wikimedia ASCII stress/length (`'`→ˈ, `:`→ː, `,`→ˌ) when enabled.
+  4. **Google/TTS** substitutions (same character map as Wikimedia).
+  5. Strip combining marks **U+0300–U+036F** (same regex semantics as Wikimedia).
+  6. Per-scalar allowlist check against `Inventory`.
+
+#### Acceptance criteria
+
+- [ ] Flag(s) and invalid combinations throw or are rejected with clear `InvalidArgumentException` messages.
+- [ ] PHPUnit golden strings covering at least: superscript ⁿ → `n`, a string with combining marks that **passes** base mode and **changes** under Google mode, and a case that **fails** allowlist after stripping.
+- [ ] README: “Google mode” vs dataset policy; note that stripping **all** IPA combining marks may reject valid narrow transcriptions if the inventory still lists those scalars—document expected behavior.
+
+---
+
+### 3. Grapheme-cluster (extended grapheme cluster) segmentation
+
+#### Problem
+
+The package correctly documents that validation is per **Unicode scalar** (code point). Some consumers want **user-perceived character** alignment (e.g. base + combining sequence treated as one unit for policy, or alignment with `intl` / CLDR / search UX).
+
+Scalars and **extended grapheme clusters** (EGC) diverge whenever:
+
+- Multiple combining marks attach to one base.
+- Regional indicators, emoji ZWJ sequences, etc. (less common in IPA, but policy may still want EGC for consistency with UI copy/paste).
+
+#### Proposed behavior
+
+- Add an optional mode, e.g. **`$segmentation = self::SEGMENT_SCALARS | self::SEGMENT_GRAPHEME_CLUSTER`**, default **`SCALARS`** for backward compatibility.
+- When **`GRAPHEME_CLUSTER`**:
+  - Require **`ext-intl`** (or polyfill strategy documented and rejected if missing).
+  - Iterate with `IntlBreakIterator` (or equivalent) for **grapheme** breaks.
+  - Define validation rule precisely in README:
+    - **Option A (strict):** every code point within each cluster must be allowed (equivalent to scalars for pure IPA, but failure modes may differ for malformed sequences).
+    - **Option B (cluster-as-token):** each cluster must be “well-formed” under a documented table (harder; may be out of scope for v1).
+
+Recommendation: ship **Option A** first: same allowlist as today, but **iteration unit** is EGC; document that the allowlist is still per scalar and the iterator only changes how the string is walked (useful for future cluster-level policies).
+
+#### Acceptance criteria
+
+- [ ] Default behavior unchanged (scalar iteration).
+- [ ] With grapheme mode + `ext-intl`, PHPUnit covers: precomposed vs decomposed NFC/NFD for the same linguistic string (both should pass if all scalars allowed).
+- [ ] README: explicit guarantee whether IPA combining marks are validated per scalar inside each cluster; dependency on `ext-intl`.
+
+---
+
+### Cross-cutting notes
+
+- **Versioning:** These are additive if defaults preserve current behavior; bump **minor** `dataset_version` only if bundled JSON changes; **package semver** per your policy for new API surface.
+- **Downstream:** Consumers (e.g. Laravel validation rules) can delete duplicated Google/TTS and custom strip logic once (2) and ideally (1) land.
+
+---
+
+### Environment
+
+- **PHP:** 8.1+ (package requirement); grapheme mode needs **`ext-intl`** when enabled.
+- **Reference:** Wikimedia [Validator.php](https://github.com/wikimedia/mediawiki-libs-IPAValidator/blob/main/src/Validator.php) (`$stripRegex`, `normalizeIPA`, `$google`, `$diacriticsRegex`).
+
 ## Sources, authorities, and why this repo is still “policy-defined”
 
 No live service exposes a complete, normative **`Is_IPA`** property the way the [UCD](https://www.unicode.org/ucd/) exposes character properties. What you can cite and trace is a **small set of authorities**, then **this repository applies policy** wherever Unicode is ambiguous or broader than you want.
