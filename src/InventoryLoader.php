@@ -18,7 +18,7 @@ final class InventoryLoader
     {
         $path ??= Resources::inventoryJsonPath();
         $data = self::decodeJsonFile($path);
-        if (!isset($data['meta'], $data['code_points']) || !is_array($data['meta']) || !is_array($data['code_points'])) {
+        if (!isset($data['meta'], $data['code_points']) || !\is_array($data['meta']) || !\is_array($data['code_points'])) {
             throw new \RuntimeException('inventory.json: missing meta or code_points');
         }
 
@@ -34,7 +34,7 @@ final class InventoryLoader
     {
         $path ??= Resources::normalizationJsonPath();
         $data = self::decodeJsonFile($path);
-        if (!isset($data['meta'], $data['rules']) || !is_array($data['meta']) || !is_array($data['rules'])) {
+        if (!isset($data['meta'], $data['rules']) || !\is_array($data['meta']) || !\is_array($data['rules'])) {
             throw new \RuntimeException('normalization.json: missing meta or rules');
         }
 
@@ -53,7 +53,7 @@ final class InventoryLoader
         $doc = self::loadInventory($inventoryPath);
         $map = [];
         foreach ($doc['code_points'] as $row) {
-            if (!isset($row['cp']) || !is_int($row['cp'])) {
+            if (!isset($row['cp']) || !\is_int($row['cp'])) {
                 continue;
             }
             $map[$row['cp']] = true;
@@ -63,20 +63,43 @@ final class InventoryLoader
     }
 
     /**
+     * Code points whose inventory row has category "delimiter" (map of int => true).
+     *
+     * @return array<int, true>
+     *
+     * @throws \JsonException
+     */
+    public static function delimiterScalarSet(?string $inventoryPath = null): array
+    {
+        $doc = self::loadInventory($inventoryPath);
+        $set = [];
+        foreach ($doc['code_points'] as $row) {
+            if (!isset($row['cp'], $row['category']) || !\is_int($row['cp']) || !\is_string($row['category'])) {
+                continue;
+            }
+            if ($row['category'] === 'delimiter') {
+                $set[$row['cp']] = true;
+            }
+        }
+
+        return $set;
+    }
+
+    /**
      * @return array<string, mixed>
      *
      * @throws \JsonException
      */
     private static function decodeJsonFile(string $path): array
     {
-        if (!is_readable($path)) {
+        if (!\is_readable($path)) {
             throw new \RuntimeException('File not readable: ' . $path);
         }
-        $json = file_get_contents($path);
+        $json = \file_get_contents($path);
         if ($json === false) {
             throw new \RuntimeException('Could not read: ' . $path);
         }
 
-        return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        return \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
     }
 }
