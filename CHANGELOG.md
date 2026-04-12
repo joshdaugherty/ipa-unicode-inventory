@@ -8,6 +8,10 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+### Added
+
+- **MediaWiki parity visibility:** `scripts/compare-mediawiki-validator.mjs` **`--write-markdown <path>`**; committed **`docs/mediawiki-parity.md`**; **`npm run compare:mediawiki:doc`**; CI uploads **`mediawiki-parity`** artifact (`.md` + `.log`); **`.github/workflows/release-parity.yml`** attaches the same files to **published** GitHub Releases.
+
 ## [1.4.0] - 2026-04-12
 
 ### Added

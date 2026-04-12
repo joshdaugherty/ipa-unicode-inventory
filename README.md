@@ -102,6 +102,8 @@ npm run compare:mediawiki
 
 The script loads `data/inventory.json`, fetches the upstream PHP file when network is available (otherwise uses an embedded snapshot of the class body), expands regex ranges inside `[...]`, and prints any **MediaWiki scalars missing from our inventory**, plus how many **extra** scalars we allow (this project is usually a **superset**). Use `node scripts/compare-mediawiki-validator.mjs --strict` if you want a non-zero exit code when parity is incomplete (for example in a custom CI check).
 
+**Markdown report (checked in):** [`docs/mediawiki-parity.md`](docs/mediawiki-parity.md) — regenerate with `npm run compare:mediawiki:doc` (or `--write-markdown <path>`). **CI** uploads `mediawiki-parity.md` and a console **`.log`** as workflow artifacts (`mediawiki-parity`). **Published releases** attach the same files via `.github/workflows/release-parity.yml`.
+
 That validator also applies `stripRegex` and optional normalization before matching; the comparison is **only** the static allowlist implied by `$ipaRegex`, not full PHP behavior. With corpus delimiters included, the MediaWiki class should report **zero** missing scalars (full literal parity).
 
 ### Compare to westonruter/ipa-chart
@@ -145,7 +147,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 
 ### Nice-to-have
 
-- Publish **`compare:mediawiki` parity** as a CI artifact or a **per-release table** so downstream projects see drift without running Node.
+- **Done.** **`compare:mediawiki` parity** — committed [`docs/mediawiki-parity.md`](docs/mediawiki-parity.md), CI artifact **`mediawiki-parity`**, release uploads via **`release-parity.yml`**.
 - **Dist clarity** — if Composer archives omit `build/output/`, document whether **release zips** ship `pcre-class-fragment.txt` for PHP-only consumers who want regex without Node.
 
 ### Suggested phasing
@@ -163,7 +165,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 
 3. **Phase C** — Profiles, parity visibility, distribution clarity.
    - **Done.** **Policy profiles** — `data/inventory.json` (**corpus_inclusive**) and `data/inventory.phonetic-strict.json` (**phonetic_strict**); `meta.profile_id`; `Resources::inventoryJsonPathForProfile()` and `extra.paths.profiles`.
-   - **`compare:mediawiki`** output as **CI artifact** or **per-release parity table** on GitHub.
+   - **Done.** **`compare:mediawiki`** — `docs/mediawiki-parity.md`, CI artifact **`mediawiki-parity`**, release asset upload workflow.
    - **Document** what Composer archives and **release zips** include (e.g. whether **`pcre-class-fragment.txt`** ships for PHP-only consumers).
 
 The largest payoff for maintainers and consumers is likely a **first-party PHP validator** with an **optional legacy compatibility layer**, so application code becomes a thin wrapper instead of re-implementing Wikimedia steps locally.

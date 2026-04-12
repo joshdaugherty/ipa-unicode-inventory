@@ -32,3 +32,13 @@ jobs:
 
       - name: Composer install and PHPUnit
         run: composer install --no-interaction --prefer-dist && composer test
+
+      - name: MediaWiki IPAValidator parity report
+        run: |
+          mkdir -p build/compare
+          node scripts/compare-mediawiki-validator.mjs --write-markdown build/compare/mediawiki-parity.md | tee build/compare/mediawiki-parity.log
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mediawiki-parity
+          path: build/compare/

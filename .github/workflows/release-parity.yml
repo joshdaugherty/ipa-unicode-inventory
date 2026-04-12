@@ -1,0 +1,35 @@
+# Attach MediaWiki IPAValidator parity reports to GitHub Releases (published).
+name: Release parity assets
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  mediawiki-parity:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Generate MediaWiki parity report
+        run: |
+          mkdir -p build/compare
+          node scripts/compare-mediawiki-validator.mjs --write-markdown build/compare/mediawiki-parity.md | tee build/compare/mediawiki-parity.log
+
+      - name: Upload parity files to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            build/compare/mediawiki-parity.md \
+            build/compare/mediawiki-parity.log \
+            --clobber

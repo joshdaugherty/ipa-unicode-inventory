@@ -22,6 +22,7 @@
     "validate": "node scripts/validate-schemas.mjs",
     "test": "node scripts/validate-schemas.mjs && node scripts/build.js && node scripts/verify-meta-constants.mjs && node tests/run.mjs && node scripts/verify-manifest.mjs",
     "compare:mediawiki": "node scripts/compare-mediawiki-validator.mjs",
+    "compare:mediawiki:doc": "node scripts/compare-mediawiki-validator.mjs --write-markdown docs/mediawiki-parity.md",
     "compare:ipa-chart": "node scripts/compare-ipa-chart-westonruter.mjs"
   },
   "devDependencies": {
