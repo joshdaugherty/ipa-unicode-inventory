@@ -2,7 +2,7 @@
 
 Static comparison of the character class inside [mediawiki-libs-IPAValidator `Validator.php`](https://github.com/wikimedia/mediawiki-libs-IPAValidator/blob/main/src/Validator.php) (`$ipaRegex`) vs this package’s **`data/inventory.json`** (corpus_inclusive). This is **not** full PHP validator behavior (strip/normalize run before match upstream).
 
-**Generated:** `2026-04-12T23:19:01.249Z` (UTC)
+**Generated:** `2026-04-12T23:22:36.150Z` (UTC)
 
 ## Summary
 

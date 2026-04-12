@@ -179,7 +179,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
    - **Done.** **`composer.json` `extra`** — `extra.ipa-unicode-inventory.paths`.
    - **Done.** **Optional strict load** — `InventoryLoader` / `Inventory` / `TranscriptionValidator` + `BundleSchemaValidator`; optional **`justinrainbow/json-schema`**; see **Optional strict JSON Schema validation (PHP)**.
 
-3. **Phase C** — Profiles, parity visibility, distribution clarity.
+3. **Phase C (released as 1.4.0)** — Profiles, parity visibility, distribution clarity.
    - **Done.** **Policy profiles** — `data/inventory.json` (**corpus_inclusive**) and `data/inventory.phonetic-strict.json` (**phonetic_strict**); `meta.profile_id`; `Resources::inventoryJsonPathForProfile()` and `extra.paths.profiles`.
    - **Done.** **`compare:mediawiki`** — `docs/mediawiki-parity.md`, CI artifact **`mediawiki-parity`**, release asset upload workflow.
    - **Done.** **Distribution** — README section on Composer dist vs GitHub source vs release assets (`pcre-class-fragment.txt` and other `build/output/` files).

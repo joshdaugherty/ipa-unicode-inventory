@@ -8,15 +8,7 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
-### Added
-
-- **MediaWiki parity visibility:** `scripts/compare-mediawiki-validator.mjs` **`--write-markdown <path>`**; committed **`docs/mediawiki-parity.md`**; **`npm run compare:mediawiki:doc`**; CI uploads **`mediawiki-parity`** artifact (`.md` + `.log`); **`.github/workflows/release-parity.yml`** attaches the same files to **published** GitHub Releases.
-
-### Changed
-
-- **Documentation:** **README** — **Distribution** subsection (Composer dist vs GitHub source vs release assets; **`pcre-class-fragment.txt`** and **`build/output/`** not shipped via Composer). **CONTRIBUTING** — dist zip notes and **GitHub Releases** artifact checklist.
-
-## [1.4.0] - 2026-04-12
+## [1.4.0] - 2026-04-15
 
 ### Added
 
@@ -25,10 +17,13 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 - **Build:** `inventory.phonetic-strict.min.json`, `code_points.phonetic-strict.txt`, `pcre-class-fragment.phonetic-strict.txt`, `php/AllowedCodePoints.phonetic-strict.php` and manifest hashes for all eight artifacts.
 - **`MetaConstants::PROFILE_ID`** (default bundle).
 - **Maintainer:** `scripts/gen-inventory.py` writes both inventory files; `scripts/validate-schemas.mjs` validates the strict file and checks normalization rule targets against it.
+- **MediaWiki parity visibility:** `scripts/compare-mediawiki-validator.mjs` **`--write-markdown <path>`**; committed **`docs/mediawiki-parity.md`**; **`npm run compare:mediawiki:doc`**; CI uploads **`mediawiki-parity`** artifact (`.md` + `.log`); **`.github/workflows/release-parity.yml`** attaches the same files to **published** GitHub Releases.
 
 ### Changed
 
-- `dataset_version` **1.4.0** (npm package, both inventories, `normalization.json`; allowlist rows unchanged aside from the new strict file; `schema_version` **1.0.0**).
+- `dataset_version` **1.4.0** (npm package, both inventories, `normalization.json`; allowlist rows unchanged aside from the new strict profile file; `schema_version` **1.0.0**).
+- **Documentation:** **README** — **Distribution** (Composer dist vs GitHub source vs release assets; **`pcre-class-fragment.txt`** and **`build/output/`** not shipped via Composer). **CONTRIBUTING** — dist zip notes and **GitHub Releases** artifact checklist.
+- Compare script User-Agent **`ipa-unicode-inventory-compare/1.4`** on **`compare-ipa-chart-westonruter.mjs`** (aligned with npm **1.4.0** line; MediaWiki compare already **1.4**).
 
 ## [1.3.0] - 2026-04-14
 
