@@ -8,6 +8,10 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+### Added
+
+- Dev dependency **PHPUnit** (`composer test`), `phpunit.xml.dist`, and golden-string tests under `tests/` (ʧ, combining marks, delimiters, normalization, Wikimedia ASCII, invalid UTF-8).
+
 ## [1.1.0] - 2026-04-12
 
 ### Added

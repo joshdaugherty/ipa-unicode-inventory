@@ -43,6 +43,8 @@ npm run compare:mediawiki   # optional; needs network
 npm run compare:ipa-chart   # optional; needs network
 ```
 
+**PHP (Composer package):** `composer install` then `composer test` (PHPUnit golden strings under `tests/`).
+
 ### Compare to Wikimedia IPAValidator
 
 To diff this repo’s allowlist against the character class baked into [mediawiki-libs-IPAValidator `Validator.php`](https://github.com/wikimedia/mediawiki-libs-IPAValidator/blob/main/src/Validator.php) (`$ipaRegex`):
@@ -86,7 +88,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 
 ### Quality and trust
 
-- **PHPUnit** in the package: scalar checks plus golden strings (e.g. **ʧ**, combining marks, delimiters).
+- **Done (in repo).** **PHPUnit** — `composer test`; golden strings cover **ʧ**, Latin + combining acute (U+0301), delimiter strip vs preserve, normalization (U+2019), Wikimedia ASCII, invalid UTF-8, and non-inventory scalars.
 - **Optional strict load** — validate `inventory.json` against JSON Schema when a flag is set (or in dev), e.g. via `justinrainbow/json-schema` as an **optional** dependency.
 
 ### Documentation
@@ -104,7 +106,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 1. **Phase A** — Core PHP validation surface and tests.
    - **Done.** **`Inventory`** — **`fromDisk(?string $path)`** loads **`inventory.json`** once per instance; **`__construct(array $allowedScalars)`** accepts a prebuilt map for tests; **`isScalarAllowed(int $cp)`** consults the cached allowlist and returns false for surrogates and out-of-range scalars.
    - **Done.** **`TranscriptionValidator`** — same pipeline as above; see class PHPDoc for delimiter vs Wikimedia order (U+0027).
-   - **PHPUnit** with golden strings (e.g. **ʧ**, combining marks, delimiters).
+   - **Done.** **PHPUnit** — `tests/*GoldenStringsTest.php`; run via `composer test`.
    - **README** updates: explicit **scalar** (not grapheme-cluster) guarantee; short **migrating from wikimedia/ipa-validator** table.
 
 2. **Phase B** — Contracts and optional strict loading.

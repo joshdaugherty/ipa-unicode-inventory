@@ -27,6 +27,7 @@ In your PR description, a short bullet such as “U+XXXX — Unicode IPA Extensi
 5. **Run checks locally:**
    - `npm run validate` — JSON Schema + normalization target checks
    - `npm test` — full pipeline including build and reference validator fixtures
+   - `composer install` then `composer test` — PHPUnit (PHP package golden strings)
 
 ## Normalization rules
 
