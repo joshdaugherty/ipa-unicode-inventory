@@ -49,7 +49,7 @@ After changing the inventory, optionally run `npm run compare:mediawiki` and `np
 
 - Run `composer validate` after editing `composer.json`.
 - The package name is **`joshdaugherty/ipa-unicode-inventory`**. Public PHP API lives under `src/` (PSR-4: `JoshDaugherty\IpaUnicodeInventory\`).
-- New **Git tags** (e.g. `v1.2.0`) drive new versions on [Packagist](https://packagist.org/) once the repo is connected; enable the GitHub webhook so Packagist updates automatically.
+- New **Git tags** (e.g. `v1.3.0`) drive new versions on [Packagist](https://packagist.org/) once the repo is connected; enable the GitHub webhook so Packagist updates automatically.
 
 ## Schemas and breaking changes
 

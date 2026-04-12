@@ -8,6 +8,20 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-04-14
+
+### Added
+
+- **Build-time PHP constants:** `MetaConstants` in `src/MetaConstants.php` generated from `inventory.json` → `meta` via `scripts/meta-constants-php.mjs` (`npm run build`); `scripts/verify-meta-constants.mjs` in `npm test` keeps the file in sync.
+- **`composer.json` `extra.ipa-unicode-inventory.paths`** — `inventory_json`, `normalization_json`, `schema_directory` (paths relative to package root).
+- **Optional strict JSON Schema (PHP):** `BundleSchemaValidator` and `validateSchema` on `InventoryLoader`, `Inventory::fromDisk`, `TranscriptionValidator::fromDisk`; optional **`justinrainbow/json-schema`** (`require-dev` + `suggest`).
+- **PHPUnit:** `BundleSchemaValidatorTest`, `InventoryLoaderStrictSchemaTest`; expanded PHPDoc on PHP public API and tests.
+
+### Changed
+
+- `dataset_version` **1.3.0** (npm package and inventory `meta`; allowlist bytes unchanged; `schema_version` remains **1.0.0**).
+- Compare scripts User-Agent **`ipa-unicode-inventory-compare/1.3`**.
+
 ## [1.2.0] - 2026-04-13
 
 ### Added
@@ -48,6 +62,7 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
+[1.3.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.3.0
 [1.2.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.2.0
 [1.1.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.1.0
 [1.0.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.0.0
