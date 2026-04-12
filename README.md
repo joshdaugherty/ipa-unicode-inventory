@@ -33,6 +33,33 @@ The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plu
 
 If you apply `data/normalization.json`, apply rules **longest-`from` first**, then validate scalars against the inventory. **U+2018** and **U+2019** map to MODIFIER LETTER APOSTROPHE (U+02BC). Both are also listed as in-band **delimiters**, so strings may validate without normalization; use normalization when you want a single preferred glottal apostrophe scalar.
 
+### Validation model: Unicode scalars, not grapheme clusters
+
+**Guarantee:** `Inventory::isScalarAllowed()` and `TranscriptionValidator::isValid()` treat the string as a sequence of **Unicode scalar values** (code points). Each scalar is checked against the allowlist independently.
+
+- **In scope:** Supplementary planes, BMP letters, combining marks (e.g. U+0301) as **separate** scalars after the preceding base character, delimiter code points, etc.
+- **Out of scope:** **Grapheme clusters** (“user characters”), tailored locale collation, or NFC/NFD canonical equivalence as a validation rule. The same abstract character can be encoded multiple ways (precomposed vs base+combining); this project does **not** merge them unless you normalize first (e.g. via `normalization.json` or your own step) and then validate scalars.
+- **PCRE:** A pattern like `/^[…fragment…]+$/u` is also **per UTF-8 code point** in PHP’s UTF-8 mode, not per extended grapheme cluster.
+
+If you need grapheme-level validation, normalize or segment upstream (e.g. `ext-intl` grapheme functions), then decide how each cluster maps to scalars before calling this API.
+
+### Migrating from Wikimedia IPAValidator
+
+Upstream library: [`mediawiki-libs-IPAValidator`](https://github.com/wikimedia/mediawiki-libs-IPAValidator) ([Packagist `wikimedia/ipa-validator`](https://packagist.org/packages/wikimedia/ipa-validator)). It validates against a single **`$ipaRegex`** (whole string must match after optional strip/normalize). This repository is **policy data + optional PHP helpers**; behavior overlaps but is not identical.
+
+| Topic | Wikimedia `IPAValidator\Validator` | This package |
+|--------|--------------------------------------|--------------|
+| **Primary check** | `preg_match` on normalized string vs `$ipaRegex` | Scalar allowlist from `data/inventory.json` (or generated PCRE class fragment for whole-string regex) |
+| **Normalization** | Optional: ASCII `'`→ˈ, `:`→ː, `,`→ˌ (`$normalize`) | `normalization.json` (e.g. U+2018/U+2019→U+02BC, longest-`from` first) **plus** optional same ASCII map in `TranscriptionValidator` (`wikimediaLegacyAscii`) |
+| **Delimiter handling** | Optional `stripRegex` when `$strip` | Optional strip of inventory **`delimiter`** rows, custom code-point set, or none (`TranscriptionValidator`) |
+| **Pipeline order** | Strip → normalize (normalize may strip again) | Strip delimiters → `normalization.json` → optional Wikimedia ASCII → scalar checks |
+| **Google / TTS mode** | `$google` (extra replacements + diacritic stripping) | **Not implemented** |
+| **`@` (U+0040)** | Not in `$ipaRegex` (fails validation if present) | In inventory as **`delimiter`** (allowed in-band unless you strip delimiters) |
+| **Ligatures / digraph letters** | Allowed only if in `$ipaRegex` | Allowed if listed (e.g. **ʧ** U+02A7); no special “decompose ligature” step |
+| **Parity tooling** | — | `npm run compare:mediawiki` diffs **regex class** vs inventory (not full PHP behavior) |
+
+Start from **`TranscriptionValidator::fromDisk()`** if you want strip + normalize + scalar checks in one place; mirror Wikimedia by enabling **`wikimediaLegacyAscii`** and choosing delimiter stripping to approximate `$strip` / `$normalize` (note: U+0027 is an inventory delimiter, so **`STRIP_DELIMITERS_NONE`** is required if you rely on **`'`→ˈ**).
+
 ## Development
 
 ```bash
@@ -93,8 +120,8 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 
 ### Documentation
 
-- **Migrating from wikimedia/ipa-validator** — table of behavior differences (`@`, ligatures, delimiter policy, what “normalize” means here vs upstream).
-- **Explicit guarantee:** validation is **per Unicode scalar** (code point), not grapheme cluster, unless a second API is added later.
+- **Done.** **Migrating from Wikimedia IPAValidator** — see **Consumer quick start → Migrating from Wikimedia IPAValidator** (table: `@`, delimiters, normalize, Google mode, pipeline order).
+- **Done.** **Scalar guarantee** — see **Validation model: Unicode scalars, not grapheme clusters**.
 
 ### Nice-to-have
 
@@ -107,7 +134,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
    - **Done.** **`Inventory`** — **`fromDisk(?string $path)`** loads **`inventory.json`** once per instance; **`__construct(array $allowedScalars)`** accepts a prebuilt map for tests; **`isScalarAllowed(int $cp)`** consults the cached allowlist and returns false for surrogates and out-of-range scalars.
    - **Done.** **`TranscriptionValidator`** — same pipeline as above; see class PHPDoc for delimiter vs Wikimedia order (U+0027).
    - **Done.** **PHPUnit** — `tests/*GoldenStringsTest.php`; run via `composer test`.
-   - **README** updates: explicit **scalar** (not grapheme-cluster) guarantee; short **migrating from wikimedia/ipa-validator** table.
+   - **Done.** **README** — scalar vs grapheme-cluster section and Wikimedia migration table under Consumer quick start.
 
 2. **Phase B** — Contracts and optional strict loading.
    - **Build-time PHP constants** (`DATASET_VERSION`, `POLICY_ID`, `SCHEMA_VERSION`) generated from `meta`.
