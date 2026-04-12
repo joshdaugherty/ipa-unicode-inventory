@@ -1,0 +1,54 @@
+# Contributing
+
+Thank you for helping improve the IPA Unicode inventory.
+
+## Tracing changes to authorities (for PRs)
+
+There is no official **`Is_IPA`** API or UCD property. Pull requests should still **tie decisions to traceable sources** so the inventory is not arbitrary:
+
+- **IPA** — chart / handbook alignment when adding or excluding a *linguistic* symbol ([International Phonetic Association](https://www.internationalphoneticassociation.org/)).
+- **Unicode** — code point identity, block, and name ([charts](https://www.unicode.org/charts/), [UCD](https://www.unicode.org/ucd/)); cite the scalar and block when the change is encoding-level.
+- **SIL** (optional third leg) — practical IPA ↔ Unicode mapping when it clarifies what linguists type ([SIL](https://www.sil.org/)).
+
+**extIPA** and further extensions are **policy-defined**: the default dataset (`ipa-extipa-corpus-inclusive`) includes extIPA Unicode scalars plus transcription/corpus delimiters; anything beyond `meta.policy_description` still needs an explicit policy bump and maintainer review, because Unicode does not expose an `Is_IPA` / `Is_extIPA` property.
+
+For the full discussion (secondary references, community charts, and how this relates to the spec), see **README.md → “Sources, authorities, and why this repo is still ‘policy-defined’”.**
+
+In your PR description, a short bullet such as “U+XXXX — Unicode IPA Extensions; IPA chart cell …” (or equivalent) is enough when the mapping is straightforward.
+
+## Proposing code points
+
+1. **Policy first.** Read `data/inventory.json` → `meta.policy_description` and confirm your code point fits the stated policy, or open a discussion to extend policy (which may require a `schema_version` or `dataset_version` bump per the repository spec).
+2. **Edit the canonical file.** Add or adjust entries in `data/inventory.json` only (not generated files under `build/`).
+3. **Sort order.** Keep `code_points` sorted by numeric `cp` for stable diffs.
+4. **Fields.** Each entry needs `cp` (decimal), `cp_hex` (`U+` + uppercase hex, minimum four digits), and `category` from the normative enum in the spec. Optional: `aliases`, `notes`, `deprecated`.
+5. **Run checks locally:**
+   - `npm run validate` — JSON Schema + normalization target checks
+   - `npm test` — full pipeline including build and reference validator fixtures
+
+## Normalization rules
+
+- Edit `data/normalization.json`.
+- Keep `meta.policy_id`, `policy_title`, `dataset_version`, `schema_version`, and `unicode_version_min` **identical** to `data/inventory.json` → `meta` (enforced by `scripts/validate-schemas.mjs`).
+- Every Unicode scalar in each rule’s `to` string **must** appear in `data/inventory.json` (same script).
+- Prefer single-character `from` values unless you document longest-match behavior.
+- Use stable `id` slugs (lowercase, hyphen-separated).
+
+## Reference comparisons
+
+After changing the inventory, optionally run `npm run compare:mediawiki` and `npm run compare:ipa-chart` (network) to see gaps vs [mediawiki-libs-IPAValidator](https://github.com/wikimedia/mediawiki-libs-IPAValidator) and [westonruter/ipa-chart](https://github.com/westonruter/ipa-chart).
+
+## Schemas and breaking changes
+
+- Structural or semantic breaking changes require a **major** `schema_version` bump and an entry in `CHANGELOG.md`.
+- Adding new `category` values requires a **minor** `schema_version` bump and schema updates.
+
+## Python inventory generator
+
+To regenerate the default range-based inventory after changing `scripts/gen-inventory.py`:
+
+```bash
+python scripts/gen-inventory.py
+```
+
+Then review the diff, adjust categories or policy text as needed, and run `npm test`.

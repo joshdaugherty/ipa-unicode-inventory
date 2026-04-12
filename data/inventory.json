@@ -1,0 +1,4839 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/inventory.wrapper.schema.json",
+  "meta": {
+    "schema_version": "1.0.0",
+    "dataset_version": "1.0.0",
+    "unicode_version_min": "15.1.0",
+    "policy_id": "ipa-extipa-corpus-inclusive",
+    "policy_title": "IPA and extIPA with modifiers, transcription delimiters, and corpus tier punctuation",
+    "policy_description": "Core IPA: IPA Extensions (U+0250 through U+02AF), spacing modifier letters U+02B0 through U+02FF, combining diacritical marks U+0300 through U+036F, phonetic extensions U+1D00 through U+1DBF. extIPA / disordered-speech extensions: Combining Diacritical Marks Extended U+1AB0 through U+1AFF, Combining Diacritical Marks Supplement U+1DC0 through U+1DFF, Latin Extended-G U+1DF00 through U+1DFFF, Modifier Letters Supplement U+10780 through U+107BF, modifier tone letters U+A700 through U+A71F, Latin Extended-D letters ꞎ U+A78E and ꞯ U+A7AF, superscripts and subscripts U+2070 through U+209C, circled Latin wildcards U+24B6 through U+24E9, prosodic brackets U+2E28/U+2E29 and U+2987/U+2988, inverted exclamation U+00A1, airstream arrows U+2191/U+2193, global rise/fall U+2197/U+2198 (IPA chart suprasegmentals), combining enclosing circle U+20DD, backslash U+005C for reiterated articulation, and selected musical dynamics U+1D18F through U+1D193. Transcription and corpus-in-band delimiters (category delimiter): parentheses, square brackets, slashes, braces, ASCII and mathematical angle brackets ⟨ ⟩ (U+27E8/U+27E9), full stop, pipe, comma, colon, semicolon, hyphen-minus, equals, plus, low line, commercial at, number sign, asterisk, question mark, tilde, percent, ASCII and typographic quotes, guillemets, horizontal ellipsis. ASCII digits and ASCII space (category other) for tone indices, timing labels, and running text. Also common Latin/Greek IPA letters (æ ç ð ø ħ ŋ œ, β θ χ), Latin clicks U+01C0 through U+01C3, undertie U+203F, double vertical line U+2016, labiodental flap U+2C71, and ASCII Latin letters. Does not include arbitrary CJK or whole mathematical blocks. Consumers may strip category delimiter before phonetic-only validation. Surrogate code points are never listed."
+  },
+  "code_points": [
+    {
+      "cp": 32,
+      "cp_hex": "U+0020",
+      "category": "other",
+      "notes": "ASCII space; word or syllable separation in running transcription."
+    },
+    {
+      "cp": 34,
+      "cp_hex": "U+0022",
+      "category": "delimiter",
+      "notes": "Delimiter: ASCII quotation mark; cited forms beside IPA."
+    },
+    {
+      "cp": 35,
+      "cp_hex": "U+0023",
+      "category": "delimiter",
+      "notes": "Delimiter: number sign; word-boundary or rule notation in some linguistics corpora."
+    },
+    {
+      "cp": 37,
+      "cp_hex": "U+0025",
+      "category": "delimiter",
+      "notes": "Delimiter: percent; rare tier or label conventions."
+    },
+    {
+      "cp": 39,
+      "cp_hex": "U+0027",
+      "category": "delimiter",
+      "notes": "Delimiter: ASCII apostrophe; orthographic; prefer MODIFIER LETTER APOSTROPHE (U+02BC) for IPA glottals when normalizing."
+    },
+    {
+      "cp": 40,
+      "cp_hex": "U+0028",
+      "category": "delimiter",
+      "notes": "Delimiter: left parenthesis; optional segments, grouping, pause/silent-articulation markup."
+    },
+    {
+      "cp": 41,
+      "cp_hex": "U+0029",
+      "category": "delimiter",
+      "notes": "Delimiter: right parenthesis."
+    },
+    {
+      "cp": 42,
+      "cp_hex": "U+002A",
+      "category": "delimiter",
+      "notes": "Delimiter: asterisk; ungrammatical/reconstructed forms adjacent to IPA in examples."
+    },
+    {
+      "cp": 43,
+      "cp_hex": "U+002B",
+      "category": "delimiter",
+      "notes": "Delimiter: plus; morphological boundary in some gloss tiers."
+    },
+    {
+      "cp": 44,
+      "cp_hex": "U+002C",
+      "category": "delimiter",
+      "notes": "Delimiter: comma; minor boundaries and lists in running text."
+    },
+    {
+      "cp": 45,
+      "cp_hex": "U+002D",
+      "category": "delimiter",
+      "notes": "Delimiter: hyphen-minus; morpheme or compound boundaries next to IPA."
+    },
+    {
+      "cp": 46,
+      "cp_hex": "U+002E",
+      "category": "delimiter",
+      "notes": "Delimiter: full stop; abbreviations and mixed prose beside IPA."
+    },
+    {
+      "cp": 47,
+      "cp_hex": "U+002F",
+      "category": "delimiter",
+      "notes": "Delimiter: solidus; phonemic slashes and similar tiering."
+    },
+    {
+      "cp": 48,
+      "cp_hex": "U+0030",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 49,
+      "cp_hex": "U+0031",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 50,
+      "cp_hex": "U+0032",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 51,
+      "cp_hex": "U+0033",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 52,
+      "cp_hex": "U+0034",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 53,
+      "cp_hex": "U+0035",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 54,
+      "cp_hex": "U+0036",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 55,
+      "cp_hex": "U+0037",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 56,
+      "cp_hex": "U+0038",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 57,
+      "cp_hex": "U+0039",
+      "category": "other",
+      "notes": "ASCII digit; tone digits, stress levels, pause-duration labels, and mixed corpus text."
+    },
+    {
+      "cp": 58,
+      "cp_hex": "U+003A",
+      "category": "delimiter",
+      "notes": "Delimiter: colon; timing, lists, or orthographic snippets."
+    },
+    {
+      "cp": 59,
+      "cp_hex": "U+003B",
+      "category": "delimiter",
+      "notes": "Delimiter: semicolon."
+    },
+    {
+      "cp": 60,
+      "cp_hex": "U+003C",
+      "category": "delimiter",
+      "notes": "Delimiter: less-than; grapheme or orthographic tier (ASCII)."
+    },
+    {
+      "cp": 61,
+      "cp_hex": "U+003D",
+      "category": "delimiter",
+      "notes": "Delimiter: equals sign; clitic boundaries (e.g. Leipzig-style glossing)."
+    },
+    {
+      "cp": 62,
+      "cp_hex": "U+003E",
+      "category": "delimiter",
+      "notes": "Delimiter: greater-than."
+    },
+    {
+      "cp": 63,
+      "cp_hex": "U+003F",
+      "category": "delimiter",
+      "notes": "Delimiter: question mark; uncertain segment in some transcription styles."
+    },
+    {
+      "cp": 64,
+      "cp_hex": "U+0040",
+      "category": "delimiter",
+      "notes": "Delimiter: commercial at; annotation conventions in some datasets."
+    },
+    {
+      "cp": 65,
+      "cp_hex": "U+0041",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 66,
+      "cp_hex": "U+0042",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 67,
+      "cp_hex": "U+0043",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 68,
+      "cp_hex": "U+0044",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 69,
+      "cp_hex": "U+0045",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 70,
+      "cp_hex": "U+0046",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 71,
+      "cp_hex": "U+0047",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 72,
+      "cp_hex": "U+0048",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 73,
+      "cp_hex": "U+0049",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 74,
+      "cp_hex": "U+004A",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 75,
+      "cp_hex": "U+004B",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 76,
+      "cp_hex": "U+004C",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 77,
+      "cp_hex": "U+004D",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 78,
+      "cp_hex": "U+004E",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 79,
+      "cp_hex": "U+004F",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 80,
+      "cp_hex": "U+0050",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 81,
+      "cp_hex": "U+0051",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 82,
+      "cp_hex": "U+0052",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 83,
+      "cp_hex": "U+0053",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 84,
+      "cp_hex": "U+0054",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 85,
+      "cp_hex": "U+0055",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 86,
+      "cp_hex": "U+0056",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 87,
+      "cp_hex": "U+0057",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 88,
+      "cp_hex": "U+0058",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 89,
+      "cp_hex": "U+0059",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 90,
+      "cp_hex": "U+005A",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 91,
+      "cp_hex": "U+005B",
+      "category": "delimiter",
+      "notes": "Delimiter: left square bracket; narrow (phonetic) transcription."
+    },
+    {
+      "cp": 92,
+      "cp_hex": "U+005C",
+      "category": "other",
+      "notes": "extIPA reiterated articulation (stutter) marker in narrow transcription."
+    },
+    {
+      "cp": 93,
+      "cp_hex": "U+005D",
+      "category": "delimiter",
+      "notes": "Delimiter: right square bracket."
+    },
+    {
+      "cp": 95,
+      "cp_hex": "U+005F",
+      "category": "delimiter",
+      "notes": "Delimiter: low line; pause slots or format conventions."
+    },
+    {
+      "cp": 97,
+      "cp_hex": "U+0061",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 98,
+      "cp_hex": "U+0062",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 99,
+      "cp_hex": "U+0063",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 100,
+      "cp_hex": "U+0064",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 101,
+      "cp_hex": "U+0065",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 102,
+      "cp_hex": "U+0066",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 103,
+      "cp_hex": "U+0067",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 104,
+      "cp_hex": "U+0068",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 105,
+      "cp_hex": "U+0069",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 106,
+      "cp_hex": "U+006A",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 107,
+      "cp_hex": "U+006B",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 108,
+      "cp_hex": "U+006C",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 109,
+      "cp_hex": "U+006D",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 110,
+      "cp_hex": "U+006E",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 111,
+      "cp_hex": "U+006F",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 112,
+      "cp_hex": "U+0070",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 113,
+      "cp_hex": "U+0071",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 114,
+      "cp_hex": "U+0072",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 115,
+      "cp_hex": "U+0073",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 116,
+      "cp_hex": "U+0074",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 117,
+      "cp_hex": "U+0075",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 118,
+      "cp_hex": "U+0076",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 119,
+      "cp_hex": "U+0077",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 120,
+      "cp_hex": "U+0078",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 121,
+      "cp_hex": "U+0079",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 122,
+      "cp_hex": "U+007A",
+      "category": "letter",
+      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+    },
+    {
+      "cp": 123,
+      "cp_hex": "U+007B",
+      "category": "delimiter",
+      "notes": "Delimiter: left brace; prosodic / VoQS commentary spans."
+    },
+    {
+      "cp": 124,
+      "cp_hex": "U+007C",
+      "category": "delimiter",
+      "notes": "Delimiter: vertical bar; alternation or parallel gloss conventions."
+    },
+    {
+      "cp": 125,
+      "cp_hex": "U+007D",
+      "category": "delimiter",
+      "notes": "Delimiter: right brace."
+    },
+    {
+      "cp": 126,
+      "cp_hex": "U+007E",
+      "category": "delimiter",
+      "notes": "Delimiter: tilde; fusion or informal variant notation."
+    },
+    {
+      "cp": 161,
+      "cp_hex": "U+00A1",
+      "category": "other",
+      "notes": "Inverted exclamation; extIPA sublaminal percussive with click letters."
+    },
+    {
+      "cp": 171,
+      "cp_hex": "U+00AB",
+      "category": "delimiter",
+      "notes": "Delimiter: left-pointing double angle quotation mark."
+    },
+    {
+      "cp": 187,
+      "cp_hex": "U+00BB",
+      "category": "delimiter",
+      "notes": "Delimiter: right-pointing double angle quotation mark."
+    },
+    {
+      "cp": 230,
+      "cp_hex": "U+00E6",
+      "category": "letter"
+    },
+    {
+      "cp": 231,
+      "cp_hex": "U+00E7",
+      "category": "letter"
+    },
+    {
+      "cp": 240,
+      "cp_hex": "U+00F0",
+      "category": "letter"
+    },
+    {
+      "cp": 248,
+      "cp_hex": "U+00F8",
+      "category": "letter"
+    },
+    {
+      "cp": 295,
+      "cp_hex": "U+0127",
+      "category": "letter"
+    },
+    {
+      "cp": 331,
+      "cp_hex": "U+014B",
+      "category": "letter"
+    },
+    {
+      "cp": 339,
+      "cp_hex": "U+0153",
+      "category": "letter"
+    },
+    {
+      "cp": 448,
+      "cp_hex": "U+01C0",
+      "category": "letter"
+    },
+    {
+      "cp": 449,
+      "cp_hex": "U+01C1",
+      "category": "letter"
+    },
+    {
+      "cp": 450,
+      "cp_hex": "U+01C2",
+      "category": "letter"
+    },
+    {
+      "cp": 451,
+      "cp_hex": "U+01C3",
+      "category": "letter"
+    },
+    {
+      "cp": 592,
+      "cp_hex": "U+0250",
+      "category": "letter"
+    },
+    {
+      "cp": 593,
+      "cp_hex": "U+0251",
+      "category": "letter"
+    },
+    {
+      "cp": 594,
+      "cp_hex": "U+0252",
+      "category": "letter"
+    },
+    {
+      "cp": 595,
+      "cp_hex": "U+0253",
+      "category": "letter"
+    },
+    {
+      "cp": 596,
+      "cp_hex": "U+0254",
+      "category": "letter"
+    },
+    {
+      "cp": 597,
+      "cp_hex": "U+0255",
+      "category": "letter"
+    },
+    {
+      "cp": 598,
+      "cp_hex": "U+0256",
+      "category": "letter"
+    },
+    {
+      "cp": 599,
+      "cp_hex": "U+0257",
+      "category": "letter"
+    },
+    {
+      "cp": 600,
+      "cp_hex": "U+0258",
+      "category": "letter"
+    },
+    {
+      "cp": 601,
+      "cp_hex": "U+0259",
+      "category": "letter"
+    },
+    {
+      "cp": 602,
+      "cp_hex": "U+025A",
+      "category": "letter"
+    },
+    {
+      "cp": 603,
+      "cp_hex": "U+025B",
+      "category": "letter"
+    },
+    {
+      "cp": 604,
+      "cp_hex": "U+025C",
+      "category": "letter"
+    },
+    {
+      "cp": 605,
+      "cp_hex": "U+025D",
+      "category": "letter"
+    },
+    {
+      "cp": 606,
+      "cp_hex": "U+025E",
+      "category": "letter"
+    },
+    {
+      "cp": 607,
+      "cp_hex": "U+025F",
+      "category": "letter"
+    },
+    {
+      "cp": 608,
+      "cp_hex": "U+0260",
+      "category": "letter"
+    },
+    {
+      "cp": 609,
+      "cp_hex": "U+0261",
+      "category": "letter"
+    },
+    {
+      "cp": 610,
+      "cp_hex": "U+0262",
+      "category": "letter"
+    },
+    {
+      "cp": 611,
+      "cp_hex": "U+0263",
+      "category": "letter"
+    },
+    {
+      "cp": 612,
+      "cp_hex": "U+0264",
+      "category": "letter"
+    },
+    {
+      "cp": 613,
+      "cp_hex": "U+0265",
+      "category": "letter"
+    },
+    {
+      "cp": 614,
+      "cp_hex": "U+0266",
+      "category": "letter"
+    },
+    {
+      "cp": 615,
+      "cp_hex": "U+0267",
+      "category": "letter"
+    },
+    {
+      "cp": 616,
+      "cp_hex": "U+0268",
+      "category": "letter"
+    },
+    {
+      "cp": 617,
+      "cp_hex": "U+0269",
+      "category": "letter"
+    },
+    {
+      "cp": 618,
+      "cp_hex": "U+026A",
+      "category": "letter"
+    },
+    {
+      "cp": 619,
+      "cp_hex": "U+026B",
+      "category": "letter"
+    },
+    {
+      "cp": 620,
+      "cp_hex": "U+026C",
+      "category": "letter"
+    },
+    {
+      "cp": 621,
+      "cp_hex": "U+026D",
+      "category": "letter"
+    },
+    {
+      "cp": 622,
+      "cp_hex": "U+026E",
+      "category": "letter"
+    },
+    {
+      "cp": 623,
+      "cp_hex": "U+026F",
+      "category": "letter"
+    },
+    {
+      "cp": 624,
+      "cp_hex": "U+0270",
+      "category": "letter"
+    },
+    {
+      "cp": 625,
+      "cp_hex": "U+0271",
+      "category": "letter"
+    },
+    {
+      "cp": 626,
+      "cp_hex": "U+0272",
+      "category": "letter"
+    },
+    {
+      "cp": 627,
+      "cp_hex": "U+0273",
+      "category": "letter"
+    },
+    {
+      "cp": 628,
+      "cp_hex": "U+0274",
+      "category": "letter"
+    },
+    {
+      "cp": 629,
+      "cp_hex": "U+0275",
+      "category": "letter"
+    },
+    {
+      "cp": 630,
+      "cp_hex": "U+0276",
+      "category": "letter"
+    },
+    {
+      "cp": 631,
+      "cp_hex": "U+0277",
+      "category": "letter"
+    },
+    {
+      "cp": 632,
+      "cp_hex": "U+0278",
+      "category": "letter"
+    },
+    {
+      "cp": 633,
+      "cp_hex": "U+0279",
+      "category": "letter"
+    },
+    {
+      "cp": 634,
+      "cp_hex": "U+027A",
+      "category": "letter"
+    },
+    {
+      "cp": 635,
+      "cp_hex": "U+027B",
+      "category": "letter"
+    },
+    {
+      "cp": 636,
+      "cp_hex": "U+027C",
+      "category": "letter"
+    },
+    {
+      "cp": 637,
+      "cp_hex": "U+027D",
+      "category": "letter"
+    },
+    {
+      "cp": 638,
+      "cp_hex": "U+027E",
+      "category": "letter"
+    },
+    {
+      "cp": 639,
+      "cp_hex": "U+027F",
+      "category": "letter"
+    },
+    {
+      "cp": 640,
+      "cp_hex": "U+0280",
+      "category": "letter"
+    },
+    {
+      "cp": 641,
+      "cp_hex": "U+0281",
+      "category": "letter"
+    },
+    {
+      "cp": 642,
+      "cp_hex": "U+0282",
+      "category": "letter"
+    },
+    {
+      "cp": 643,
+      "cp_hex": "U+0283",
+      "category": "letter"
+    },
+    {
+      "cp": 644,
+      "cp_hex": "U+0284",
+      "category": "letter"
+    },
+    {
+      "cp": 645,
+      "cp_hex": "U+0285",
+      "category": "letter"
+    },
+    {
+      "cp": 646,
+      "cp_hex": "U+0286",
+      "category": "letter"
+    },
+    {
+      "cp": 647,
+      "cp_hex": "U+0287",
+      "category": "letter"
+    },
+    {
+      "cp": 648,
+      "cp_hex": "U+0288",
+      "category": "letter"
+    },
+    {
+      "cp": 649,
+      "cp_hex": "U+0289",
+      "category": "letter"
+    },
+    {
+      "cp": 650,
+      "cp_hex": "U+028A",
+      "category": "letter"
+    },
+    {
+      "cp": 651,
+      "cp_hex": "U+028B",
+      "category": "letter"
+    },
+    {
+      "cp": 652,
+      "cp_hex": "U+028C",
+      "category": "letter"
+    },
+    {
+      "cp": 653,
+      "cp_hex": "U+028D",
+      "category": "letter"
+    },
+    {
+      "cp": 654,
+      "cp_hex": "U+028E",
+      "category": "letter"
+    },
+    {
+      "cp": 655,
+      "cp_hex": "U+028F",
+      "category": "letter"
+    },
+    {
+      "cp": 656,
+      "cp_hex": "U+0290",
+      "category": "letter"
+    },
+    {
+      "cp": 657,
+      "cp_hex": "U+0291",
+      "category": "letter"
+    },
+    {
+      "cp": 658,
+      "cp_hex": "U+0292",
+      "category": "letter"
+    },
+    {
+      "cp": 659,
+      "cp_hex": "U+0293",
+      "category": "letter"
+    },
+    {
+      "cp": 660,
+      "cp_hex": "U+0294",
+      "category": "letter"
+    },
+    {
+      "cp": 661,
+      "cp_hex": "U+0295",
+      "category": "letter"
+    },
+    {
+      "cp": 662,
+      "cp_hex": "U+0296",
+      "category": "letter"
+    },
+    {
+      "cp": 663,
+      "cp_hex": "U+0297",
+      "category": "letter"
+    },
+    {
+      "cp": 664,
+      "cp_hex": "U+0298",
+      "category": "letter"
+    },
+    {
+      "cp": 665,
+      "cp_hex": "U+0299",
+      "category": "letter"
+    },
+    {
+      "cp": 666,
+      "cp_hex": "U+029A",
+      "category": "letter"
+    },
+    {
+      "cp": 667,
+      "cp_hex": "U+029B",
+      "category": "letter"
+    },
+    {
+      "cp": 668,
+      "cp_hex": "U+029C",
+      "category": "letter"
+    },
+    {
+      "cp": 669,
+      "cp_hex": "U+029D",
+      "category": "letter"
+    },
+    {
+      "cp": 670,
+      "cp_hex": "U+029E",
+      "category": "letter"
+    },
+    {
+      "cp": 671,
+      "cp_hex": "U+029F",
+      "category": "letter"
+    },
+    {
+      "cp": 672,
+      "cp_hex": "U+02A0",
+      "category": "letter"
+    },
+    {
+      "cp": 673,
+      "cp_hex": "U+02A1",
+      "category": "letter"
+    },
+    {
+      "cp": 674,
+      "cp_hex": "U+02A2",
+      "category": "letter"
+    },
+    {
+      "cp": 675,
+      "cp_hex": "U+02A3",
+      "category": "letter"
+    },
+    {
+      "cp": 676,
+      "cp_hex": "U+02A4",
+      "category": "letter"
+    },
+    {
+      "cp": 677,
+      "cp_hex": "U+02A5",
+      "category": "letter"
+    },
+    {
+      "cp": 678,
+      "cp_hex": "U+02A6",
+      "category": "letter"
+    },
+    {
+      "cp": 679,
+      "cp_hex": "U+02A7",
+      "category": "letter"
+    },
+    {
+      "cp": 680,
+      "cp_hex": "U+02A8",
+      "category": "letter"
+    },
+    {
+      "cp": 681,
+      "cp_hex": "U+02A9",
+      "category": "letter"
+    },
+    {
+      "cp": 682,
+      "cp_hex": "U+02AA",
+      "category": "letter"
+    },
+    {
+      "cp": 683,
+      "cp_hex": "U+02AB",
+      "category": "letter"
+    },
+    {
+      "cp": 684,
+      "cp_hex": "U+02AC",
+      "category": "letter"
+    },
+    {
+      "cp": 685,
+      "cp_hex": "U+02AD",
+      "category": "letter"
+    },
+    {
+      "cp": 686,
+      "cp_hex": "U+02AE",
+      "category": "letter"
+    },
+    {
+      "cp": 687,
+      "cp_hex": "U+02AF",
+      "category": "letter"
+    },
+    {
+      "cp": 688,
+      "cp_hex": "U+02B0",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 689,
+      "cp_hex": "U+02B1",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 690,
+      "cp_hex": "U+02B2",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 691,
+      "cp_hex": "U+02B3",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 692,
+      "cp_hex": "U+02B4",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 693,
+      "cp_hex": "U+02B5",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 694,
+      "cp_hex": "U+02B6",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 695,
+      "cp_hex": "U+02B7",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 696,
+      "cp_hex": "U+02B8",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 697,
+      "cp_hex": "U+02B9",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 698,
+      "cp_hex": "U+02BA",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 699,
+      "cp_hex": "U+02BB",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 700,
+      "cp_hex": "U+02BC",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 701,
+      "cp_hex": "U+02BD",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 702,
+      "cp_hex": "U+02BE",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 703,
+      "cp_hex": "U+02BF",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 704,
+      "cp_hex": "U+02C0",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 705,
+      "cp_hex": "U+02C1",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 706,
+      "cp_hex": "U+02C2",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 707,
+      "cp_hex": "U+02C3",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 708,
+      "cp_hex": "U+02C4",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 709,
+      "cp_hex": "U+02C5",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 710,
+      "cp_hex": "U+02C6",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 711,
+      "cp_hex": "U+02C7",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 712,
+      "cp_hex": "U+02C8",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 713,
+      "cp_hex": "U+02C9",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 714,
+      "cp_hex": "U+02CA",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 715,
+      "cp_hex": "U+02CB",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 716,
+      "cp_hex": "U+02CC",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 717,
+      "cp_hex": "U+02CD",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 718,
+      "cp_hex": "U+02CE",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 719,
+      "cp_hex": "U+02CF",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 720,
+      "cp_hex": "U+02D0",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 721,
+      "cp_hex": "U+02D1",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 722,
+      "cp_hex": "U+02D2",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 723,
+      "cp_hex": "U+02D3",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 724,
+      "cp_hex": "U+02D4",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 725,
+      "cp_hex": "U+02D5",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 726,
+      "cp_hex": "U+02D6",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 727,
+      "cp_hex": "U+02D7",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 728,
+      "cp_hex": "U+02D8",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 729,
+      "cp_hex": "U+02D9",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 730,
+      "cp_hex": "U+02DA",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 731,
+      "cp_hex": "U+02DB",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 732,
+      "cp_hex": "U+02DC",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 733,
+      "cp_hex": "U+02DD",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 734,
+      "cp_hex": "U+02DE",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 735,
+      "cp_hex": "U+02DF",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 736,
+      "cp_hex": "U+02E0",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 737,
+      "cp_hex": "U+02E1",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 738,
+      "cp_hex": "U+02E2",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 739,
+      "cp_hex": "U+02E3",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 740,
+      "cp_hex": "U+02E4",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 741,
+      "cp_hex": "U+02E5",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 742,
+      "cp_hex": "U+02E6",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 743,
+      "cp_hex": "U+02E7",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 744,
+      "cp_hex": "U+02E8",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 745,
+      "cp_hex": "U+02E9",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 746,
+      "cp_hex": "U+02EA",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 747,
+      "cp_hex": "U+02EB",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 748,
+      "cp_hex": "U+02EC",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 749,
+      "cp_hex": "U+02ED",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 750,
+      "cp_hex": "U+02EE",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 751,
+      "cp_hex": "U+02EF",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 752,
+      "cp_hex": "U+02F0",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 753,
+      "cp_hex": "U+02F1",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 754,
+      "cp_hex": "U+02F2",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 755,
+      "cp_hex": "U+02F3",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 756,
+      "cp_hex": "U+02F4",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 757,
+      "cp_hex": "U+02F5",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 758,
+      "cp_hex": "U+02F6",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 759,
+      "cp_hex": "U+02F7",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 760,
+      "cp_hex": "U+02F8",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 761,
+      "cp_hex": "U+02F9",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 762,
+      "cp_hex": "U+02FA",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 763,
+      "cp_hex": "U+02FB",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 764,
+      "cp_hex": "U+02FC",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 765,
+      "cp_hex": "U+02FD",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 766,
+      "cp_hex": "U+02FE",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 767,
+      "cp_hex": "U+02FF",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 768,
+      "cp_hex": "U+0300",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 769,
+      "cp_hex": "U+0301",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 770,
+      "cp_hex": "U+0302",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 771,
+      "cp_hex": "U+0303",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 772,
+      "cp_hex": "U+0304",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 773,
+      "cp_hex": "U+0305",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 774,
+      "cp_hex": "U+0306",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 775,
+      "cp_hex": "U+0307",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 776,
+      "cp_hex": "U+0308",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 777,
+      "cp_hex": "U+0309",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 778,
+      "cp_hex": "U+030A",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 779,
+      "cp_hex": "U+030B",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 780,
+      "cp_hex": "U+030C",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 781,
+      "cp_hex": "U+030D",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 782,
+      "cp_hex": "U+030E",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 783,
+      "cp_hex": "U+030F",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 784,
+      "cp_hex": "U+0310",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 785,
+      "cp_hex": "U+0311",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 786,
+      "cp_hex": "U+0312",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 787,
+      "cp_hex": "U+0313",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 788,
+      "cp_hex": "U+0314",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 789,
+      "cp_hex": "U+0315",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 790,
+      "cp_hex": "U+0316",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 791,
+      "cp_hex": "U+0317",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 792,
+      "cp_hex": "U+0318",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 793,
+      "cp_hex": "U+0319",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 794,
+      "cp_hex": "U+031A",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 795,
+      "cp_hex": "U+031B",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 796,
+      "cp_hex": "U+031C",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 797,
+      "cp_hex": "U+031D",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 798,
+      "cp_hex": "U+031E",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 799,
+      "cp_hex": "U+031F",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 800,
+      "cp_hex": "U+0320",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 801,
+      "cp_hex": "U+0321",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 802,
+      "cp_hex": "U+0322",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 803,
+      "cp_hex": "U+0323",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 804,
+      "cp_hex": "U+0324",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 805,
+      "cp_hex": "U+0325",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 806,
+      "cp_hex": "U+0326",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 807,
+      "cp_hex": "U+0327",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 808,
+      "cp_hex": "U+0328",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 809,
+      "cp_hex": "U+0329",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 810,
+      "cp_hex": "U+032A",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 811,
+      "cp_hex": "U+032B",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 812,
+      "cp_hex": "U+032C",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 813,
+      "cp_hex": "U+032D",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 814,
+      "cp_hex": "U+032E",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 815,
+      "cp_hex": "U+032F",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 816,
+      "cp_hex": "U+0330",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 817,
+      "cp_hex": "U+0331",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 818,
+      "cp_hex": "U+0332",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 819,
+      "cp_hex": "U+0333",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 820,
+      "cp_hex": "U+0334",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 821,
+      "cp_hex": "U+0335",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 822,
+      "cp_hex": "U+0336",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 823,
+      "cp_hex": "U+0337",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 824,
+      "cp_hex": "U+0338",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 825,
+      "cp_hex": "U+0339",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 826,
+      "cp_hex": "U+033A",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 827,
+      "cp_hex": "U+033B",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 828,
+      "cp_hex": "U+033C",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 829,
+      "cp_hex": "U+033D",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 830,
+      "cp_hex": "U+033E",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 831,
+      "cp_hex": "U+033F",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 832,
+      "cp_hex": "U+0340",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 833,
+      "cp_hex": "U+0341",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 834,
+      "cp_hex": "U+0342",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 835,
+      "cp_hex": "U+0343",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 836,
+      "cp_hex": "U+0344",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 837,
+      "cp_hex": "U+0345",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 838,
+      "cp_hex": "U+0346",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 839,
+      "cp_hex": "U+0347",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 840,
+      "cp_hex": "U+0348",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 841,
+      "cp_hex": "U+0349",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 842,
+      "cp_hex": "U+034A",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 843,
+      "cp_hex": "U+034B",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 844,
+      "cp_hex": "U+034C",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 845,
+      "cp_hex": "U+034D",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 846,
+      "cp_hex": "U+034E",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 847,
+      "cp_hex": "U+034F",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 848,
+      "cp_hex": "U+0350",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 849,
+      "cp_hex": "U+0351",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 850,
+      "cp_hex": "U+0352",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 851,
+      "cp_hex": "U+0353",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 852,
+      "cp_hex": "U+0354",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 853,
+      "cp_hex": "U+0355",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 854,
+      "cp_hex": "U+0356",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 855,
+      "cp_hex": "U+0357",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 856,
+      "cp_hex": "U+0358",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 857,
+      "cp_hex": "U+0359",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 858,
+      "cp_hex": "U+035A",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 859,
+      "cp_hex": "U+035B",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 860,
+      "cp_hex": "U+035C",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 861,
+      "cp_hex": "U+035D",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 862,
+      "cp_hex": "U+035E",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 863,
+      "cp_hex": "U+035F",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 864,
+      "cp_hex": "U+0360",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 865,
+      "cp_hex": "U+0361",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 866,
+      "cp_hex": "U+0362",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 867,
+      "cp_hex": "U+0363",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 868,
+      "cp_hex": "U+0364",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 869,
+      "cp_hex": "U+0365",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 870,
+      "cp_hex": "U+0366",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 871,
+      "cp_hex": "U+0367",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 872,
+      "cp_hex": "U+0368",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 873,
+      "cp_hex": "U+0369",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 874,
+      "cp_hex": "U+036A",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 875,
+      "cp_hex": "U+036B",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 876,
+      "cp_hex": "U+036C",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 877,
+      "cp_hex": "U+036D",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 878,
+      "cp_hex": "U+036E",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 879,
+      "cp_hex": "U+036F",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 946,
+      "cp_hex": "U+03B2",
+      "category": "letter"
+    },
+    {
+      "cp": 952,
+      "cp_hex": "U+03B8",
+      "category": "letter"
+    },
+    {
+      "cp": 967,
+      "cp_hex": "U+03C7",
+      "category": "letter"
+    },
+    {
+      "cp": 6832,
+      "cp_hex": "U+1AB0",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6833,
+      "cp_hex": "U+1AB1",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6834,
+      "cp_hex": "U+1AB2",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6835,
+      "cp_hex": "U+1AB3",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6836,
+      "cp_hex": "U+1AB4",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6837,
+      "cp_hex": "U+1AB5",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6838,
+      "cp_hex": "U+1AB6",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6839,
+      "cp_hex": "U+1AB7",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6840,
+      "cp_hex": "U+1AB8",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6841,
+      "cp_hex": "U+1AB9",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6842,
+      "cp_hex": "U+1ABA",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6843,
+      "cp_hex": "U+1ABB",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6844,
+      "cp_hex": "U+1ABC",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6845,
+      "cp_hex": "U+1ABD",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6846,
+      "cp_hex": "U+1ABE",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6847,
+      "cp_hex": "U+1ABF",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6848,
+      "cp_hex": "U+1AC0",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6849,
+      "cp_hex": "U+1AC1",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6850,
+      "cp_hex": "U+1AC2",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6851,
+      "cp_hex": "U+1AC3",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6852,
+      "cp_hex": "U+1AC4",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6853,
+      "cp_hex": "U+1AC5",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6854,
+      "cp_hex": "U+1AC6",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6855,
+      "cp_hex": "U+1AC7",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6856,
+      "cp_hex": "U+1AC8",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6857,
+      "cp_hex": "U+1AC9",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6858,
+      "cp_hex": "U+1ACA",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6859,
+      "cp_hex": "U+1ACB",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6860,
+      "cp_hex": "U+1ACC",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6861,
+      "cp_hex": "U+1ACD",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 6862,
+      "cp_hex": "U+1ACE",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7424,
+      "cp_hex": "U+1D00",
+      "category": "letter"
+    },
+    {
+      "cp": 7425,
+      "cp_hex": "U+1D01",
+      "category": "letter"
+    },
+    {
+      "cp": 7426,
+      "cp_hex": "U+1D02",
+      "category": "letter"
+    },
+    {
+      "cp": 7427,
+      "cp_hex": "U+1D03",
+      "category": "letter"
+    },
+    {
+      "cp": 7428,
+      "cp_hex": "U+1D04",
+      "category": "letter"
+    },
+    {
+      "cp": 7429,
+      "cp_hex": "U+1D05",
+      "category": "letter"
+    },
+    {
+      "cp": 7430,
+      "cp_hex": "U+1D06",
+      "category": "letter"
+    },
+    {
+      "cp": 7431,
+      "cp_hex": "U+1D07",
+      "category": "letter"
+    },
+    {
+      "cp": 7432,
+      "cp_hex": "U+1D08",
+      "category": "letter"
+    },
+    {
+      "cp": 7433,
+      "cp_hex": "U+1D09",
+      "category": "letter"
+    },
+    {
+      "cp": 7434,
+      "cp_hex": "U+1D0A",
+      "category": "letter"
+    },
+    {
+      "cp": 7435,
+      "cp_hex": "U+1D0B",
+      "category": "letter"
+    },
+    {
+      "cp": 7436,
+      "cp_hex": "U+1D0C",
+      "category": "letter"
+    },
+    {
+      "cp": 7437,
+      "cp_hex": "U+1D0D",
+      "category": "letter"
+    },
+    {
+      "cp": 7438,
+      "cp_hex": "U+1D0E",
+      "category": "letter"
+    },
+    {
+      "cp": 7439,
+      "cp_hex": "U+1D0F",
+      "category": "letter"
+    },
+    {
+      "cp": 7440,
+      "cp_hex": "U+1D10",
+      "category": "letter"
+    },
+    {
+      "cp": 7441,
+      "cp_hex": "U+1D11",
+      "category": "letter"
+    },
+    {
+      "cp": 7442,
+      "cp_hex": "U+1D12",
+      "category": "letter"
+    },
+    {
+      "cp": 7443,
+      "cp_hex": "U+1D13",
+      "category": "letter"
+    },
+    {
+      "cp": 7444,
+      "cp_hex": "U+1D14",
+      "category": "letter"
+    },
+    {
+      "cp": 7445,
+      "cp_hex": "U+1D15",
+      "category": "letter"
+    },
+    {
+      "cp": 7446,
+      "cp_hex": "U+1D16",
+      "category": "letter"
+    },
+    {
+      "cp": 7447,
+      "cp_hex": "U+1D17",
+      "category": "letter"
+    },
+    {
+      "cp": 7448,
+      "cp_hex": "U+1D18",
+      "category": "letter"
+    },
+    {
+      "cp": 7449,
+      "cp_hex": "U+1D19",
+      "category": "letter"
+    },
+    {
+      "cp": 7450,
+      "cp_hex": "U+1D1A",
+      "category": "letter"
+    },
+    {
+      "cp": 7451,
+      "cp_hex": "U+1D1B",
+      "category": "letter"
+    },
+    {
+      "cp": 7452,
+      "cp_hex": "U+1D1C",
+      "category": "letter"
+    },
+    {
+      "cp": 7453,
+      "cp_hex": "U+1D1D",
+      "category": "letter"
+    },
+    {
+      "cp": 7454,
+      "cp_hex": "U+1D1E",
+      "category": "letter"
+    },
+    {
+      "cp": 7455,
+      "cp_hex": "U+1D1F",
+      "category": "letter"
+    },
+    {
+      "cp": 7456,
+      "cp_hex": "U+1D20",
+      "category": "letter"
+    },
+    {
+      "cp": 7457,
+      "cp_hex": "U+1D21",
+      "category": "letter"
+    },
+    {
+      "cp": 7458,
+      "cp_hex": "U+1D22",
+      "category": "letter"
+    },
+    {
+      "cp": 7459,
+      "cp_hex": "U+1D23",
+      "category": "letter"
+    },
+    {
+      "cp": 7460,
+      "cp_hex": "U+1D24",
+      "category": "letter"
+    },
+    {
+      "cp": 7461,
+      "cp_hex": "U+1D25",
+      "category": "letter"
+    },
+    {
+      "cp": 7462,
+      "cp_hex": "U+1D26",
+      "category": "letter"
+    },
+    {
+      "cp": 7463,
+      "cp_hex": "U+1D27",
+      "category": "letter"
+    },
+    {
+      "cp": 7464,
+      "cp_hex": "U+1D28",
+      "category": "letter"
+    },
+    {
+      "cp": 7465,
+      "cp_hex": "U+1D29",
+      "category": "letter"
+    },
+    {
+      "cp": 7466,
+      "cp_hex": "U+1D2A",
+      "category": "letter"
+    },
+    {
+      "cp": 7467,
+      "cp_hex": "U+1D2B",
+      "category": "letter"
+    },
+    {
+      "cp": 7468,
+      "cp_hex": "U+1D2C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7469,
+      "cp_hex": "U+1D2D",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7470,
+      "cp_hex": "U+1D2E",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7471,
+      "cp_hex": "U+1D2F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7472,
+      "cp_hex": "U+1D30",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7473,
+      "cp_hex": "U+1D31",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7474,
+      "cp_hex": "U+1D32",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7475,
+      "cp_hex": "U+1D33",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7476,
+      "cp_hex": "U+1D34",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7477,
+      "cp_hex": "U+1D35",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7478,
+      "cp_hex": "U+1D36",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7479,
+      "cp_hex": "U+1D37",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7480,
+      "cp_hex": "U+1D38",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7481,
+      "cp_hex": "U+1D39",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7482,
+      "cp_hex": "U+1D3A",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7483,
+      "cp_hex": "U+1D3B",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7484,
+      "cp_hex": "U+1D3C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7485,
+      "cp_hex": "U+1D3D",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7486,
+      "cp_hex": "U+1D3E",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7487,
+      "cp_hex": "U+1D3F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7488,
+      "cp_hex": "U+1D40",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7489,
+      "cp_hex": "U+1D41",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7490,
+      "cp_hex": "U+1D42",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7491,
+      "cp_hex": "U+1D43",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7492,
+      "cp_hex": "U+1D44",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7493,
+      "cp_hex": "U+1D45",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7494,
+      "cp_hex": "U+1D46",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7495,
+      "cp_hex": "U+1D47",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7496,
+      "cp_hex": "U+1D48",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7497,
+      "cp_hex": "U+1D49",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7498,
+      "cp_hex": "U+1D4A",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7499,
+      "cp_hex": "U+1D4B",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7500,
+      "cp_hex": "U+1D4C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7501,
+      "cp_hex": "U+1D4D",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7502,
+      "cp_hex": "U+1D4E",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7503,
+      "cp_hex": "U+1D4F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7504,
+      "cp_hex": "U+1D50",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7505,
+      "cp_hex": "U+1D51",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7506,
+      "cp_hex": "U+1D52",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7507,
+      "cp_hex": "U+1D53",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7508,
+      "cp_hex": "U+1D54",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7509,
+      "cp_hex": "U+1D55",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7510,
+      "cp_hex": "U+1D56",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7511,
+      "cp_hex": "U+1D57",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7512,
+      "cp_hex": "U+1D58",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7513,
+      "cp_hex": "U+1D59",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7514,
+      "cp_hex": "U+1D5A",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7515,
+      "cp_hex": "U+1D5B",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7516,
+      "cp_hex": "U+1D5C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7517,
+      "cp_hex": "U+1D5D",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7518,
+      "cp_hex": "U+1D5E",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7519,
+      "cp_hex": "U+1D5F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7520,
+      "cp_hex": "U+1D60",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7521,
+      "cp_hex": "U+1D61",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7522,
+      "cp_hex": "U+1D62",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7523,
+      "cp_hex": "U+1D63",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7524,
+      "cp_hex": "U+1D64",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7525,
+      "cp_hex": "U+1D65",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7526,
+      "cp_hex": "U+1D66",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7527,
+      "cp_hex": "U+1D67",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7528,
+      "cp_hex": "U+1D68",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7529,
+      "cp_hex": "U+1D69",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7530,
+      "cp_hex": "U+1D6A",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7531,
+      "cp_hex": "U+1D6B",
+      "category": "letter"
+    },
+    {
+      "cp": 7532,
+      "cp_hex": "U+1D6C",
+      "category": "letter"
+    },
+    {
+      "cp": 7533,
+      "cp_hex": "U+1D6D",
+      "category": "letter"
+    },
+    {
+      "cp": 7534,
+      "cp_hex": "U+1D6E",
+      "category": "letter"
+    },
+    {
+      "cp": 7535,
+      "cp_hex": "U+1D6F",
+      "category": "letter"
+    },
+    {
+      "cp": 7536,
+      "cp_hex": "U+1D70",
+      "category": "letter"
+    },
+    {
+      "cp": 7537,
+      "cp_hex": "U+1D71",
+      "category": "letter"
+    },
+    {
+      "cp": 7538,
+      "cp_hex": "U+1D72",
+      "category": "letter"
+    },
+    {
+      "cp": 7539,
+      "cp_hex": "U+1D73",
+      "category": "letter"
+    },
+    {
+      "cp": 7540,
+      "cp_hex": "U+1D74",
+      "category": "letter"
+    },
+    {
+      "cp": 7541,
+      "cp_hex": "U+1D75",
+      "category": "letter"
+    },
+    {
+      "cp": 7542,
+      "cp_hex": "U+1D76",
+      "category": "letter"
+    },
+    {
+      "cp": 7543,
+      "cp_hex": "U+1D77",
+      "category": "letter"
+    },
+    {
+      "cp": 7544,
+      "cp_hex": "U+1D78",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7545,
+      "cp_hex": "U+1D79",
+      "category": "letter"
+    },
+    {
+      "cp": 7546,
+      "cp_hex": "U+1D7A",
+      "category": "letter"
+    },
+    {
+      "cp": 7547,
+      "cp_hex": "U+1D7B",
+      "category": "letter"
+    },
+    {
+      "cp": 7548,
+      "cp_hex": "U+1D7C",
+      "category": "letter"
+    },
+    {
+      "cp": 7549,
+      "cp_hex": "U+1D7D",
+      "category": "letter"
+    },
+    {
+      "cp": 7550,
+      "cp_hex": "U+1D7E",
+      "category": "letter"
+    },
+    {
+      "cp": 7551,
+      "cp_hex": "U+1D7F",
+      "category": "letter"
+    },
+    {
+      "cp": 7552,
+      "cp_hex": "U+1D80",
+      "category": "letter"
+    },
+    {
+      "cp": 7553,
+      "cp_hex": "U+1D81",
+      "category": "letter"
+    },
+    {
+      "cp": 7554,
+      "cp_hex": "U+1D82",
+      "category": "letter"
+    },
+    {
+      "cp": 7555,
+      "cp_hex": "U+1D83",
+      "category": "letter"
+    },
+    {
+      "cp": 7556,
+      "cp_hex": "U+1D84",
+      "category": "letter"
+    },
+    {
+      "cp": 7557,
+      "cp_hex": "U+1D85",
+      "category": "letter"
+    },
+    {
+      "cp": 7558,
+      "cp_hex": "U+1D86",
+      "category": "letter"
+    },
+    {
+      "cp": 7559,
+      "cp_hex": "U+1D87",
+      "category": "letter"
+    },
+    {
+      "cp": 7560,
+      "cp_hex": "U+1D88",
+      "category": "letter"
+    },
+    {
+      "cp": 7561,
+      "cp_hex": "U+1D89",
+      "category": "letter"
+    },
+    {
+      "cp": 7562,
+      "cp_hex": "U+1D8A",
+      "category": "letter"
+    },
+    {
+      "cp": 7563,
+      "cp_hex": "U+1D8B",
+      "category": "letter"
+    },
+    {
+      "cp": 7564,
+      "cp_hex": "U+1D8C",
+      "category": "letter"
+    },
+    {
+      "cp": 7565,
+      "cp_hex": "U+1D8D",
+      "category": "letter"
+    },
+    {
+      "cp": 7566,
+      "cp_hex": "U+1D8E",
+      "category": "letter"
+    },
+    {
+      "cp": 7567,
+      "cp_hex": "U+1D8F",
+      "category": "letter"
+    },
+    {
+      "cp": 7568,
+      "cp_hex": "U+1D90",
+      "category": "letter"
+    },
+    {
+      "cp": 7569,
+      "cp_hex": "U+1D91",
+      "category": "letter"
+    },
+    {
+      "cp": 7570,
+      "cp_hex": "U+1D92",
+      "category": "letter"
+    },
+    {
+      "cp": 7571,
+      "cp_hex": "U+1D93",
+      "category": "letter"
+    },
+    {
+      "cp": 7572,
+      "cp_hex": "U+1D94",
+      "category": "letter"
+    },
+    {
+      "cp": 7573,
+      "cp_hex": "U+1D95",
+      "category": "letter"
+    },
+    {
+      "cp": 7574,
+      "cp_hex": "U+1D96",
+      "category": "letter"
+    },
+    {
+      "cp": 7575,
+      "cp_hex": "U+1D97",
+      "category": "letter"
+    },
+    {
+      "cp": 7576,
+      "cp_hex": "U+1D98",
+      "category": "letter"
+    },
+    {
+      "cp": 7577,
+      "cp_hex": "U+1D99",
+      "category": "letter"
+    },
+    {
+      "cp": 7578,
+      "cp_hex": "U+1D9A",
+      "category": "letter"
+    },
+    {
+      "cp": 7579,
+      "cp_hex": "U+1D9B",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7580,
+      "cp_hex": "U+1D9C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7581,
+      "cp_hex": "U+1D9D",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7582,
+      "cp_hex": "U+1D9E",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7583,
+      "cp_hex": "U+1D9F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7584,
+      "cp_hex": "U+1DA0",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7585,
+      "cp_hex": "U+1DA1",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7586,
+      "cp_hex": "U+1DA2",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7587,
+      "cp_hex": "U+1DA3",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7588,
+      "cp_hex": "U+1DA4",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7589,
+      "cp_hex": "U+1DA5",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7590,
+      "cp_hex": "U+1DA6",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7591,
+      "cp_hex": "U+1DA7",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7592,
+      "cp_hex": "U+1DA8",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7593,
+      "cp_hex": "U+1DA9",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7594,
+      "cp_hex": "U+1DAA",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7595,
+      "cp_hex": "U+1DAB",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7596,
+      "cp_hex": "U+1DAC",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7597,
+      "cp_hex": "U+1DAD",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7598,
+      "cp_hex": "U+1DAE",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7599,
+      "cp_hex": "U+1DAF",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7600,
+      "cp_hex": "U+1DB0",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7601,
+      "cp_hex": "U+1DB1",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7602,
+      "cp_hex": "U+1DB2",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7603,
+      "cp_hex": "U+1DB3",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7604,
+      "cp_hex": "U+1DB4",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7605,
+      "cp_hex": "U+1DB5",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7606,
+      "cp_hex": "U+1DB6",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7607,
+      "cp_hex": "U+1DB7",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7608,
+      "cp_hex": "U+1DB8",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7609,
+      "cp_hex": "U+1DB9",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7610,
+      "cp_hex": "U+1DBA",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7611,
+      "cp_hex": "U+1DBB",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7612,
+      "cp_hex": "U+1DBC",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7613,
+      "cp_hex": "U+1DBD",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7614,
+      "cp_hex": "U+1DBE",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7615,
+      "cp_hex": "U+1DBF",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 7616,
+      "cp_hex": "U+1DC0",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7617,
+      "cp_hex": "U+1DC1",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7618,
+      "cp_hex": "U+1DC2",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7619,
+      "cp_hex": "U+1DC3",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7620,
+      "cp_hex": "U+1DC4",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7621,
+      "cp_hex": "U+1DC5",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7622,
+      "cp_hex": "U+1DC6",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7623,
+      "cp_hex": "U+1DC7",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7624,
+      "cp_hex": "U+1DC8",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7625,
+      "cp_hex": "U+1DC9",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7626,
+      "cp_hex": "U+1DCA",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7627,
+      "cp_hex": "U+1DCB",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7628,
+      "cp_hex": "U+1DCC",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7629,
+      "cp_hex": "U+1DCD",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7630,
+      "cp_hex": "U+1DCE",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7631,
+      "cp_hex": "U+1DCF",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7632,
+      "cp_hex": "U+1DD0",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7633,
+      "cp_hex": "U+1DD1",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7634,
+      "cp_hex": "U+1DD2",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7635,
+      "cp_hex": "U+1DD3",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7636,
+      "cp_hex": "U+1DD4",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7637,
+      "cp_hex": "U+1DD5",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7638,
+      "cp_hex": "U+1DD6",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7639,
+      "cp_hex": "U+1DD7",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7640,
+      "cp_hex": "U+1DD8",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7641,
+      "cp_hex": "U+1DD9",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7642,
+      "cp_hex": "U+1DDA",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7643,
+      "cp_hex": "U+1DDB",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7644,
+      "cp_hex": "U+1DDC",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7645,
+      "cp_hex": "U+1DDD",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7646,
+      "cp_hex": "U+1DDE",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7647,
+      "cp_hex": "U+1DDF",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7648,
+      "cp_hex": "U+1DE0",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7649,
+      "cp_hex": "U+1DE1",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7650,
+      "cp_hex": "U+1DE2",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7651,
+      "cp_hex": "U+1DE3",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7652,
+      "cp_hex": "U+1DE4",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7653,
+      "cp_hex": "U+1DE5",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7654,
+      "cp_hex": "U+1DE6",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7655,
+      "cp_hex": "U+1DE7",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7656,
+      "cp_hex": "U+1DE8",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7657,
+      "cp_hex": "U+1DE9",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7658,
+      "cp_hex": "U+1DEA",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7659,
+      "cp_hex": "U+1DEB",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7660,
+      "cp_hex": "U+1DEC",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7661,
+      "cp_hex": "U+1DED",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7662,
+      "cp_hex": "U+1DEE",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7663,
+      "cp_hex": "U+1DEF",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7664,
+      "cp_hex": "U+1DF0",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7665,
+      "cp_hex": "U+1DF1",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7666,
+      "cp_hex": "U+1DF2",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7667,
+      "cp_hex": "U+1DF3",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7668,
+      "cp_hex": "U+1DF4",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7669,
+      "cp_hex": "U+1DF5",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7670,
+      "cp_hex": "U+1DF6",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7671,
+      "cp_hex": "U+1DF7",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7672,
+      "cp_hex": "U+1DF8",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7673,
+      "cp_hex": "U+1DF9",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7674,
+      "cp_hex": "U+1DFA",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7675,
+      "cp_hex": "U+1DFB",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7676,
+      "cp_hex": "U+1DFC",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7677,
+      "cp_hex": "U+1DFD",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7678,
+      "cp_hex": "U+1DFE",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 7679,
+      "cp_hex": "U+1DFF",
+      "category": "combining_mark"
+    },
+    {
+      "cp": 8214,
+      "cp_hex": "U+2016",
+      "category": "other"
+    },
+    {
+      "cp": 8216,
+      "cp_hex": "U+2018",
+      "category": "delimiter",
+      "notes": "Delimiter: left single quotation mark; cited forms."
+    },
+    {
+      "cp": 8217,
+      "cp_hex": "U+2019",
+      "category": "delimiter",
+      "notes": "Delimiter: right single quotation mark; may normalize to U+02BC for IPA."
+    },
+    {
+      "cp": 8220,
+      "cp_hex": "U+201C",
+      "category": "delimiter",
+      "notes": "Delimiter: left double quotation mark."
+    },
+    {
+      "cp": 8221,
+      "cp_hex": "U+201D",
+      "category": "delimiter",
+      "notes": "Delimiter: right double quotation mark."
+    },
+    {
+      "cp": 8230,
+      "cp_hex": "U+2026",
+      "category": "delimiter",
+      "notes": "Delimiter: horizontal ellipsis; truncation or pause in commentary."
+    },
+    {
+      "cp": 8255,
+      "cp_hex": "U+203F",
+      "category": "other"
+    },
+    {
+      "cp": 8304,
+      "cp_hex": "U+2070",
+      "category": "other"
+    },
+    {
+      "cp": 8305,
+      "cp_hex": "U+2071",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8308,
+      "cp_hex": "U+2074",
+      "category": "other"
+    },
+    {
+      "cp": 8309,
+      "cp_hex": "U+2075",
+      "category": "other"
+    },
+    {
+      "cp": 8310,
+      "cp_hex": "U+2076",
+      "category": "other"
+    },
+    {
+      "cp": 8311,
+      "cp_hex": "U+2077",
+      "category": "other"
+    },
+    {
+      "cp": 8312,
+      "cp_hex": "U+2078",
+      "category": "other"
+    },
+    {
+      "cp": 8313,
+      "cp_hex": "U+2079",
+      "category": "other"
+    },
+    {
+      "cp": 8314,
+      "cp_hex": "U+207A",
+      "category": "other"
+    },
+    {
+      "cp": 8315,
+      "cp_hex": "U+207B",
+      "category": "other"
+    },
+    {
+      "cp": 8316,
+      "cp_hex": "U+207C",
+      "category": "other"
+    },
+    {
+      "cp": 8317,
+      "cp_hex": "U+207D",
+      "category": "other"
+    },
+    {
+      "cp": 8318,
+      "cp_hex": "U+207E",
+      "category": "other"
+    },
+    {
+      "cp": 8319,
+      "cp_hex": "U+207F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8320,
+      "cp_hex": "U+2080",
+      "category": "other"
+    },
+    {
+      "cp": 8321,
+      "cp_hex": "U+2081",
+      "category": "other"
+    },
+    {
+      "cp": 8322,
+      "cp_hex": "U+2082",
+      "category": "other"
+    },
+    {
+      "cp": 8323,
+      "cp_hex": "U+2083",
+      "category": "other"
+    },
+    {
+      "cp": 8324,
+      "cp_hex": "U+2084",
+      "category": "other"
+    },
+    {
+      "cp": 8325,
+      "cp_hex": "U+2085",
+      "category": "other"
+    },
+    {
+      "cp": 8326,
+      "cp_hex": "U+2086",
+      "category": "other"
+    },
+    {
+      "cp": 8327,
+      "cp_hex": "U+2087",
+      "category": "other"
+    },
+    {
+      "cp": 8328,
+      "cp_hex": "U+2088",
+      "category": "other"
+    },
+    {
+      "cp": 8329,
+      "cp_hex": "U+2089",
+      "category": "other"
+    },
+    {
+      "cp": 8330,
+      "cp_hex": "U+208A",
+      "category": "other"
+    },
+    {
+      "cp": 8331,
+      "cp_hex": "U+208B",
+      "category": "other"
+    },
+    {
+      "cp": 8332,
+      "cp_hex": "U+208C",
+      "category": "other"
+    },
+    {
+      "cp": 8333,
+      "cp_hex": "U+208D",
+      "category": "other"
+    },
+    {
+      "cp": 8334,
+      "cp_hex": "U+208E",
+      "category": "other"
+    },
+    {
+      "cp": 8336,
+      "cp_hex": "U+2090",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8337,
+      "cp_hex": "U+2091",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8338,
+      "cp_hex": "U+2092",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8339,
+      "cp_hex": "U+2093",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8340,
+      "cp_hex": "U+2094",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8341,
+      "cp_hex": "U+2095",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8342,
+      "cp_hex": "U+2096",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8343,
+      "cp_hex": "U+2097",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8344,
+      "cp_hex": "U+2098",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8345,
+      "cp_hex": "U+2099",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8346,
+      "cp_hex": "U+209A",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8347,
+      "cp_hex": "U+209B",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8348,
+      "cp_hex": "U+209C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 8413,
+      "cp_hex": "U+20DD",
+      "category": "combining_mark",
+      "notes": "Combining enclosing circle; extIPA indeterminate segment (font-dependent)."
+    },
+    {
+      "cp": 8593,
+      "cp_hex": "U+2191",
+      "category": "other",
+      "notes": "extIPA egressive / ingressive airstream arrows (adjacent to letter or isolated)."
+    },
+    {
+      "cp": 8595,
+      "cp_hex": "U+2193",
+      "category": "other",
+      "notes": "extIPA egressive / ingressive airstream arrows (adjacent to letter or isolated)."
+    },
+    {
+      "cp": 8599,
+      "cp_hex": "U+2197",
+      "category": "other",
+      "notes": "IPA chart global rise / global fall (suprasegmentals; westonruter/ipa-chart index.html)."
+    },
+    {
+      "cp": 8600,
+      "cp_hex": "U+2198",
+      "category": "other",
+      "notes": "IPA chart global rise / global fall (suprasegmentals; westonruter/ipa-chart index.html)."
+    },
+    {
+      "cp": 9398,
+      "cp_hex": "U+24B6",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9399,
+      "cp_hex": "U+24B7",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9400,
+      "cp_hex": "U+24B8",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9401,
+      "cp_hex": "U+24B9",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9402,
+      "cp_hex": "U+24BA",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9403,
+      "cp_hex": "U+24BB",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9404,
+      "cp_hex": "U+24BC",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9405,
+      "cp_hex": "U+24BD",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9406,
+      "cp_hex": "U+24BE",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9407,
+      "cp_hex": "U+24BF",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9408,
+      "cp_hex": "U+24C0",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9409,
+      "cp_hex": "U+24C1",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9410,
+      "cp_hex": "U+24C2",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9411,
+      "cp_hex": "U+24C3",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9412,
+      "cp_hex": "U+24C4",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9413,
+      "cp_hex": "U+24C5",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9414,
+      "cp_hex": "U+24C6",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9415,
+      "cp_hex": "U+24C7",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9416,
+      "cp_hex": "U+24C8",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9417,
+      "cp_hex": "U+24C9",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9418,
+      "cp_hex": "U+24CA",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9419,
+      "cp_hex": "U+24CB",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9420,
+      "cp_hex": "U+24CC",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9421,
+      "cp_hex": "U+24CD",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9422,
+      "cp_hex": "U+24CE",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9423,
+      "cp_hex": "U+24CF",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9424,
+      "cp_hex": "U+24D0",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9425,
+      "cp_hex": "U+24D1",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9426,
+      "cp_hex": "U+24D2",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9427,
+      "cp_hex": "U+24D3",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9428,
+      "cp_hex": "U+24D4",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9429,
+      "cp_hex": "U+24D5",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9430,
+      "cp_hex": "U+24D6",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9431,
+      "cp_hex": "U+24D7",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9432,
+      "cp_hex": "U+24D8",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9433,
+      "cp_hex": "U+24D9",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9434,
+      "cp_hex": "U+24DA",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9435,
+      "cp_hex": "U+24DB",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9436,
+      "cp_hex": "U+24DC",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9437,
+      "cp_hex": "U+24DD",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9438,
+      "cp_hex": "U+24DE",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9439,
+      "cp_hex": "U+24DF",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9440,
+      "cp_hex": "U+24E0",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9441,
+      "cp_hex": "U+24E1",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9442,
+      "cp_hex": "U+24E2",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9443,
+      "cp_hex": "U+24E3",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9444,
+      "cp_hex": "U+24E4",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9445,
+      "cp_hex": "U+24E5",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9446,
+      "cp_hex": "U+24E6",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9447,
+      "cp_hex": "U+24E7",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9448,
+      "cp_hex": "U+24E8",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 9449,
+      "cp_hex": "U+24E9",
+      "category": "other",
+      "notes": "Enclosed alphanumerics; extIPA indeterminate-segment wildcards (see ICPLA / extIPA chart)."
+    },
+    {
+      "cp": 10216,
+      "cp_hex": "U+27E8",
+      "category": "delimiter",
+      "notes": "Delimiter: mathematical left angle bracket; grapheme notation ⟨ ⟩."
+    },
+    {
+      "cp": 10217,
+      "cp_hex": "U+27E9",
+      "category": "delimiter",
+      "notes": "Delimiter: mathematical right angle bracket."
+    },
+    {
+      "cp": 10631,
+      "cp_hex": "U+2987",
+      "category": "other"
+    },
+    {
+      "cp": 10632,
+      "cp_hex": "U+2988",
+      "category": "other"
+    },
+    {
+      "cp": 11377,
+      "cp_hex": "U+2C71",
+      "category": "letter"
+    },
+    {
+      "cp": 11816,
+      "cp_hex": "U+2E28",
+      "category": "other"
+    },
+    {
+      "cp": 11817,
+      "cp_hex": "U+2E29",
+      "category": "other"
+    },
+    {
+      "cp": 42752,
+      "cp_hex": "U+A700",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42753,
+      "cp_hex": "U+A701",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42754,
+      "cp_hex": "U+A702",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42755,
+      "cp_hex": "U+A703",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42756,
+      "cp_hex": "U+A704",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42757,
+      "cp_hex": "U+A705",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42758,
+      "cp_hex": "U+A706",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42759,
+      "cp_hex": "U+A707",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42760,
+      "cp_hex": "U+A708",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42761,
+      "cp_hex": "U+A709",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42762,
+      "cp_hex": "U+A70A",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42763,
+      "cp_hex": "U+A70B",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42764,
+      "cp_hex": "U+A70C",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42765,
+      "cp_hex": "U+A70D",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42766,
+      "cp_hex": "U+A70E",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42767,
+      "cp_hex": "U+A70F",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42768,
+      "cp_hex": "U+A710",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42769,
+      "cp_hex": "U+A711",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42770,
+      "cp_hex": "U+A712",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42771,
+      "cp_hex": "U+A713",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42772,
+      "cp_hex": "U+A714",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42773,
+      "cp_hex": "U+A715",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42774,
+      "cp_hex": "U+A716",
+      "category": "diacritic_spacing"
+    },
+    {
+      "cp": 42775,
+      "cp_hex": "U+A717",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42776,
+      "cp_hex": "U+A718",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42777,
+      "cp_hex": "U+A719",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42778,
+      "cp_hex": "U+A71A",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42779,
+      "cp_hex": "U+A71B",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42780,
+      "cp_hex": "U+A71C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42781,
+      "cp_hex": "U+A71D",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42782,
+      "cp_hex": "U+A71E",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42783,
+      "cp_hex": "U+A71F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 42891,
+      "cp_hex": "U+A78B",
+      "category": "letter"
+    },
+    {
+      "cp": 42892,
+      "cp_hex": "U+A78C",
+      "category": "letter"
+    },
+    {
+      "cp": 42893,
+      "cp_hex": "U+A78D",
+      "category": "letter"
+    },
+    {
+      "cp": 42894,
+      "cp_hex": "U+A78E",
+      "category": "letter"
+    },
+    {
+      "cp": 42895,
+      "cp_hex": "U+A78F",
+      "category": "letter"
+    },
+    {
+      "cp": 42926,
+      "cp_hex": "U+A7AE",
+      "category": "letter"
+    },
+    {
+      "cp": 42927,
+      "cp_hex": "U+A7AF",
+      "category": "letter"
+    },
+    {
+      "cp": 42928,
+      "cp_hex": "U+A7B0",
+      "category": "letter"
+    },
+    {
+      "cp": 67456,
+      "cp_hex": "U+10780",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67457,
+      "cp_hex": "U+10781",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67458,
+      "cp_hex": "U+10782",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67459,
+      "cp_hex": "U+10783",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67460,
+      "cp_hex": "U+10784",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67461,
+      "cp_hex": "U+10785",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67463,
+      "cp_hex": "U+10787",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67464,
+      "cp_hex": "U+10788",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67465,
+      "cp_hex": "U+10789",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67466,
+      "cp_hex": "U+1078A",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67467,
+      "cp_hex": "U+1078B",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67468,
+      "cp_hex": "U+1078C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67469,
+      "cp_hex": "U+1078D",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67470,
+      "cp_hex": "U+1078E",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67471,
+      "cp_hex": "U+1078F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67472,
+      "cp_hex": "U+10790",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67473,
+      "cp_hex": "U+10791",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67474,
+      "cp_hex": "U+10792",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67475,
+      "cp_hex": "U+10793",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67476,
+      "cp_hex": "U+10794",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67477,
+      "cp_hex": "U+10795",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67478,
+      "cp_hex": "U+10796",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67479,
+      "cp_hex": "U+10797",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67480,
+      "cp_hex": "U+10798",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67481,
+      "cp_hex": "U+10799",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67482,
+      "cp_hex": "U+1079A",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67483,
+      "cp_hex": "U+1079B",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67484,
+      "cp_hex": "U+1079C",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67485,
+      "cp_hex": "U+1079D",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67486,
+      "cp_hex": "U+1079E",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67487,
+      "cp_hex": "U+1079F",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67488,
+      "cp_hex": "U+107A0",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67489,
+      "cp_hex": "U+107A1",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67490,
+      "cp_hex": "U+107A2",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67491,
+      "cp_hex": "U+107A3",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67492,
+      "cp_hex": "U+107A4",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67493,
+      "cp_hex": "U+107A5",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67494,
+      "cp_hex": "U+107A6",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67495,
+      "cp_hex": "U+107A7",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67496,
+      "cp_hex": "U+107A8",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67497,
+      "cp_hex": "U+107A9",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67498,
+      "cp_hex": "U+107AA",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67499,
+      "cp_hex": "U+107AB",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67500,
+      "cp_hex": "U+107AC",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67501,
+      "cp_hex": "U+107AD",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67502,
+      "cp_hex": "U+107AE",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67503,
+      "cp_hex": "U+107AF",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67504,
+      "cp_hex": "U+107B0",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67506,
+      "cp_hex": "U+107B2",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67507,
+      "cp_hex": "U+107B3",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67508,
+      "cp_hex": "U+107B4",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67509,
+      "cp_hex": "U+107B5",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67510,
+      "cp_hex": "U+107B6",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67511,
+      "cp_hex": "U+107B7",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67512,
+      "cp_hex": "U+107B8",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67513,
+      "cp_hex": "U+107B9",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 67514,
+      "cp_hex": "U+107BA",
+      "category": "modifier_letter"
+    },
+    {
+      "cp": 119183,
+      "cp_hex": "U+1D18F",
+      "category": "suprasegmental",
+      "notes": "Musical dynamics symbols used in extIPA / VoQS-style prosodic markup."
+    },
+    {
+      "cp": 119185,
+      "cp_hex": "U+1D191",
+      "category": "suprasegmental",
+      "notes": "Musical dynamics symbols used in extIPA / VoQS-style prosodic markup."
+    },
+    {
+      "cp": 119186,
+      "cp_hex": "U+1D192",
+      "category": "suprasegmental",
+      "notes": "Musical dynamics symbols used in extIPA / VoQS-style prosodic markup."
+    },
+    {
+      "cp": 119187,
+      "cp_hex": "U+1D193",
+      "category": "suprasegmental",
+      "notes": "Musical dynamics symbols used in extIPA / VoQS-style prosodic markup."
+    },
+    {
+      "cp": 122624,
+      "cp_hex": "U+1DF00",
+      "category": "letter"
+    },
+    {
+      "cp": 122625,
+      "cp_hex": "U+1DF01",
+      "category": "letter"
+    },
+    {
+      "cp": 122626,
+      "cp_hex": "U+1DF02",
+      "category": "letter"
+    },
+    {
+      "cp": 122627,
+      "cp_hex": "U+1DF03",
+      "category": "letter"
+    },
+    {
+      "cp": 122628,
+      "cp_hex": "U+1DF04",
+      "category": "letter"
+    },
+    {
+      "cp": 122629,
+      "cp_hex": "U+1DF05",
+      "category": "letter"
+    },
+    {
+      "cp": 122630,
+      "cp_hex": "U+1DF06",
+      "category": "letter"
+    },
+    {
+      "cp": 122631,
+      "cp_hex": "U+1DF07",
+      "category": "letter"
+    },
+    {
+      "cp": 122632,
+      "cp_hex": "U+1DF08",
+      "category": "letter"
+    },
+    {
+      "cp": 122633,
+      "cp_hex": "U+1DF09",
+      "category": "letter"
+    },
+    {
+      "cp": 122634,
+      "cp_hex": "U+1DF0A",
+      "category": "letter"
+    },
+    {
+      "cp": 122635,
+      "cp_hex": "U+1DF0B",
+      "category": "letter"
+    },
+    {
+      "cp": 122636,
+      "cp_hex": "U+1DF0C",
+      "category": "letter"
+    },
+    {
+      "cp": 122637,
+      "cp_hex": "U+1DF0D",
+      "category": "letter"
+    },
+    {
+      "cp": 122638,
+      "cp_hex": "U+1DF0E",
+      "category": "letter"
+    },
+    {
+      "cp": 122639,
+      "cp_hex": "U+1DF0F",
+      "category": "letter"
+    },
+    {
+      "cp": 122640,
+      "cp_hex": "U+1DF10",
+      "category": "letter"
+    },
+    {
+      "cp": 122641,
+      "cp_hex": "U+1DF11",
+      "category": "letter"
+    },
+    {
+      "cp": 122642,
+      "cp_hex": "U+1DF12",
+      "category": "letter"
+    },
+    {
+      "cp": 122643,
+      "cp_hex": "U+1DF13",
+      "category": "letter"
+    },
+    {
+      "cp": 122644,
+      "cp_hex": "U+1DF14",
+      "category": "letter"
+    },
+    {
+      "cp": 122645,
+      "cp_hex": "U+1DF15",
+      "category": "letter"
+    },
+    {
+      "cp": 122646,
+      "cp_hex": "U+1DF16",
+      "category": "letter"
+    },
+    {
+      "cp": 122647,
+      "cp_hex": "U+1DF17",
+      "category": "letter"
+    },
+    {
+      "cp": 122648,
+      "cp_hex": "U+1DF18",
+      "category": "letter"
+    },
+    {
+      "cp": 122649,
+      "cp_hex": "U+1DF19",
+      "category": "letter"
+    },
+    {
+      "cp": 122650,
+      "cp_hex": "U+1DF1A",
+      "category": "letter"
+    },
+    {
+      "cp": 122651,
+      "cp_hex": "U+1DF1B",
+      "category": "letter"
+    },
+    {
+      "cp": 122652,
+      "cp_hex": "U+1DF1C",
+      "category": "letter"
+    },
+    {
+      "cp": 122653,
+      "cp_hex": "U+1DF1D",
+      "category": "letter"
+    },
+    {
+      "cp": 122654,
+      "cp_hex": "U+1DF1E",
+      "category": "letter"
+    },
+    {
+      "cp": 122661,
+      "cp_hex": "U+1DF25",
+      "category": "letter"
+    },
+    {
+      "cp": 122662,
+      "cp_hex": "U+1DF26",
+      "category": "letter"
+    },
+    {
+      "cp": 122663,
+      "cp_hex": "U+1DF27",
+      "category": "letter"
+    },
+    {
+      "cp": 122664,
+      "cp_hex": "U+1DF28",
+      "category": "letter"
+    },
+    {
+      "cp": 122665,
+      "cp_hex": "U+1DF29",
+      "category": "letter"
+    },
+    {
+      "cp": 122666,
+      "cp_hex": "U+1DF2A",
+      "category": "letter"
+    }
+  ]
+}

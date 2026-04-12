@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/inventory.code_points.schema.json",
+  "title": "IPA inventory code point entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["cp", "cp_hex", "category"],
+  "properties": {
+    "cp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1114111,
+      "not": {
+        "anyOf": [{ "minimum": 55296, "maximum": 57343 }]
+      }
+    },
+    "cp_hex": {
+      "type": "string",
+      "pattern": "^U\\+[0-9A-F]{4,6}$"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "letter",
+        "modifier_letter",
+        "combining_mark",
+        "suprasegmental",
+        "tone",
+        "delimiter",
+        "connector",
+        "diacritic_spacing",
+        "other"
+      ]
+    },
+    "aliases": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "notes": { "type": "string" },
+    "deprecated": { "type": "boolean" }
+  }
+}

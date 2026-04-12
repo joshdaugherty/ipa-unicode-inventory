@@ -1,0 +1,22 @@
+{
+  "name": "ipa-unicode-inventory",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Versioned machine-readable IPA-relevant Unicode inventory and build artifacts",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "validate": "node scripts/validate-schemas.mjs",
+    "test": "node scripts/validate-schemas.mjs && node scripts/build.js && node tests/run.mjs && node scripts/verify-manifest.mjs",
+    "compare:mediawiki": "node scripts/compare-mediawiki-validator.mjs",
+    "compare:ipa-chart": "node scripts/compare-ipa-chart-westonruter.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

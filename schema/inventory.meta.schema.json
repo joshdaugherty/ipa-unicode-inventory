@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/inventory.meta.schema.json",
+  "title": "IPA inventory meta",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_version",
+    "unicode_version_min",
+    "policy_id",
+    "policy_title",
+    "policy_description"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[\\w.]+)?$"
+    },
+    "dataset_version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[\\w.]+)?$"
+    },
+    "unicode_version_min": {
+      "type": "string",
+      "description": "Minimum Unicode version reviewed against, e.g. 15.1.0"
+    },
+    "policy_id": { "type": "string", "minLength": 1 },
+    "policy_title": { "type": "string", "minLength": 1 },
+    "policy_description": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

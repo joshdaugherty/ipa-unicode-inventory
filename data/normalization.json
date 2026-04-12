@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/normalization.wrapper.schema.json",
+  "meta": {
+    "schema_version": "1.0.0",
+    "dataset_version": "1.0.0",
+    "unicode_version_min": "15.1.0",
+    "policy_id": "ipa-extipa-corpus-inclusive",
+    "policy_title": "IPA and extIPA with modifiers, transcription delimiters, and corpus tier punctuation",
+    "policy_description": "Aligned with data/inventory.json (IPA + extIPA + corpus delimiters). Typographic single quotes may normalize to MODIFIER LETTER APOSTROPHE (U+02BC) for IPA glottal/ejective style. Deliberately excludes ambiguous ASCII shortcuts (e.g. ASCII apostrophe to primary stress, comma to secondary stress, colon to length) because those characters are valid corpus delimiters or orthography in this policy."
+  },
+  "rules": [
+    {
+      "id": "normalize-left-single-quotation-to-modifier-apostrophe",
+      "from": "\u2018",
+      "to": "\u02BC",
+      "notes": "Maps Unicode LEFT SINGLE QUOTATION MARK to MODIFIER LETTER APOSTROPHE (IPA-style), symmetric with U+2019."
+    },
+    {
+      "id": "normalize-right-single-quotation-to-modifier-apostrophe",
+      "from": "\u2019",
+      "to": "\u02BC",
+      "notes": "Maps Unicode RIGHT SINGLE QUOTATION MARK to MODIFIER LETTER APOSTROPHE (IPA-style)."
+    }
+  ]
+}

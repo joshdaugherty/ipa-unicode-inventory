@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/normalization.wrapper.schema.json",
+  "title": "IPA Unicode normalization rules (full document)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["meta", "rules"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": { "$ref": "inventory.meta.schema.json" },
+    "rules": {
+      "type": "array",
+      "items": { "$ref": "normalization.rules.schema.json" }
+    }
+  }
+}

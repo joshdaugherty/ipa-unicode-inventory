@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/inventory.wrapper.schema.json",
+  "title": "IPA Unicode inventory (full document)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["meta", "code_points"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": { "$ref": "inventory.meta.schema.json" },
+    "code_points": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "inventory.code_points.schema.json" }
+    }
+  }
+}

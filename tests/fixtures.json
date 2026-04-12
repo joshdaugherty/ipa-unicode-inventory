@@ -1,0 +1,44 @@
+[
+  {
+    "description": "ASCII and IPA letters",
+    "string": "t\u0283",
+    "normalize": false,
+    "allowed": true
+  },
+  {
+    "description": "ASCII word",
+    "string": "hello",
+    "normalize": false,
+    "allowed": true
+  },
+  {
+    "description": "RIGHT SINGLE QUOTATION MARK allowed in-band as delimiter (corpus policy); normalization still maps it to U+02BC",
+    "string": "t\u2019",
+    "normalize": false,
+    "allowed": true
+  },
+  {
+    "description": "RIGHT SINGLE QUOTATION MARK after normalization to U+02BC",
+    "string": "t\u2019",
+    "normalize": true,
+    "allowed": true
+  },
+  {
+    "description": "LEFT SINGLE QUOTATION MARK normalizes to U+02BC",
+    "string": "t\u2018",
+    "normalize": true,
+    "allowed": true
+  },
+  {
+    "description": "Greek pi not in inventory",
+    "string": "\u03C0",
+    "normalize": false,
+    "allowed": false
+  },
+  {
+    "description": "Euro sign not in inventory",
+    "string": "\u20AC",
+    "normalize": false,
+    "allowed": false
+  }
+]

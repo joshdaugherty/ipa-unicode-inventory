@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/normalization.rules.schema.json",
+  "title": "IPA inventory normalization rule entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["from", "to", "id"],
+  "properties": {
+    "from": { "type": "string", "minLength": 1 },
+    "to": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "notes": { "type": "string" }
+  }
+}
