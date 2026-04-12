@@ -8,6 +8,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { renderMetaConstantsPhp } from "./meta-constants-php.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
@@ -91,6 +92,9 @@ async function main() {
   await writeFile(join(outDir, "pcre-class-fragment.txt"), pcreFragment, "utf8");
   await mkdir(join(outDir, "php"), { recursive: true });
   await writeFile(join(outDir, "php", "AllowedCodePoints.php"), phpBody, "utf8");
+
+  const metaConstantsBody = renderMetaConstantsPhp(inv.meta);
+  await writeFile(join(root, "src", "MetaConstants.php"), metaConstantsBody, "utf8");
 
   const pkgPath = join(root, "package.json");
   let generatorVersion = "0.0.0";

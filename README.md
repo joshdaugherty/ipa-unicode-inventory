@@ -25,7 +25,7 @@ The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plu
 
 1. **JSON:** Read `data/inventory.json` or the minified `build/output/inventory.min.json` (from a release asset). Build a `Set` of `cp` integers in memory.
 2. **PCRE (UTF-8 + `/u`):** Insert `build/output/pcre-class-fragment.txt` inside a character class, e.g. `/^[...fragment...]+$/u` — the fragment uses `\x{H...}` escapes only (no surrounding `[` `]`).
-3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.2.0`**) so the package resolves.
+3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, and **`SCHEMA_VERSION`** from `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.2.0`**) so the package resolves.
 4. **PHP (generated array):** After `npm run build`, include `build/output/php/AllowedCodePoints.php` for a `0xNNN => true` map (generated only; not committed).
 5. **Integrity:** Check `build/output/manifest.json` SHA-256 digests after downloading release assets.
 
@@ -65,7 +65,7 @@ Start from **`TranscriptionValidator::fromDisk()`** if you want strip + normaliz
 ```bash
 npm ci
 npm test        # validate schemas, meta alignment, build, fixture tests, manifest digests
-npm run build   # write build/output/ only
+npm run build   # write build/output/ and src/MetaConstants.php from inventory meta
 npm run compare:mediawiki   # optional; needs network
 npm run compare:ipa-chart   # optional; needs network
 ```
@@ -105,12 +105,12 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
 ### Validation and normalization (PHP)
 
 - **Done (in package).** **`TranscriptionValidator`** — `fromDisk()` / constructor; delimiter modes `STRIP_DELIMITERS_NONE`, `STRIP_DELIMITERS_INVENTORY`, `STRIP_DELIMITERS_CUSTOM`; `normalization.json` longest-`from` first; optional Wikimedia ASCII (`'`→ˈ, `:`→ː, `,`→ˌ); `isValid()` per scalar. Does not implement Google-TTS normalization or Wikimedia `stripRegex`.
-- **`isScalarAllowed(int $cp): bool`** on a small **`Inventory`** (or similar) facade over the cached map — clearer than raw `isset($map[$cp])`.
+- **Done.** **`Inventory`** / **`isScalarAllowed(int $cp)`** — cached allowlist facade (see Phase A).
 - **Normalization / policy profiles** — e.g. `corpus_inclusive` vs `phonetic_strict` as **separate bundled inventories** (or one `meta` flag plus multiple JSON assets) so consumers do not fork data to drop `@` or tier punctuation.
 
 ### Discoverability and contracts
 
-- **PHP constants** generated at build time: `DATASET_VERSION`, `POLICY_ID`, `SCHEMA_VERSION` from `meta` for logging and cache keys without parsing JSON first.
+- **Done.** **`MetaConstants`** — `DATASET_VERSION`, `POLICY_ID`, `SCHEMA_VERSION` from `meta` (see Consumer quick start).
 - **`composer.json` `extra`** — e.g. default policy path, so tooling can resolve canonical files without hardcoding vendor paths.
 
 ### Quality and trust
@@ -137,7 +137,7 @@ High-leverage directions beyond shipping JSON, `InventoryLoader`, and path helpe
    - **Done.** **README** — scalar vs grapheme-cluster section and Wikimedia migration table under Consumer quick start.
 
 2. **Phase B** — Contracts and optional strict loading.
-   - **Build-time PHP constants** (`DATASET_VERSION`, `POLICY_ID`, `SCHEMA_VERSION`) generated from `meta`.
+   - **Done.** **Build-time PHP constants** — `MetaConstants` in `src/MetaConstants.php` via `npm run build` / `scripts/meta-constants-php.mjs`.
    - **`composer.json` `extra`** for default asset paths (tooling-friendly).
    - **Optional strict load**: validate bundled JSON against schema in dev or behind a flag (e.g. optional **`justinrainbow/json-schema`**), documented in README.
 
