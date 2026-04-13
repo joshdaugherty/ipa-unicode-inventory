@@ -95,7 +95,7 @@ final class TranscriptionValidator
             );
         }
         if ($segmentationMode !== self::SEGMENT_SCALARS && $segmentationMode !== self::SEGMENT_GRAPHEME_CLUSTER) {
-            throw new \InvalidArgumentException('Invalid segmentation mode: ' . $segmentationMode);
+            throw new \InvalidArgumentException("Invalid segmentation mode: {$segmentationMode}");
         }
         if ($segmentationMode === self::SEGMENT_GRAPHEME_CLUSTER && !self::graphemeSegmentationAvailable()) {
             throw new \InvalidArgumentException(
@@ -141,7 +141,7 @@ final class TranscriptionValidator
         bool $validateSchema = false,
     ): self {
         if ($segmentationMode !== self::SEGMENT_SCALARS && $segmentationMode !== self::SEGMENT_GRAPHEME_CLUSTER) {
-            throw new \InvalidArgumentException('Invalid segmentation mode: ' . $segmentationMode);
+            throw new \InvalidArgumentException("Invalid segmentation mode: {$segmentationMode}");
         }
         if ($segmentationMode === self::SEGMENT_GRAPHEME_CLUSTER && !self::graphemeSegmentationAvailable()) {
             throw new \InvalidArgumentException(

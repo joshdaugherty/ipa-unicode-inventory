@@ -94,7 +94,7 @@ final class BundleSchemaValidator
         foreach ($validator->getErrors() as $error) {
             $pointer = $error['pointer'] ?? '';
             $message = $error['message'] ?? '';
-            $lines[] = ($pointer !== '' ? $pointer . ': ' : '') . $message;
+            $lines[] = $pointer !== '' ? "{$pointer}: {$message}" : $message;
         }
 
         throw new \RuntimeException(

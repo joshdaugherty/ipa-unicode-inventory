@@ -130,11 +130,11 @@ final class InventoryLoader
     private static function decodeJsonFile(string $path): array
     {
         if (!\is_readable($path)) {
-            throw new \RuntimeException('File not readable: ' . $path);
+            throw new \RuntimeException("File not readable: {$path}");
         }
         $json = \file_get_contents($path);
         if ($json === false) {
-            throw new \RuntimeException('Could not read: ' . $path);
+            throw new \RuntimeException("Could not read: {$path}");
         }
 
         return \json_decode($json, true, 512, JSON_THROW_ON_ERROR);

@@ -32,9 +32,9 @@ final class Resources
         $base = self::basePath() . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
 
         return match ($profileId) {
-            PolicyProfile::CORPUS_INCLUSIVE => $base . 'inventory.json',
-            PolicyProfile::PHONETIC_STRICT => $base . 'inventory.phonetic-strict.json',
-            default => throw new \InvalidArgumentException('Unknown policy profile: ' . $profileId),
+            PolicyProfile::CORPUS_INCLUSIVE => "{$base}inventory.json",
+            PolicyProfile::PHONETIC_STRICT => "{$base}inventory.phonetic-strict.json",
+            default => throw new \InvalidArgumentException("Unknown policy profile: {$profileId}"),
         };
     }
 
