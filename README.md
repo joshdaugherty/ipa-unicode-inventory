@@ -35,7 +35,7 @@ The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plu
 
 1. **JSON:** Read `data/inventory.json` (or **`inventory.phonetic-strict.json`**) or the minified `build/output/inventory.min.json` / **`inventory.phonetic-strict.min.json`**. Build a `Set` of `cp` integers in memory.
 2. **PCRE (UTF-8 + `/u`):** Insert `build/output/pcre-class-fragment.txt` or **`pcre-class-fragment.phonetic-strict.txt`** inside a character class, e.g. `/^[...fragment...]+$/u` — the fragment uses `\x{H...}` escapes only (no surrounding `[` `]`).
-3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists **`inventory_json`**, **`normalization_json`**, **`schema_directory`**, and **`profiles`** (`corpus_inclusive`, `phonetic_strict`) relative to the package root. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, **`PROFILE_ID`**, and **`SCHEMA_VERSION`** from the default `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), optional **Google/TTS** normalization (parentheses removal, modifier-letter → ASCII map, then strip **U+0300–U+036F**; requires **`wikimediaLegacyAscii`**), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. For **phonetic-only** validation without stripping, point loaders at **`Resources::inventoryJsonPathForProfile(PolicyProfile::PHONETIC_STRICT)`**. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.4.0`**) so the package resolves.
+3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists **`inventory_json`**, **`normalization_json`**, **`schema_directory`**, and **`profiles`** (`corpus_inclusive`, `phonetic_strict`) relative to the package root. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, **`PROFILE_ID`**, and **`SCHEMA_VERSION`** from the default `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (**none**, inventory **`delimiter`** rows, **custom** code points, or **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** for Wikimedia **`$stripRegex`** — only `/` `[` `]`), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), optional **Google/TTS** normalization (parentheses removal, modifier-letter → ASCII map, then strip **U+0300–U+036F**; requires **`wikimediaLegacyAscii`**), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping runs *before* legacy ASCII; **`'`** is an inventory **`delimiter`**, so **`STRIP_DELIMITERS_INVENTORY`** removes it before **`'`→ˈ** — use **`STRIP_DELIMITERS_NONE`**, **`CUSTOM`**, or **`WIKIMEDIA_SLASH_BRACKETS`** if you need that mapping. For **phonetic-only** validation without corpus delimiters, use **`Resources::inventoryJsonPathForProfile(PolicyProfile::PHONETIC_STRICT)`**. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.4.0`**) so the package resolves.
 4. **PHP (generated array):** After `npm run build`, include `build/output/php/AllowedCodePoints.php` or **`AllowedCodePoints.phonetic-strict.php`** for a `0xNNN => true` map (generated only; not committed).
 5. **Integrity:** Check `build/output/manifest.json` SHA-256 digests after downloading release assets.
 
@@ -87,14 +87,14 @@ Upstream library: [`mediawiki-libs-IPAValidator`](https://github.com/wikimedia/m
 |--------|--------------------------------------|--------------|
 | **Primary check** | `preg_match` on normalized string vs `$ipaRegex` | Scalar allowlist from `data/inventory.json` (or generated PCRE class fragment for whole-string regex) |
 | **Normalization** | Optional: ASCII `'`→ˈ, `:`→ː, `,`→ˌ (`$normalize`) | `normalization.json` (e.g. U+2018/U+2019→U+02BC, longest-`from` first) **plus** optional same ASCII map in `TranscriptionValidator` (`wikimediaLegacyAscii`) |
-| **Delimiter handling** | Optional `stripRegex` when `$strip` | Optional strip of inventory **`delimiter`** rows, custom code-point set, or none (`TranscriptionValidator`) |
+| **Delimiter handling** | Optional `stripRegex` when `$strip` | Inventory **`delimiter`** rows, custom code points, none, or **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** (only `/` `[` `]` — Wikimedia **`$stripRegex`**) |
 | **Pipeline order** | Strip → normalize (normalize may strip again) | Strip delimiters → `normalization.json` → optional Wikimedia ASCII → optional Google/TTS → scalar checks |
 | **Google / TTS mode** | `$google` (extra replacements + diacritic stripping) | **`TranscriptionValidator::fromDisk(..., $wikimediaLegacyAscii: true, $googleTtsNormalization: true)`** — same char map + **U+0300–U+036F** removal as upstream; **requires** legacy ASCII enabled |
 | **`@` (U+0040)** | Not in `$ipaRegex` (fails validation if present) | In inventory as **`delimiter`** (allowed in-band unless you strip delimiters) |
 | **Ligatures / digraph letters** | Allowed only if in `$ipaRegex` | Allowed if listed (e.g. **ʧ** U+02A7); no special “decompose ligature” step |
 | **Parity tooling** | — | `npm run compare:mediawiki` diffs **regex class** vs inventory (not full PHP behavior) |
 
-Start from **`TranscriptionValidator::fromDisk()`** if you want strip + normalize + scalar checks in one place; mirror Wikimedia by enabling **`wikimediaLegacyAscii`** and choosing delimiter stripping to approximate `$strip` / `$normalize` (note: U+0027 is an inventory delimiter, so **`STRIP_DELIMITERS_NONE`** is required if you rely on **`'`→ˈ**). For **`$google`**, pass **`googleTtsNormalization: true`** after **`wikimediaLegacyAscii: true`**; enabling Google **strips all combining marks in U+0300–U+036F**, so narrow IPA with separate combining diacritics is only valid if every resulting scalar (after stripping) remains in the inventory—often you still have base letters allowed.
+Start from **`TranscriptionValidator::fromDisk()`** if you want strip + normalize + scalar checks in one place. For Wikimedia **`$strip`** parity on **`/` `[` `]`** only, use **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** (equivalent to **`preg_replace('/[\/\[\]]/u', '', $s)`** on well-formed UTF-8); that keeps ASCII **`'`** so you can enable **`wikimediaLegacyAscii`** for **`'`→ˈ** without **`STRIP_DELIMITERS_NONE`**. **`STRIP_DELIMITERS_INVENTORY`** removes every inventory **`delimiter`**, including **`'`**, so it does **not** match upstream **`$stripRegex`**. For **`$google`**, pass **`googleTtsNormalization: true`** after **`wikimediaLegacyAscii: true`**; Google **strips combining marks in U+0300–U+036F**, so validate policy implications for narrow IPA.
 
 ## Development
 
@@ -141,41 +141,34 @@ This fetches `index.html` and `accessiblechart.html` from the default branch. Us
 ### Feature request: Wikimedia `stripRegex`, Google/TTS mode, grapheme-cluster validation
 
 **Package:** [joshdaugherty/ipa-unicode-inventory](https://github.com/joshdaugherty/ipa-unicode-inventory)  
-**Context:** **`TranscriptionValidator`** implements **Google/TTS** normalization (see §2 below). **Wikimedia `stripRegex`** and **grapheme-cluster** segmentation remain **not** implemented; some downstream apps still duplicate delimiter stripping or `ext-intl` grapheme walks. A **`stripRegex` preset** and optional EGC mode would further align with [mediawiki-libs-IPAValidator](https://github.com/wikimedia/mediawiki-libs-IPAValidator) and UI frameworks.
+**Context:** **`TranscriptionValidator`** implements **Wikimedia `stripRegex` parity** (see §1) and **Google/TTS** (§2). **Grapheme-cluster** segmentation remains **not** implemented. Optional EGC mode would further align with UI / `ext-intl` copy-paste behavior.
 
 ---
 
 ### 1. Wikimedia `stripRegex` parity
 
+**Status:** **Implemented** — **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** and **`wikimediaSlashBracketStripScalarSet()`**.
+
 #### Problem
 
-[Wikimedia `Validator`](https://github.com/wikimedia/mediawiki-libs-IPAValidator/blob/main/src/Validator.php) removes **`/` ` [` `]`** via `$stripRegex` before matching `$ipaRegex`. Consumers that want **byte-for-byte** parity with that PHP class need that exact strip set and order, independent of inventory `category === delimiter`.
+[Wikimedia `Validator`](https://github.com/wikimedia/mediawiki-libs-IPAValidator/blob/main/src/Validator.php) removes **`/` `[` `]`** via `$stripRegex` before matching `$ipaRegex`. Consumers that want **byte-for-byte** parity with that strip step need that exact set, independent of inventory `category === delimiter`.
 
-Today the package offers:
+#### Shipped behavior
 
-- `STRIP_DELIMITERS_INVENTORY` (all rows tagged `delimiter`)
-- `STRIP_DELIMITERS_CUSTOM`
-- `STRIP_DELIMITERS_NONE`
-
-Custom mode can emulate `stripRegex`, but a **named preset** avoids every consumer hard-coding `U+002F`, `U+005B`, `U+005D`.
-
-#### Proposed behavior
-
-- Add a **fourth strip mode** (or a named factory option), e.g. `STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`, that removes **only** `/` `[` `]` in UTF-8, in one pass, **before** normalization (same order as Wikimedia `validate()` when `$strip` is true).
-- Document equivalence: “matches `preg_replace('/[\/\[\]]/u', '', $s)` on valid UTF-8.”
-- Optional: document interaction with **legacy ASCII** normalization (ASCII `U+0027` is not removed by this preset; only the three Wikimedia delimiter scalars are).
+- Fourth strip mode removes **only** U+002F, U+005B, U+005D **before** normalization (same order as Wikimedia **`validate()`** when `$strip` is true).
+- Documented equivalence to **`preg_replace('/[\/\[\]]/u', '', $s)`** on well-formed UTF-8; **`'`** is **not** removed (supports **`wikimediaLegacyAscii`** **`'`→ˈ** without **`STRIP_DELIMITERS_NONE`**).
 
 #### Acceptance criteria
 
-- [ ] Public API constant or documented preset equivalent to Wikimedia `$stripRegex`.
-- [ ] PHPUnit: input `"/[ˈtɛst]/"` → internal pipeline sees `ˈtɛst` (or documented equivalent).
-- [ ] README / migrating-from-Wikimedia: when to use this preset vs `STRIP_DELIMITERS_INVENTORY` vs custom.
+- [x] Public API constant equivalent to Wikimedia **`$stripRegex`**.
+- [x] PHPUnit: **`"/[ˈtɛst]/"`** validates with the preset; scalar-set strip matches **`preg_replace`** on sample strings.
+- [x] README **Migrating from Wikimedia** + Consumer quick start.
 
 ---
 
 ### 2. Google/TTS normalization mode
 
-**Status:** **Implemented** in `TranscriptionValidator` (`googleTtsNormalization` / `applyGoogleTtsNormalization()`). Remaining gaps vs Wikimedia are only around **`stripRegex`** and whole-string **`$ipaRegex`** matching (see migration table).
+**Status:** **Implemented** in `TranscriptionValidator` (`googleTtsNormalization` / `applyGoogleTtsNormalization()`). Remaining gaps vs Wikimedia are whole-string **`$ipaRegex`** matching and optional **grapheme** iteration (see migration table).
 
 #### Problem
 
@@ -228,7 +221,7 @@ Recommendation: ship **Option A** first: same allowlist as today, but **iteratio
 ### Cross-cutting notes
 
 - **Versioning:** These are additive if defaults preserve current behavior; bump **minor** `dataset_version` only if bundled JSON changes; **package semver** per your policy for new API surface.
-- **Downstream:** Consumers (e.g. Laravel validation rules) can rely on packaged Google/TTS; optional **`stripRegex`** preset (1) remains future work.
+- **Downstream:** Consumers (e.g. Laravel validation rules) can rely on packaged Wikimedia **`$stripRegex`** preset and Google/TTS; optional **grapheme** mode (3) remains future work.
 
 ---
 

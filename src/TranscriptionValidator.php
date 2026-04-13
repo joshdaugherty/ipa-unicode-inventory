@@ -17,12 +17,17 @@ namespace JoshDaugherty\IpaUnicodeInventory;
  * Applied after legacy ASCII maps: remove `(` `)`, map ⁿ→n, ʰ→h, ɫ→l, ˡ→l, ʲ→j, then strip combining marks
  * **U+0300–U+036F** (same character class as Wikimedia **`$diacriticsRegex`** in `Validator.php`).
  *
- * **Not implemented:** Wikimedia `stripRegex` preset, or grapheme-cluster segmentation.
+ * **Wikimedia `stripRegex` parity:** {@see STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS} removes only
+ * **U+002F** `/`, **U+005B** `[`, **U+005D** `]` before normalization — equivalent to Wikimedia
+ * `preg_replace('/[\/\[\]]/u', '', $s)` on well-formed UTF-8 (same three scalars as
+ * {@link https://github.com/wikimedia/mediawiki-libs-IPAValidator/blob/main/src/Validator.php `$stripRegex`}).
+ *
+ * **Not implemented:** grapheme-cluster segmentation.
  *
  * **Delimiter vs Wikimedia ASCII:** stripping runs first. ASCII apostrophe (**U+0027**) is a
  * **`delimiter`** in the default inventory, so with {@see STRIP_DELIMITERS_INVENTORY} it is removed
- * before **`'`→ˈ** can apply. Use {@see STRIP_DELIMITERS_NONE} or {@see STRIP_DELIMITERS_CUSTOM}
- * if you need that legacy mapping.
+ * before **`'`→ˈ** can apply. Use {@see STRIP_DELIMITERS_NONE}, {@see STRIP_DELIMITERS_CUSTOM}, or
+ * {@see STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS} if you need **`'`→ˈ** (Wikimedia preset keeps `'`).
  */
 final class TranscriptionValidator
 {
@@ -34,6 +39,11 @@ final class TranscriptionValidator
 
     /** Strip only the code points given to {@see fromDisk} as `$customDelimiterScalars`. */
     public const STRIP_DELIMITERS_CUSTOM = 2;
+
+    /**
+     * Strip only `/` `[` `]` (U+002F, U+005B, U+005D) — Wikimedia `Validator::$stripRegex` preset.
+     */
+    public const STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS = 3;
 
     private readonly Inventory $inventory;
 
@@ -80,7 +90,7 @@ final class TranscriptionValidator
      *
      * @param  string|null  $inventoryJsonPath  Path to `inventory.json`, or `null` for {@see Resources::inventoryJsonPath}
      * @param  string|null  $normalizationJsonPath  Path to `normalization.json`, or `null` for {@see Resources::normalizationJsonPath}
-     * @param  int  $delimiterStripMode  One of {@see STRIP_DELIMITERS_NONE}, {@see STRIP_DELIMITERS_INVENTORY}, {@see STRIP_DELIMITERS_CUSTOM}
+     * @param  int  $delimiterStripMode  One of {@see STRIP_DELIMITERS_NONE}, {@see STRIP_DELIMITERS_INVENTORY}, {@see STRIP_DELIMITERS_CUSTOM}, {@see STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS}
      * @param  list<int>|array<int, true>|null  $customDelimiterScalars  When mode is {@see STRIP_DELIMITERS_CUSTOM}: list of ints or `cp => true` map; ignored for other modes
      * @param  bool  $applyNormalizationJson  When `false`, skip loading `normalization.json` and use no dataset normalization rules
      * @param  bool  $wikimediaLegacyAscii  When `true`, apply Wikimedia-style ASCII stress/length replacements after dataset rules
@@ -108,6 +118,7 @@ final class TranscriptionValidator
             self::STRIP_DELIMITERS_NONE => [],
             self::STRIP_DELIMITERS_INVENTORY => InventoryLoader::delimiterScalarSet($inventoryJsonPath, $validateSchema),
             self::STRIP_DELIMITERS_CUSTOM => self::normalizeDelimiterScalarMap($customDelimiterScalars ?? []),
+            self::STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS => self::wikimediaSlashBracketStripScalarSet(),
             default => throw new \InvalidArgumentException('Invalid delimiter strip mode: ' . $delimiterStripMode),
         };
 
@@ -181,6 +192,20 @@ final class TranscriptionValidator
         );
 
         return $out;
+    }
+
+    /**
+     * Scalars removed by {@see STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS} (Wikimedia `Validator::$stripRegex`).
+     *
+     * @return array<int, true>
+     */
+    public static function wikimediaSlashBracketStripScalarSet(): array
+    {
+        return [
+            0x002F => true,
+            0x005B => true,
+            0x005D => true,
+        ];
     }
 
     /**

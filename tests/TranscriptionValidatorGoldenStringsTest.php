@@ -180,4 +180,61 @@ final class TranscriptionValidatorGoldenStringsTest extends TestCase
         );
         $this->assertFalse($v->isValid("\u{2603}\u{0301}"));
     }
+
+    public function testWikimediaSlashBracketStripValidatesNarrowTranscription(): void
+    {
+        $v = TranscriptionValidator::fromDisk(
+            self::inventoryPath(),
+            self::normalizationPath(),
+            TranscriptionValidator::STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS,
+        );
+        $this->assertTrue($v->isValid('/[ˈtɛst]/'));
+    }
+
+    public function testWikimediaSlashBracketStripPreservesAsciiApostropheForLegacyAscii(): void
+    {
+        $v = TranscriptionValidator::fromDisk(
+            self::inventoryPath(),
+            self::normalizationPath(),
+            TranscriptionValidator::STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS,
+            null,
+            true,
+            true,
+        );
+        $this->assertTrue($v->isValid("/[ta']/"));
+    }
+
+    public function testWikimediaSlashBracketStripScalarSetMatchesPregReplace(): void
+    {
+        $map = TranscriptionValidator::wikimediaSlashBracketStripScalarSet();
+        $samples = ['/foo[bar]/', 'ˈtɛst', '/[ˈtɛst]/', 'a/b[c]d', ''];
+        foreach ($samples as $s) {
+            $expected = \preg_replace('/[\/\[\]]/u', '', $s);
+            $this->assertIsString($expected);
+            $this->assertSame($expected, self::stripUtf8ByCpAllowlist($s, $map));
+        }
+    }
+
+    /**
+     * @param  array<int, true>  $stripThese  Code points to remove (same semantics as {@see TranscriptionValidator} delimiter strip)
+     */
+    private static function stripUtf8ByCpAllowlist(string $s, array $stripThese): string
+    {
+        if ($s === '') {
+            return '';
+        }
+        $chars = \mb_str_split($s);
+        if ($chars === false) {
+            return '';
+        }
+        $out = '';
+        foreach ($chars as $ch) {
+            $cp = \mb_ord($ch, 'UTF-8');
+            if ($cp === false || !isset($stripThese[$cp])) {
+                $out .= $ch;
+            }
+        }
+
+        return $out;
+    }
 }
