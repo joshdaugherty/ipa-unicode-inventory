@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace JoshDaugherty\IpaUnicodeInventory;
 
 /**
- * Validates UTF-8 transcription strings per **Unicode scalar** using {@see Inventory}.
+ * Validates UTF-8 transcription strings against {@see Inventory} using **Unicode scalars** (default)
+ * or optional **extended grapheme cluster** walks (**{@see SEGMENT_GRAPHEME_CLUSTER}**, requires **`ext-intl`**).
  *
  * **Pipeline (in order):** optional delimiter stripping, `normalization.json` rules (**longest
  * `from` first**), optional legacy ASCII normalization aligned with Wikimedia
  * {@link https://github.com/wikimedia/mediawiki-libs-IPAValidator IPAValidator}
  * (`'`→ˈ, `:`→ː, `,`→ˌ), optional **Google/TTS** step (same char map + U+0300–U+036F removal as upstream
- * when `$google` is true), then allowlist checks for each remaining scalar.
+ * when `$google` is true), then allowlist checks (**every scalar** must be allowed; grapheme mode uses
+ * {@see IntlBreakIterator} **character** breaks — ICU **grapheme clusters** — and checks each scalar inside each cluster).
  *
  * **Google/TTS:** requires **`$wikimediaLegacyAscii`** enabled (mirrors Wikimedia: Google implies normalize).
  * Applied after legacy ASCII maps: remove `(` `)`, map ⁿ→n, ʰ→h, ɫ→l, ˡ→l, ʲ→j, then strip combining marks
@@ -22,7 +24,7 @@ namespace JoshDaugherty\IpaUnicodeInventory;
  * `preg_replace('/[\/\[\]]/u', '', $s)` on well-formed UTF-8 (same three scalars as
  * {@link https://github.com/wikimedia/mediawiki-libs-IPAValidator/blob/main/src/Validator.php `$stripRegex`}).
  *
- * **Not implemented:** grapheme-cluster segmentation.
+ * **Grapheme mode:** {@see SEGMENT_GRAPHEME_CLUSTER} requires **`ext-intl`** ({@see graphemeSegmentationAvailable}).
  *
  * **Delimiter vs Wikimedia ASCII:** stripping runs first. ASCII apostrophe (**U+0027**) is a
  * **`delimiter`** in the default inventory, so with {@see STRIP_DELIMITERS_INVENTORY} it is removed
@@ -45,6 +47,15 @@ final class TranscriptionValidator
      */
     public const STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS = 3;
 
+    /** Final validation walks each UTF-8 scalar (code point) in order. */
+    public const SEGMENT_SCALARS = 0;
+
+    /**
+     * Final validation walks **extended grapheme clusters** (ICU “character” breaks via {@see IntlBreakIterator}).
+     * Each scalar inside each cluster must still be allowlisted (**Option A** / strict per-scalar inside cluster).
+     */
+    public const SEGMENT_GRAPHEME_CLUSTER = 1;
+
     private readonly Inventory $inventory;
 
     /** @var array<int, true> Code points removed during the delimiter-stripping phase */
@@ -57,12 +68,16 @@ final class TranscriptionValidator
 
     private readonly bool $googleTtsNormalization;
 
+    /** @var self::SEGMENT_*  How the post-pipeline string is walked for allowlist checks */
+    private readonly int $segmentationMode;
+
     /**
      * @param  Inventory  $inventory  Allowlist used for the final per-scalar checks
      * @param  array<int, true>  $delimiterScalarsToStrip  Code points to remove before normalization; empty array = no stripping
      * @param  list<array{from: string, to: string}>  $normalizationRulesLongestFirst Rules from `normalization.json`, already sorted longest `from` first (see {@see sortNormalizationRules})
      * @param  bool  $wikimediaLegacyAsciiNormalization  When `true`, apply ASCII `'` / `:` / `,` → IPA stress/length characters after normalization rules
      * @param  bool  $googleTtsNormalization  When `true`, apply Wikimedia Google/TTS maps and strip U+0300–U+036F (requires `$wikimediaLegacyAsciiNormalization`)
+     * @param  int  $segmentationMode  One of {@see SEGMENT_SCALARS}, {@see SEGMENT_GRAPHEME_CLUSTER}
      *
      * @return void
      */
@@ -72,10 +87,19 @@ final class TranscriptionValidator
         array $normalizationRulesLongestFirst,
         bool $wikimediaLegacyAsciiNormalization = false,
         bool $googleTtsNormalization = false,
+        int $segmentationMode = self::SEGMENT_SCALARS,
     ) {
         if ($googleTtsNormalization && !$wikimediaLegacyAsciiNormalization) {
             throw new \InvalidArgumentException(
                 'Google TTS normalization requires Wikimedia legacy ASCII normalization to be enabled (same invariant as Wikimedia IPAValidator: $google implies $normalize).',
+            );
+        }
+        if ($segmentationMode !== self::SEGMENT_SCALARS && $segmentationMode !== self::SEGMENT_GRAPHEME_CLUSTER) {
+            throw new \InvalidArgumentException('Invalid segmentation mode: ' . $segmentationMode);
+        }
+        if ($segmentationMode === self::SEGMENT_GRAPHEME_CLUSTER && !self::graphemeSegmentationAvailable()) {
+            throw new \InvalidArgumentException(
+                'SEGMENT_GRAPHEME_CLUSTER requires the intl extension (IntlBreakIterator).',
             );
         }
         $this->inventory = $inventory;
@@ -83,6 +107,7 @@ final class TranscriptionValidator
         $this->normalizationRulesLongestFirst = $normalizationRulesLongestFirst;
         $this->wikimediaLegacyAsciiNormalization = $wikimediaLegacyAsciiNormalization;
         $this->googleTtsNormalization = $googleTtsNormalization;
+        $this->segmentationMode = $segmentationMode;
     }
 
     /**
@@ -95,11 +120,12 @@ final class TranscriptionValidator
      * @param  bool  $applyNormalizationJson  When `false`, skip loading `normalization.json` and use no dataset normalization rules
      * @param  bool  $wikimediaLegacyAscii  When `true`, apply Wikimedia-style ASCII stress/length replacements after dataset rules
      * @param  bool  $googleTtsNormalization  When `true`, apply Google/TTS normalization after legacy ASCII (requires `$wikimediaLegacyAscii`)
+     * @param  int  $segmentationMode  One of {@see SEGMENT_SCALARS}, {@see SEGMENT_GRAPHEME_CLUSTER} (**grapheme** requires **`ext-intl`**)
      * @param  bool  $validateSchema  When `true`, validate loaded JSON against bundled schema (requires `justinrainbow/json-schema`)
      *
      * @return self Configured validator instance
      *
-     * @throws \InvalidArgumentException if `$delimiterStripMode` is not a known constant, or Google TTS is enabled without legacy ASCII
+     * @throws \InvalidArgumentException if delimiter strip mode, segmentation mode, Google/legacy pairing, or intl (grapheme mode) is invalid
      * @throws \JsonException if JSON decoding fails
      * @throws \RuntimeException if files are missing, structurally invalid, or schema validation fails when enabled
      */
@@ -111,8 +137,18 @@ final class TranscriptionValidator
         bool $applyNormalizationJson = true,
         bool $wikimediaLegacyAscii = false,
         bool $googleTtsNormalization = false,
+        int $segmentationMode = self::SEGMENT_SCALARS,
         bool $validateSchema = false,
     ): self {
+        if ($segmentationMode !== self::SEGMENT_SCALARS && $segmentationMode !== self::SEGMENT_GRAPHEME_CLUSTER) {
+            throw new \InvalidArgumentException('Invalid segmentation mode: ' . $segmentationMode);
+        }
+        if ($segmentationMode === self::SEGMENT_GRAPHEME_CLUSTER && !self::graphemeSegmentationAvailable()) {
+            throw new \InvalidArgumentException(
+                'SEGMENT_GRAPHEME_CLUSTER requires the intl extension (IntlBreakIterator).',
+            );
+        }
+
         $inventory = Inventory::fromDisk($inventoryJsonPath, $validateSchema);
         $stripMap = match ($delimiterStripMode) {
             self::STRIP_DELIMITERS_NONE => [],
@@ -128,7 +164,15 @@ final class TranscriptionValidator
             $rules = self::sortNormalizationRules($doc['rules']);
         }
 
-        return new self($inventory, $stripMap, $rules, $wikimediaLegacyAscii, $googleTtsNormalization);
+        return new self($inventory, $stripMap, $rules, $wikimediaLegacyAscii, $googleTtsNormalization, $segmentationMode);
+    }
+
+    /**
+     * Whether {@see SEGMENT_GRAPHEME_CLUSTER} can be used ( **`ext-intl`** loaded).
+     */
+    public static function graphemeSegmentationAvailable(): bool
+    {
+        return \extension_loaded('intl') && \class_exists(\IntlBreakIterator::class, false);
     }
 
     /**
@@ -136,7 +180,7 @@ final class TranscriptionValidator
      *
      * @param  string  $text  UTF-8 string to validate (may be empty)
      *
-     * @return bool `true` if `$text` is empty, well-formed UTF-8, and every scalar after the pipeline is allowed; `false` on invalid UTF-8, `mb_str_split` failure, or any disallowed scalar
+     * @return bool `true` if `$text` is empty, well-formed UTF-8, and every scalar after the pipeline is allowed (grapheme mode: every scalar inside each EGC); `false` on invalid UTF-8, split/iterator failure, or any disallowed scalar
      */
     public function isValid(string $text): bool
     {
@@ -353,12 +397,16 @@ final class TranscriptionValidator
     }
 
     /**
-     * @param  string  $s  UTF-8 string to check scalar-by-scalar
+     * @param  string  $s  UTF-8 string to check (scalar-by-scalar or by grapheme cluster per {@see $segmentationMode})
      *
-     * @return bool `true` if every scalar in `$s` is allowed by `$this->inventory`
+     * @return bool `true` if every scalar in `$s` is allowed by `$this->inventory` (grapheme mode: every scalar inside each EGC)
      */
     private function allScalarsAllowed(string $s): bool
     {
+        if ($this->segmentationMode === self::SEGMENT_GRAPHEME_CLUSTER) {
+            return $this->allScalarsAllowedByGraphemeClusters($s);
+        }
+
         $chars = \mb_str_split($s);
         if ($chars === false) {
             return false;
@@ -367,6 +415,40 @@ final class TranscriptionValidator
             $cp = \mb_ord($ch, 'UTF-8');
             if ($cp === false || !$this->inventory->isScalarAllowed($cp)) {
                 return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Option A: same allowlist as scalar mode; walk **extended grapheme clusters** (ICU character breaks).
+     */
+    private function allScalarsAllowedByGraphemeClusters(string $s): bool
+    {
+        if (!self::graphemeSegmentationAvailable()) {
+            return false;
+        }
+        try {
+            $iter = \IntlBreakIterator::createCharacterInstance(null);
+        } catch (\Throwable) {
+            return false;
+        }
+        $iter->setText($s);
+        $parts = $iter->getPartsIterator();
+        foreach ($parts as $cluster) {
+            if (!\is_string($cluster) || $cluster === '') {
+                continue;
+            }
+            $chars = \mb_str_split($cluster);
+            if ($chars === false) {
+                return false;
+            }
+            foreach ($chars as $ch) {
+                $cp = \mb_ord($ch, 'UTF-8');
+                if ($cp === false || !$this->inventory->isScalarAllowed($cp)) {
+                    return false;
+                }
             }
         }
 

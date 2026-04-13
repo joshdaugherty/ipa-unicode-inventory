@@ -31,6 +31,7 @@
     "justinrainbow/json-schema": "^6.5"
   },
   "suggest": {
+    "ext-intl": "Optional extended grapheme cluster segmentation in TranscriptionValidator (SEGMENT_GRAPHEME_CLUSTER, IntlBreakIterator)",
     "justinrainbow/json-schema": "^6.5 Optional strict JSON Schema validation for bundled JSON (InventoryLoader strict mode, BundleSchemaValidator)"
   },
   "autoload": {

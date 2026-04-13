@@ -35,7 +35,7 @@ The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plu
 
 1. **JSON:** Read `data/inventory.json` (or **`inventory.phonetic-strict.json`**) or the minified `build/output/inventory.min.json` / **`inventory.phonetic-strict.min.json`**. Build a `Set` of `cp` integers in memory.
 2. **PCRE (UTF-8 + `/u`):** Insert `build/output/pcre-class-fragment.txt` or **`pcre-class-fragment.phonetic-strict.txt`** inside a character class, e.g. `/^[...fragment...]+$/u` — the fragment uses `\x{H...}` escapes only (no surrounding `[` `]`).
-3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists **`inventory_json`**, **`normalization_json`**, **`schema_directory`**, and **`profiles`** (`corpus_inclusive`, `phonetic_strict`) relative to the package root. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, **`PROFILE_ID`**, and **`SCHEMA_VERSION`** from the default `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (**none**, inventory **`delimiter`** rows, **custom** code points, or **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** for Wikimedia **`$stripRegex`** — only `/` `[` `]`), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), optional **Google/TTS** normalization (parentheses removal, modifier-letter → ASCII map, then strip **U+0300–U+036F**; requires **`wikimediaLegacyAscii`**), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping runs *before* legacy ASCII; **`'`** is an inventory **`delimiter`**, so **`STRIP_DELIMITERS_INVENTORY`** removes it before **`'`→ˈ** — use **`STRIP_DELIMITERS_NONE`**, **`CUSTOM`**, or **`WIKIMEDIA_SLASH_BRACKETS`** if you need that mapping. For **phonetic-only** validation without corpus delimiters, use **`Resources::inventoryJsonPathForProfile(PolicyProfile::PHONETIC_STRICT)`**. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.4.0`**) so the package resolves.
+3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists **`inventory_json`**, **`normalization_json`**, **`schema_directory`**, and **`profiles`** (`corpus_inclusive`, `phonetic_strict`) relative to the package root. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, **`PROFILE_ID`**, and **`SCHEMA_VERSION`** from the default `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (**none**, inventory **`delimiter`** rows, **custom** code points, or **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** for Wikimedia **`$stripRegex`** — only `/` `[` `]`), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), optional **Google/TTS** normalization (parentheses removal, modifier-letter → ASCII map, then strip **U+0300–U+036F**; requires **`wikimediaLegacyAscii`**), optional **`SEGMENT_GRAPHEME_CLUSTER`** final walk (**`ext-intl`**, **`IntlBreakIterator`** — same per-scalar allowlist as default), then **`isValid()`** — requires **`ext-mbstring`**; grapheme mode additionally suggests **`ext-intl`**. Delimiter stripping runs *before* legacy ASCII; **`'`** is an inventory **`delimiter`**, so **`STRIP_DELIMITERS_INVENTORY`** removes it before **`'`→ˈ** — use **`STRIP_DELIMITERS_NONE`**, **`CUSTOM`**, or **`WIKIMEDIA_SLASH_BRACKETS`** if you need that mapping. For **phonetic-only** validation without corpus delimiters, use **`Resources::inventoryJsonPathForProfile(PolicyProfile::PHONETIC_STRICT)`**. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.4.0`**) so the package resolves.
 4. **PHP (generated array):** After `npm run build`, include `build/output/php/AllowedCodePoints.php` or **`AllowedCodePoints.phonetic-strict.php`** for a `0xNNN => true` map (generated only; not committed).
 5. **Integrity:** Check `build/output/manifest.json` SHA-256 digests after downloading release assets.
 
@@ -64,20 +64,22 @@ If you apply `data/normalization.json`, apply rules **longest-`from` first**, th
 By default, **`InventoryLoader`** only checks that **`meta`** and **`code_points`** / **`rules`** exist. To validate the full document against the bundled **draft 2020-12** wrappers under **`schema/`**:
 
 1. Install the optional dependency: **`composer require justinrainbow/json-schema`** (see **`suggest`** in this package’s `composer.json`). The repo’s **`require-dev`** includes it so **`composer test`** can cover strict mode.
-2. Pass **`true`** as the second argument: **`InventoryLoader::loadInventory($path, true)`**, **`loadNormalization($path, true)`**, **`codePointLookup($path, true)`**, **`delimiterScalarSet($path, true)`**; **`Inventory::fromDisk($path, true)`**; **`TranscriptionValidator::fromDisk(..., $googleTtsNormalization: false, $validateSchema: true)`** (last parameter is **`$validateSchema`**).
+2. Pass **`true`** for schema validation where each API documents it: **`InventoryLoader::loadInventory($path, true)`**, **`loadNormalization($path, true)`**, **`codePointLookup($path, true)`**, **`delimiterScalarSet($path, true)`**; **`Inventory::fromDisk($path, true)`**; **`TranscriptionValidator::fromDisk(..., $segmentationMode: TranscriptionValidator::SEGMENT_SCALARS, $validateSchema: true)`** (last parameter is **`$validateSchema`**).
 3. Or decode JSON yourself and call **`BundleSchemaValidator::assertInventoryDocumentValid($data)`** / **`assertNormalizationDocumentValid($data)`**. Use **`BundleSchemaValidator::isAvailable()`** if you need to branch before requiring the package.
 
 If strict mode is requested but **`justinrainbow/json-schema`** is not installed, a **`RuntimeException`** explains how to add it. Validation failures throw **`RuntimeException`** with schema error details.
 
-### Validation model: Unicode scalars, not grapheme clusters
+### Validation model: Unicode scalars (default) and optional grapheme-cluster walk
 
-**Guarantee:** `Inventory::isScalarAllowed()` and `TranscriptionValidator::isValid()` treat the string as a sequence of **Unicode scalar values** (code points). Each scalar is checked against the allowlist independently.
+**`Inventory::isScalarAllowed()`** is always **per Unicode scalar** (code point).
 
-- **In scope:** Supplementary planes, BMP letters, combining marks (e.g. U+0301) as **separate** scalars after the preceding base character, delimiter code points, etc.
-- **Out of scope:** **Grapheme clusters** (“user characters”), tailored locale collation, or NFC/NFD canonical equivalence as a validation rule. The same abstract character can be encoded multiple ways (precomposed vs base+combining); this project does **not** merge them unless you normalize first (e.g. via `normalization.json` or your own step) and then validate scalars.
-- **PCRE:** A pattern like `/^[…fragment…]+$/u` is also **per UTF-8 code point** in PHP’s UTF-8 mode, not per extended grapheme cluster.
+**`TranscriptionValidator::isValid()`** (default **`SEGMENT_SCALARS`**) walks the post-pipeline string **scalar-by-scalar** with `mb_str_split` / `mb_ord` — each scalar is checked against the allowlist independently.
 
-If you need grapheme-level validation, normalize or segment upstream (e.g. `ext-intl` grapheme functions), then decide how each cluster maps to scalars before calling this API.
+**Optional `SEGMENT_GRAPHEME_CLUSTER`** (requires **`ext-intl`**, **`TranscriptionValidator::graphemeSegmentationAvailable()`**): the final pass uses **`IntlBreakIterator::createCharacterInstance()`** (ICU **extended grapheme cluster** boundaries) as the iteration unit, but the rule is still **Option A — every scalar inside each cluster must be allowlisted** (same outcome as scalar mode for typical IPA where one grapheme is one scalar, but alignment matches UI / copy-paste segmentation).
+
+- **In scope:** Supplementary planes, BMP letters, combining marks (e.g. U+0301) as separate inventory rows; delimiter code points; optional EGC **walk** without changing the scalar allowlist.
+- **Out of scope:** **Cluster-as-token** allowlists (only whole clusters listed), tailored locale collation, or NFC/NFD as a built-in normalization rule. Precomposed vs decomposed encodings of the “same” letter still require each involved scalar to appear in the inventory (or a prior normalization step).
+- **PCRE:** A pattern like `/^[…fragment…]+$/u` is **per UTF-8 code point**, not per extended grapheme cluster — use **`TranscriptionValidator`** grapheme mode if you need ICU-consistent cluster boundaries in PHP.
 
 ### Migrating from Wikimedia IPAValidator
 
@@ -88,7 +90,7 @@ Upstream library: [`mediawiki-libs-IPAValidator`](https://github.com/wikimedia/m
 | **Primary check** | `preg_match` on normalized string vs `$ipaRegex` | Scalar allowlist from `data/inventory.json` (or generated PCRE class fragment for whole-string regex) |
 | **Normalization** | Optional: ASCII `'`→ˈ, `:`→ː, `,`→ˌ (`$normalize`) | `normalization.json` (e.g. U+2018/U+2019→U+02BC, longest-`from` first) **plus** optional same ASCII map in `TranscriptionValidator` (`wikimediaLegacyAscii`) |
 | **Delimiter handling** | Optional `stripRegex` when `$strip` | Inventory **`delimiter`** rows, custom code points, none, or **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** (only `/` `[` `]` — Wikimedia **`$stripRegex`**) |
-| **Pipeline order** | Strip → normalize (normalize may strip again) | Strip delimiters → `normalization.json` → optional Wikimedia ASCII → optional Google/TTS → scalar checks |
+| **Pipeline order** | Strip → normalize (normalize may strip again) | Strip delimiters → `normalization.json` → optional Wikimedia ASCII → optional Google/TTS → scalar checks (optional EGC walk via **`SEGMENT_GRAPHEME_CLUSTER`**) |
 | **Google / TTS mode** | `$google` (extra replacements + diacritic stripping) | **`TranscriptionValidator::fromDisk(..., $wikimediaLegacyAscii: true, $googleTtsNormalization: true)`** — same char map + **U+0300–U+036F** removal as upstream; **requires** legacy ASCII enabled |
 | **`@` (U+0040)** | Not in `$ipaRegex` (fails validation if present) | In inventory as **`delimiter`** (allowed in-band unless you strip delimiters) |
 | **Ligatures / digraph letters** | Allowed only if in `$ipaRegex` | Allowed if listed (e.g. **ʧ** U+02A7); no special “decompose ligature” step |
@@ -141,7 +143,7 @@ This fetches `index.html` and `accessiblechart.html` from the default branch. Us
 ### Feature request: Wikimedia `stripRegex`, Google/TTS mode, grapheme-cluster validation
 
 **Package:** [joshdaugherty/ipa-unicode-inventory](https://github.com/joshdaugherty/ipa-unicode-inventory)  
-**Context:** **`TranscriptionValidator`** implements **Wikimedia `stripRegex` parity** (see §1) and **Google/TTS** (§2). **Grapheme-cluster** segmentation remains **not** implemented. Optional EGC mode would further align with UI / `ext-intl` copy-paste behavior.
+**Context:** **`TranscriptionValidator`** implements **Wikimedia `stripRegex` parity** (§1), **Google/TTS** (§2), and optional **extended grapheme cluster** segmentation (§3) for ICU-aligned iteration while keeping a **per-scalar** allowlist.
 
 ---
 
@@ -168,7 +170,7 @@ This fetches `index.html` and `accessiblechart.html` from the default branch. Us
 
 ### 2. Google/TTS normalization mode
 
-**Status:** **Implemented** in `TranscriptionValidator` (`googleTtsNormalization` / `applyGoogleTtsNormalization()`). Remaining gaps vs Wikimedia are whole-string **`$ipaRegex`** matching and optional **grapheme** iteration (see migration table).
+**Status:** **Implemented** in `TranscriptionValidator` (`googleTtsNormalization` / `applyGoogleTtsNormalization()`). Remaining gap vs Wikimedia is whole-string **`$ipaRegex`** matching (see migration table).
 
 #### Problem
 
@@ -176,8 +178,8 @@ Wikimedia’s validator optionally applies a **Google TTS–oriented** branch af
 
 #### Shipped behavior
 
-- **`TranscriptionValidator::fromDisk(..., $wikimediaLegacyAscii, $googleTtsNormalization, $validateSchema)`** — Google **requires** legacy ASCII (`InvalidArgumentException` otherwise).
-- Pipeline: delimiter strip → `normalization.json` → Wikimedia ASCII → Google char map → **`/[\x{0300}-\x{036F}]/u`** removal → per-scalar allowlist.
+- **`TranscriptionValidator::fromDisk(..., $wikimediaLegacyAscii, $googleTtsNormalization, $segmentationMode, $validateSchema)`** — Google **requires** legacy ASCII (`InvalidArgumentException` otherwise).
+- Pipeline: delimiter strip → `normalization.json` → Wikimedia ASCII → Google char map → **`/[\x{0300}-\x{036F}]/u`** removal → per-scalar allowlist (optional grapheme-cluster **walk** last).
 
 #### Acceptance criteria
 
@@ -189,39 +191,28 @@ Wikimedia’s validator optionally applies a **Google TTS–oriented** branch af
 
 ### 3. Grapheme-cluster (extended grapheme cluster) segmentation
 
-#### Problem
+**Status:** **Implemented** — **`SEGMENT_SCALARS`** (default) and **`SEGMENT_GRAPHEME_CLUSTER`** on **`TranscriptionValidator::fromDisk()`** / constructor; **`graphemeSegmentationAvailable()`**; **`InvalidArgumentException`** if grapheme mode is requested without **`ext-intl`**.
 
-The package correctly documents that validation is per **Unicode scalar** (code point). Some consumers want **user-perceived character** alignment (e.g. base + combining sequence treated as one unit for policy, or alignment with `intl` / CLDR / search UX).
+#### Problem (addressed)
 
-Scalars and **extended grapheme clusters** (EGC) diverge whenever:
+Some consumers want **user-perceived character** alignment with **`intl`** / ICU while keeping the published **scalar** inventory. Scalars and **extended grapheme clusters** (EGC) diverge when multiple combining marks attach to one base, or for emoji ZWJ sequences (rare in IPA).
 
-- Multiple combining marks attach to one base.
-- Regional indicators, emoji ZWJ sequences, etc. (less common in IPA, but policy may still want EGC for consistency with UI copy/paste).
+#### Shipped behavior
 
-#### Proposed behavior
-
-- Add an optional mode, e.g. **`$segmentation = self::SEGMENT_SCALARS | self::SEGMENT_GRAPHEME_CLUSTER`**, default **`SCALARS`** for backward compatibility.
-- When **`GRAPHEME_CLUSTER`**:
-  - Require **`ext-intl`** (or polyfill strategy documented and rejected if missing).
-  - Iterate with `IntlBreakIterator` (or equivalent) for **grapheme** breaks.
-  - Define validation rule precisely in README:
-    - **Option A (strict):** every code point within each cluster must be allowed (equivalent to scalars for pure IPA, but failure modes may differ for malformed sequences).
-    - **Option B (cluster-as-token):** each cluster must be “well-formed” under a documented table (harder; may be out of scope for v1).
-
-Recommendation: ship **Option A** first: same allowlist as today, but **iteration unit** is EGC; document that the allowlist is still per scalar and the iterator only changes how the string is walked (useful for future cluster-level policies).
+- **Option A:** every scalar inside each ICU grapheme cluster must still be allowlisted — same policy as scalar mode; only the **walk** uses **`IntlBreakIterator::createCharacterInstance()`**.
 
 #### Acceptance criteria
 
-- [ ] Default behavior unchanged (scalar iteration).
-- [ ] With grapheme mode + `ext-intl`, PHPUnit covers: precomposed vs decomposed NFC/NFD for the same linguistic string (both should pass if all scalars allowed).
-- [ ] README: explicit guarantee whether IPA combining marks are validated per scalar inside each cluster; dependency on `ext-intl`.
+- [x] Default behavior unchanged (scalar iteration).
+- [x] With grapheme mode + `ext-intl`, PHPUnit covers **one EGC** for base + combining acute (ICU iterator + validation) and parity with scalar mode on sample IPA (`corpus_inclusive` usually omits Latin-1 precomposed letters such as U+00E1 even when NFD `a`+U+0301 is allowed).
+- [x] README and **`composer.json` → `suggest`** document **`ext-intl`** and per-scalar-inside-cluster guarantee.
 
 ---
 
 ### Cross-cutting notes
 
 - **Versioning:** These are additive if defaults preserve current behavior; bump **minor** `dataset_version` only if bundled JSON changes; **package semver** per your policy for new API surface.
-- **Downstream:** Consumers (e.g. Laravel validation rules) can rely on packaged Wikimedia **`$stripRegex`** preset and Google/TTS; optional **grapheme** mode (3) remains future work.
+- **Downstream:** Consumers (e.g. Laravel validation rules) can rely on packaged Wikimedia **`$stripRegex`** preset, Google/TTS, and optional **grapheme** segmentation (§3).
 
 ---
 
