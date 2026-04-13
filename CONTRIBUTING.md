@@ -49,7 +49,7 @@ After changing the inventory, optionally run `npm run compare:mediawiki` and `np
 
 - Run `composer validate` after editing `composer.json`.
 - The package name is **`joshdaugherty/ipa-unicode-inventory`**. Public PHP API lives under `src/` (PSR-4: `JoshDaugherty\IpaUnicodeInventory\`).
-- New **Git tags** (e.g. `v1.4.0`) drive new versions on [Packagist](https://packagist.org/) once the repo is connected; enable the GitHub webhook so Packagist updates automatically.
+- New **Git tags** (e.g. `v1.5.0`) drive new versions on [Packagist](https://packagist.org/) once the repo is connected; enable the GitHub webhook so Packagist updates automatically.
 - **Dist zip contents:** `composer.json` → **`archive.exclude`** and **`.gitattributes`** **`export-ignore`** control what Packagist ships (no `tests/`, `scripts/`, or `package.json`; **`build/output/`** is not in git, so **`pcre-class-fragment.txt`** and friends are **not** in Composer installs). See **README.md → Consumer quick start → Distribution** for the full matrix.
 
 ## GitHub Releases (build artifacts)

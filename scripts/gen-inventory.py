@@ -248,7 +248,7 @@ def main() -> None:
 
     meta_corpus = {
         "schema_version": "1.0.0",
-        "dataset_version": "1.4.0",
+        "dataset_version": "1.5.0",
         "unicode_version_min": "15.1.0",
         "profile_id": "corpus_inclusive",
         "policy_id": "ipa-extipa-corpus-inclusive",
@@ -280,7 +280,7 @@ def main() -> None:
     }
     meta_strict = {
         "schema_version": "1.0.0",
-        "dataset_version": "1.4.0",
+        "dataset_version": "1.5.0",
         "unicode_version_min": "15.1.0",
         "profile_id": "phonetic_strict",
         "policy_id": "ipa-extipa-phonetic-strict",

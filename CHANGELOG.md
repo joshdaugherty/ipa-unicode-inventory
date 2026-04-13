@@ -8,11 +8,19 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-04-16
+
 ### Added
 
-- **PHP:** **`TranscriptionValidator`** optional **extended grapheme cluster** final pass (**`SEGMENT_GRAPHEME_CLUSTER`**, **`graphemeSegmentationAvailable()`**) — same per-scalar allowlist (**Option A**), walk via **`IntlBreakIterator::createCharacterInstance()`** (ICU grapheme breaks); requires **`ext-intl`** when enabled; **`segmentationMode`** on **`fromDisk()`** / constructor (before **`$validateSchema`**).
+- **PHP:** **`TranscriptionValidator`** optional **extended grapheme cluster** final pass (**`SEGMENT_GRAPHEME_CLUSTER`**, **`graphemeSegmentationAvailable()`**) — same per-scalar allowlist (**Option A**), walk via **`IntlBreakIterator::createCharacterInstance()`** (ICU grapheme breaks); requires **`ext-intl`** when enabled; **`segmentationMode`** on **`fromDisk()`** / constructor (before **`$validateSchema`**); **`composer.json` → `suggest` → `ext-intl`**.
 - **PHP:** **`TranscriptionValidator`** optional **Google/TTS** normalization (`googleTtsNormalization` on **`fromDisk()`** / constructor), matching Wikimedia **`Validator`** char map and **U+0300–U+036F** removal; **`applyGoogleTtsNormalization()`** for tests; **`InvalidArgumentException`** if Google is enabled without **`wikimediaLegacyAscii`**.
 - **PHP:** **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** and **`wikimediaSlashBracketStripScalarSet()`** — remove only **`/` `[` `]`** (Wikimedia **`$stripRegex`** parity) before normalization.
+
+### Changed
+
+- `dataset_version` **1.5.0** (npm package, both inventories, `normalization.json`; allowlist rows unchanged; `schema_version` **1.0.0**).
+- Compare script User-Agent **`ipa-unicode-inventory-compare/1.5`** on **`compare-ipa-chart-westonruter.mjs`** and **`compare-mediawiki-validator.mjs`** (aligned with npm **1.5.0** line).
+- **PHP:** Remove unreachable **`mb_str_split() === false`** branches in **`TranscriptionValidator`** (PHP 8.0+ always returns an array).
 
 ## [1.4.0] - 2026-04-15
 
@@ -85,6 +93,7 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
+[1.5.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.5.0
 [1.4.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.4.0
 [1.3.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.3.0
 [1.2.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.2.0

@@ -9,7 +9,7 @@ namespace JoshDaugherty\IpaUnicodeInventory;
  */
 final class MetaConstants
 {
-    public const DATASET_VERSION = '1.4.0';
+    public const DATASET_VERSION = '1.5.0';
 
     public const POLICY_ID = 'ipa-extipa-corpus-inclusive';
 
