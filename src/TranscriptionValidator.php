@@ -180,7 +180,7 @@ final class TranscriptionValidator
      *
      * @param  string  $text  UTF-8 string to validate (may be empty)
      *
-     * @return bool `true` if `$text` is empty, well-formed UTF-8, and every scalar after the pipeline is allowed (grapheme mode: every scalar inside each EGC); `false` on invalid UTF-8, split/iterator failure, or any disallowed scalar
+     * @return bool `true` if `$text` is empty, well-formed UTF-8, and every scalar after the pipeline is allowed (grapheme mode: every scalar inside each EGC); `false` on invalid UTF-8, delimiter strip / `mb_ord` / iterator failure, or any disallowed scalar
      */
     public function isValid(string $text): bool
     {
@@ -331,7 +331,7 @@ final class TranscriptionValidator
      *
      * @param  string  $s  UTF-8 string (caller must ensure valid UTF-8 when this method is used from {@see isValid})
      *
-     * @return string|null Stripped string, or `null` if `mb_str_split` / `mb_ord` fails
+     * @return string|null Stripped string, or `null` if `mb_ord` fails
      */
     private function stripDelimiterScalars(string $s): ?string
     {
@@ -339,9 +339,6 @@ final class TranscriptionValidator
             return $s;
         }
         $chars = \mb_str_split($s);
-        if ($chars === false) {
-            return null;
-        }
         $out = '';
         foreach ($chars as $ch) {
             $cp = \mb_ord($ch, 'UTF-8');
@@ -406,9 +403,6 @@ final class TranscriptionValidator
         }
 
         $chars = \mb_str_split($s);
-        if ($chars === false) {
-            return false;
-        }
         foreach ($chars as $ch) {
             $cp = \mb_ord($ch, 'UTF-8');
             if ($cp === false || !$this->inventory->isScalarAllowed($cp)) {
@@ -439,9 +433,6 @@ final class TranscriptionValidator
                 continue;
             }
             $chars = \mb_str_split($cluster);
-            if ($chars === false) {
-                return false;
-            }
             foreach ($chars as $ch) {
                 $cp = \mb_ord($ch, 'UTF-8');
                 if ($cp === false || !$this->inventory->isScalarAllowed($cp)) {
