@@ -231,7 +231,7 @@ def main() -> None:
 
     add_corpus_in_band(seen, entries)
 
-    for cp in list(range(ord("A"), ord("Z") + 1)) + list(range(ord("a"), ord("z") + 1)):
+    for cp in range(ord("a"), ord("z") + 1):
         if cp not in seen:
             seen.add(cp)
             entries.append(
@@ -239,7 +239,7 @@ def main() -> None:
                     "cp": cp,
                     "cp_hex": cp_hex(cp),
                     "category": "letter",
-                    "notes": "ASCII Latin; included for mixed orthography and normalization targets.",
+                    "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets.",
                 }
             )
 
@@ -248,7 +248,7 @@ def main() -> None:
 
     meta_corpus = {
         "schema_version": "1.0.0",
-        "dataset_version": "1.5.0",
+        "dataset_version": "1.6.0",
         "unicode_version_min": "15.1.0",
         "profile_id": "corpus_inclusive",
         "policy_id": "ipa-extipa-corpus-inclusive",
@@ -272,7 +272,8 @@ def main() -> None:
             "horizontal ellipsis. ASCII digits and ASCII space (category other) for tone indices, timing "
             "labels, and running text. Also common Latin/Greek IPA letters (æ ç ð ø ħ ŋ œ, β θ χ), Latin "
             "clicks U+01C0 through U+01C3, undertie U+203F, double vertical line U+2016, labiodental flap "
-            "U+2C71, and ASCII Latin letters. Does not include arbitrary CJK or whole mathematical blocks. "
+            "U+2C71, and ASCII Latin lowercase letters (U+0061 through U+007A); uppercase ASCII Latin "
+            "(U+0041 through U+005A) is excluded. Does not include arbitrary CJK or whole mathematical blocks. "
             "Consumers may strip category delimiter before phonetic-only validation, or load "
             "inventory.phonetic-strict.json (profile phonetic_strict). Surrogate code points "
             "are never listed."
@@ -280,7 +281,7 @@ def main() -> None:
     }
     meta_strict = {
         "schema_version": "1.0.0",
-        "dataset_version": "1.5.0",
+        "dataset_version": "1.6.0",
         "unicode_version_min": "15.1.0",
         "profile_id": "phonetic_strict",
         "policy_id": "ipa-extipa-phonetic-strict",
@@ -290,8 +291,8 @@ def main() -> None:
             "all rows with category delimiter (transcription brackets, slashes, punctuation tier markers, "
             "typographic quotes used as delimiters, etc.) and excludes ASCII space and ASCII digits "
             "(category other) used for running text and numeric labels. Intended for phonetic-only "
-            "allowlists after you have stripped or externalized corpus markup. ASCII Latin letters remain "
-            "listed for mixed orthography beside IPA. Pair with data/normalization.json when you map "
+            "allowlists after you have stripped or externalized corpus markup. ASCII Latin lowercase letters "
+            "remain listed for mixed orthography beside IPA. Pair with data/normalization.json when you map "
             "typographic apostrophes to U+02BC before validating. Surrogate code points are never listed."
         ),
     }

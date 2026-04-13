@@ -8,6 +8,18 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-04-13
+
+### Removed
+
+- **Policy:** Uppercase ASCII Latin letters (**U+0041–U+005A**) from **`corpus_inclusive`** and **`phonetic_strict`**; mixed orthography allowance is **lowercase ASCII Latin only** (**U+0061–U+007A**).
+
+### Changed
+
+- `dataset_version` **1.6.0** (npm package, both inventories, `normalization.json`; `schema_version` **1.0.0**).
+- Compare script User-Agent **`ipa-unicode-inventory-compare/1.6`** on **`compare-ipa-chart-westonruter.mjs`** and **`compare-mediawiki-validator.mjs`**.
+- **`scripts/gen-inventory.py`:** emit only lowercase ASCII Latin rows; policy text and per-row notes updated accordingly.
+
 ## [1.5.0] - 2026-04-16
 
 ### Added
@@ -93,6 +105,7 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
+[1.6.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.6.0
 [1.5.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.5.0
 [1.4.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.4.0
 [1.3.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.3.0

@@ -12,6 +12,12 @@
     "allowed": true
   },
   {
+    "description": "Uppercase ASCII Latin not in inventory",
+    "string": "Hello",
+    "normalize": false,
+    "allowed": false
+  },
+  {
     "description": "RIGHT SINGLE QUOTATION MARK allowed in-band as delimiter (corpus policy); normalization still maps it to U+02BC",
     "string": "t\u2019",
     "normalize": false,

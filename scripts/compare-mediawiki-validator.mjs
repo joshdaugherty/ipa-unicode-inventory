@@ -108,7 +108,7 @@ function extractClassBodyFromPhp(text) {
 async function loadClassBody() {
   try {
     const res = await fetch(UPSTREAM_RAW, {
-      headers: { "user-agent": "ipa-unicode-inventory-compare/1.5" },
+      headers: { "user-agent": "ipa-unicode-inventory-compare/1.6" },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();

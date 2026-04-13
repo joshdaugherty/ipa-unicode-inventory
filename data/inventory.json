@@ -2,12 +2,12 @@
   "$schema": "https://raw.githubusercontent.com/ipa-unicode-inventory/ipa-unicode-inventory/main/schema/inventory.wrapper.schema.json",
   "meta": {
     "schema_version": "1.0.0",
-    "dataset_version": "1.5.0",
+    "dataset_version": "1.6.0",
     "unicode_version_min": "15.1.0",
     "profile_id": "corpus_inclusive",
     "policy_id": "ipa-extipa-corpus-inclusive",
     "policy_title": "IPA and extIPA with modifiers, transcription delimiters, and corpus tier punctuation",
-    "policy_description": "Core IPA: IPA Extensions (U+0250 through U+02AF), spacing modifier letters U+02B0 through U+02FF, combining diacritical marks U+0300 through U+036F, phonetic extensions U+1D00 through U+1DBF. extIPA / disordered-speech extensions: Combining Diacritical Marks Extended U+1AB0 through U+1AFF, Combining Diacritical Marks Supplement U+1DC0 through U+1DFF, Latin Extended-G U+1DF00 through U+1DFFF, Modifier Letters Supplement U+10780 through U+107BF, modifier tone letters U+A700 through U+A71F, Latin Extended-D letters ꞎ U+A78E and ꞯ U+A7AF, superscripts and subscripts U+2070 through U+209C, circled Latin wildcards U+24B6 through U+24E9, prosodic brackets U+2E28/U+2E29 and U+2987/U+2988, inverted exclamation U+00A1, airstream arrows U+2191/U+2193, global rise/fall U+2197/U+2198 (IPA chart suprasegmentals), combining enclosing circle U+20DD, backslash U+005C for reiterated articulation, and selected musical dynamics U+1D18F through U+1D193. Transcription and corpus-in-band delimiters (category delimiter): parentheses, square brackets, slashes, braces, ASCII and mathematical angle brackets ⟨ ⟩ (U+27E8/U+27E9), full stop, pipe, comma, colon, semicolon, hyphen-minus, equals, plus, low line, commercial at, number sign, asterisk, question mark, tilde, percent, ASCII and typographic quotes, guillemets, horizontal ellipsis. ASCII digits and ASCII space (category other) for tone indices, timing labels, and running text. Also common Latin/Greek IPA letters (æ ç ð ø ħ ŋ œ, β θ χ), Latin clicks U+01C0 through U+01C3, undertie U+203F, double vertical line U+2016, labiodental flap U+2C71, and ASCII Latin letters. Does not include arbitrary CJK or whole mathematical blocks. Consumers may strip category delimiter before phonetic-only validation, or load inventory.phonetic-strict.json (profile phonetic_strict). Surrogate code points are never listed."
+    "policy_description": "Core IPA: IPA Extensions (U+0250 through U+02AF), spacing modifier letters U+02B0 through U+02FF, combining diacritical marks U+0300 through U+036F, phonetic extensions U+1D00 through U+1DBF. extIPA / disordered-speech extensions: Combining Diacritical Marks Extended U+1AB0 through U+1AFF, Combining Diacritical Marks Supplement U+1DC0 through U+1DFF, Latin Extended-G U+1DF00 through U+1DFFF, Modifier Letters Supplement U+10780 through U+107BF, modifier tone letters U+A700 through U+A71F, Latin Extended-D letters ꞎ U+A78E and ꞯ U+A7AF, superscripts and subscripts U+2070 through U+209C, circled Latin wildcards U+24B6 through U+24E9, prosodic brackets U+2E28/U+2E29 and U+2987/U+2988, inverted exclamation U+00A1, airstream arrows U+2191/U+2193, global rise/fall U+2197/U+2198 (IPA chart suprasegmentals), combining enclosing circle U+20DD, backslash U+005C for reiterated articulation, and selected musical dynamics U+1D18F through U+1D193. Transcription and corpus-in-band delimiters (category delimiter): parentheses, square brackets, slashes, braces, ASCII and mathematical angle brackets ⟨ ⟩ (U+27E8/U+27E9), full stop, pipe, comma, colon, semicolon, hyphen-minus, equals, plus, low line, commercial at, number sign, asterisk, question mark, tilde, percent, ASCII and typographic quotes, guillemets, horizontal ellipsis. ASCII digits and ASCII space (category other) for tone indices, timing labels, and running text. Also common Latin/Greek IPA letters (æ ç ð ø ħ ŋ œ, β θ χ), Latin clicks U+01C0 through U+01C3, undertie U+203F, double vertical line U+2016, labiodental flap U+2C71, and ASCII Latin lowercase letters (U+0061 through U+007A); uppercase ASCII Latin (U+0041 through U+005A) is excluded. Does not include arbitrary CJK or whole mathematical blocks. Consumers may strip category delimiter before phonetic-only validation, or load inventory.phonetic-strict.json (profile phonetic_strict). Surrogate code points are never listed."
   },
   "code_points": [
     {
@@ -191,162 +191,6 @@
       "notes": "Delimiter: commercial at; annotation conventions in some datasets."
     },
     {
-      "cp": 65,
-      "cp_hex": "U+0041",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 66,
-      "cp_hex": "U+0042",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 67,
-      "cp_hex": "U+0043",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 68,
-      "cp_hex": "U+0044",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 69,
-      "cp_hex": "U+0045",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 70,
-      "cp_hex": "U+0046",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 71,
-      "cp_hex": "U+0047",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 72,
-      "cp_hex": "U+0048",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 73,
-      "cp_hex": "U+0049",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 74,
-      "cp_hex": "U+004A",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 75,
-      "cp_hex": "U+004B",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 76,
-      "cp_hex": "U+004C",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 77,
-      "cp_hex": "U+004D",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 78,
-      "cp_hex": "U+004E",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 79,
-      "cp_hex": "U+004F",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 80,
-      "cp_hex": "U+0050",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 81,
-      "cp_hex": "U+0051",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 82,
-      "cp_hex": "U+0052",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 83,
-      "cp_hex": "U+0053",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 84,
-      "cp_hex": "U+0054",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 85,
-      "cp_hex": "U+0055",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 86,
-      "cp_hex": "U+0056",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 87,
-      "cp_hex": "U+0057",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 88,
-      "cp_hex": "U+0058",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 89,
-      "cp_hex": "U+0059",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
-      "cp": 90,
-      "cp_hex": "U+005A",
-      "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
-    },
-    {
       "cp": 91,
       "cp_hex": "U+005B",
       "category": "delimiter",
@@ -374,157 +218,157 @@
       "cp": 97,
       "cp_hex": "U+0061",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 98,
       "cp_hex": "U+0062",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 99,
       "cp_hex": "U+0063",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 100,
       "cp_hex": "U+0064",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 101,
       "cp_hex": "U+0065",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 102,
       "cp_hex": "U+0066",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 103,
       "cp_hex": "U+0067",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 104,
       "cp_hex": "U+0068",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 105,
       "cp_hex": "U+0069",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 106,
       "cp_hex": "U+006A",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 107,
       "cp_hex": "U+006B",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 108,
       "cp_hex": "U+006C",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 109,
       "cp_hex": "U+006D",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 110,
       "cp_hex": "U+006E",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 111,
       "cp_hex": "U+006F",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 112,
       "cp_hex": "U+0070",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 113,
       "cp_hex": "U+0071",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 114,
       "cp_hex": "U+0072",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 115,
       "cp_hex": "U+0073",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 116,
       "cp_hex": "U+0074",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 117,
       "cp_hex": "U+0075",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 118,
       "cp_hex": "U+0076",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 119,
       "cp_hex": "U+0077",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 120,
       "cp_hex": "U+0078",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 121,
       "cp_hex": "U+0079",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 122,
       "cp_hex": "U+007A",
       "category": "letter",
-      "notes": "ASCII Latin; included for mixed orthography and normalization targets."
+      "notes": "ASCII Latin lowercase; included for mixed orthography and normalization targets."
     },
     {
       "cp": 123,
@@ -2164,76 +2008,6 @@
       "category": "combining_mark"
     },
     {
-      "cp": 6849,
-      "cp_hex": "U+1AC1",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6850,
-      "cp_hex": "U+1AC2",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6851,
-      "cp_hex": "U+1AC3",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6852,
-      "cp_hex": "U+1AC4",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6853,
-      "cp_hex": "U+1AC5",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6854,
-      "cp_hex": "U+1AC6",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6855,
-      "cp_hex": "U+1AC7",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6856,
-      "cp_hex": "U+1AC8",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6857,
-      "cp_hex": "U+1AC9",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6858,
-      "cp_hex": "U+1ACA",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6859,
-      "cp_hex": "U+1ACB",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6860,
-      "cp_hex": "U+1ACC",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6861,
-      "cp_hex": "U+1ACD",
-      "category": "combining_mark"
-    },
-    {
-      "cp": 6862,
-      "cp_hex": "U+1ACE",
-      "category": "combining_mark"
-    },
-    {
       "cp": 7424,
       "cp_hex": "U+1D00",
       "category": "letter"
@@ -3484,11 +3258,6 @@
       "category": "combining_mark"
     },
     {
-      "cp": 7674,
-      "cp_hex": "U+1DFA",
-      "category": "combining_mark"
-    },
-    {
       "cp": 7675,
       "cp_hex": "U+1DFB",
       "category": "combining_mark"
@@ -4343,291 +4112,6 @@
       "category": "letter"
     },
     {
-      "cp": 67456,
-      "cp_hex": "U+10780",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67457,
-      "cp_hex": "U+10781",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67458,
-      "cp_hex": "U+10782",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67459,
-      "cp_hex": "U+10783",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67460,
-      "cp_hex": "U+10784",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67461,
-      "cp_hex": "U+10785",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67463,
-      "cp_hex": "U+10787",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67464,
-      "cp_hex": "U+10788",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67465,
-      "cp_hex": "U+10789",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67466,
-      "cp_hex": "U+1078A",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67467,
-      "cp_hex": "U+1078B",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67468,
-      "cp_hex": "U+1078C",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67469,
-      "cp_hex": "U+1078D",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67470,
-      "cp_hex": "U+1078E",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67471,
-      "cp_hex": "U+1078F",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67472,
-      "cp_hex": "U+10790",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67473,
-      "cp_hex": "U+10791",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67474,
-      "cp_hex": "U+10792",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67475,
-      "cp_hex": "U+10793",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67476,
-      "cp_hex": "U+10794",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67477,
-      "cp_hex": "U+10795",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67478,
-      "cp_hex": "U+10796",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67479,
-      "cp_hex": "U+10797",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67480,
-      "cp_hex": "U+10798",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67481,
-      "cp_hex": "U+10799",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67482,
-      "cp_hex": "U+1079A",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67483,
-      "cp_hex": "U+1079B",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67484,
-      "cp_hex": "U+1079C",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67485,
-      "cp_hex": "U+1079D",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67486,
-      "cp_hex": "U+1079E",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67487,
-      "cp_hex": "U+1079F",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67488,
-      "cp_hex": "U+107A0",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67489,
-      "cp_hex": "U+107A1",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67490,
-      "cp_hex": "U+107A2",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67491,
-      "cp_hex": "U+107A3",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67492,
-      "cp_hex": "U+107A4",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67493,
-      "cp_hex": "U+107A5",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67494,
-      "cp_hex": "U+107A6",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67495,
-      "cp_hex": "U+107A7",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67496,
-      "cp_hex": "U+107A8",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67497,
-      "cp_hex": "U+107A9",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67498,
-      "cp_hex": "U+107AA",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67499,
-      "cp_hex": "U+107AB",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67500,
-      "cp_hex": "U+107AC",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67501,
-      "cp_hex": "U+107AD",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67502,
-      "cp_hex": "U+107AE",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67503,
-      "cp_hex": "U+107AF",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67504,
-      "cp_hex": "U+107B0",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67506,
-      "cp_hex": "U+107B2",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67507,
-      "cp_hex": "U+107B3",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67508,
-      "cp_hex": "U+107B4",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67509,
-      "cp_hex": "U+107B5",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67510,
-      "cp_hex": "U+107B6",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67511,
-      "cp_hex": "U+107B7",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67512,
-      "cp_hex": "U+107B8",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67513,
-      "cp_hex": "U+107B9",
-      "category": "modifier_letter"
-    },
-    {
-      "cp": 67514,
-      "cp_hex": "U+107BA",
-      "category": "modifier_letter"
-    },
-    {
       "cp": 119183,
       "cp_hex": "U+1D18F",
       "category": "suprasegmental",
@@ -4650,191 +4134,6 @@
       "cp_hex": "U+1D193",
       "category": "suprasegmental",
       "notes": "Musical dynamics symbols used in extIPA / VoQS-style prosodic markup."
-    },
-    {
-      "cp": 122624,
-      "cp_hex": "U+1DF00",
-      "category": "letter"
-    },
-    {
-      "cp": 122625,
-      "cp_hex": "U+1DF01",
-      "category": "letter"
-    },
-    {
-      "cp": 122626,
-      "cp_hex": "U+1DF02",
-      "category": "letter"
-    },
-    {
-      "cp": 122627,
-      "cp_hex": "U+1DF03",
-      "category": "letter"
-    },
-    {
-      "cp": 122628,
-      "cp_hex": "U+1DF04",
-      "category": "letter"
-    },
-    {
-      "cp": 122629,
-      "cp_hex": "U+1DF05",
-      "category": "letter"
-    },
-    {
-      "cp": 122630,
-      "cp_hex": "U+1DF06",
-      "category": "letter"
-    },
-    {
-      "cp": 122631,
-      "cp_hex": "U+1DF07",
-      "category": "letter"
-    },
-    {
-      "cp": 122632,
-      "cp_hex": "U+1DF08",
-      "category": "letter"
-    },
-    {
-      "cp": 122633,
-      "cp_hex": "U+1DF09",
-      "category": "letter"
-    },
-    {
-      "cp": 122634,
-      "cp_hex": "U+1DF0A",
-      "category": "letter"
-    },
-    {
-      "cp": 122635,
-      "cp_hex": "U+1DF0B",
-      "category": "letter"
-    },
-    {
-      "cp": 122636,
-      "cp_hex": "U+1DF0C",
-      "category": "letter"
-    },
-    {
-      "cp": 122637,
-      "cp_hex": "U+1DF0D",
-      "category": "letter"
-    },
-    {
-      "cp": 122638,
-      "cp_hex": "U+1DF0E",
-      "category": "letter"
-    },
-    {
-      "cp": 122639,
-      "cp_hex": "U+1DF0F",
-      "category": "letter"
-    },
-    {
-      "cp": 122640,
-      "cp_hex": "U+1DF10",
-      "category": "letter"
-    },
-    {
-      "cp": 122641,
-      "cp_hex": "U+1DF11",
-      "category": "letter"
-    },
-    {
-      "cp": 122642,
-      "cp_hex": "U+1DF12",
-      "category": "letter"
-    },
-    {
-      "cp": 122643,
-      "cp_hex": "U+1DF13",
-      "category": "letter"
-    },
-    {
-      "cp": 122644,
-      "cp_hex": "U+1DF14",
-      "category": "letter"
-    },
-    {
-      "cp": 122645,
-      "cp_hex": "U+1DF15",
-      "category": "letter"
-    },
-    {
-      "cp": 122646,
-      "cp_hex": "U+1DF16",
-      "category": "letter"
-    },
-    {
-      "cp": 122647,
-      "cp_hex": "U+1DF17",
-      "category": "letter"
-    },
-    {
-      "cp": 122648,
-      "cp_hex": "U+1DF18",
-      "category": "letter"
-    },
-    {
-      "cp": 122649,
-      "cp_hex": "U+1DF19",
-      "category": "letter"
-    },
-    {
-      "cp": 122650,
-      "cp_hex": "U+1DF1A",
-      "category": "letter"
-    },
-    {
-      "cp": 122651,
-      "cp_hex": "U+1DF1B",
-      "category": "letter"
-    },
-    {
-      "cp": 122652,
-      "cp_hex": "U+1DF1C",
-      "category": "letter"
-    },
-    {
-      "cp": 122653,
-      "cp_hex": "U+1DF1D",
-      "category": "letter"
-    },
-    {
-      "cp": 122654,
-      "cp_hex": "U+1DF1E",
-      "category": "letter"
-    },
-    {
-      "cp": 122661,
-      "cp_hex": "U+1DF25",
-      "category": "letter"
-    },
-    {
-      "cp": 122662,
-      "cp_hex": "U+1DF26",
-      "category": "letter"
-    },
-    {
-      "cp": 122663,
-      "cp_hex": "U+1DF27",
-      "category": "letter"
-    },
-    {
-      "cp": 122664,
-      "cp_hex": "U+1DF28",
-      "category": "letter"
-    },
-    {
-      "cp": 122665,
-      "cp_hex": "U+1DF29",
-      "category": "letter"
-    },
-    {
-      "cp": 122666,
-      "cp_hex": "U+1DF2A",
-      "category": "letter"
     }
   ]
 }
