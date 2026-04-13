@@ -230,9 +230,7 @@ final class TranscriptionValidator
         }
         \usort(
             $out,
-            static function (array $a, array $b): int {
-                return \mb_strlen($b['from'], 'UTF-8') <=> \mb_strlen($a['from'], 'UTF-8');
-            },
+            fn (array $a, array $b): int => \mb_strlen($b['from'], 'UTF-8') <=> \mb_strlen($a['from'], 'UTF-8'),
         );
 
         return $out;
