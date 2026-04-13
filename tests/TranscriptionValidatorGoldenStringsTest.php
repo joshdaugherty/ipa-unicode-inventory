@@ -105,4 +105,79 @@ final class TranscriptionValidatorGoldenStringsTest extends TestCase
         );
         $this->assertFalse($v->isValid("\u{2603}"));
     }
+
+    public function testGoogleTtsRequiresWikimediaLegacyAsciiFromDisk(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Google TTS normalization requires Wikimedia legacy ASCII');
+        TranscriptionValidator::fromDisk(
+            self::inventoryPath(),
+            self::normalizationPath(),
+            TranscriptionValidator::STRIP_DELIMITERS_NONE,
+            null,
+            true,
+            false,
+            true,
+        );
+    }
+
+    public function testGoogleTtsSuperscriptNMapsToAsciiN(): void
+    {
+        $out = TranscriptionValidator::applyGoogleTtsNormalization('tⁿ');
+        $this->assertSame('tn', $out);
+    }
+
+    public function testGoogleTtsStripsCombiningMarks0300(): void
+    {
+        $out = TranscriptionValidator::applyGoogleTtsNormalization("e\u{0301}");
+        $this->assertSame('e', $out);
+    }
+
+    public function testGoogleTtsRemovesParentheses(): void
+    {
+        $out = TranscriptionValidator::applyGoogleTtsNormalization('(a)');
+        $this->assertSame('a', $out);
+    }
+
+    public function testIsValidWithGoogleTtsAfterCombiningStrip(): void
+    {
+        $v = TranscriptionValidator::fromDisk(
+            self::inventoryPath(),
+            self::normalizationPath(),
+            TranscriptionValidator::STRIP_DELIMITERS_NONE,
+            null,
+            true,
+            true,
+            true,
+        );
+        $this->assertTrue($v->isValid("e\u{0301}"));
+    }
+
+    public function testIsValidBaseModeKeepsCombiningAcute(): void
+    {
+        $v = TranscriptionValidator::fromDisk(
+            self::inventoryPath(),
+            self::normalizationPath(),
+            TranscriptionValidator::STRIP_DELIMITERS_NONE,
+            null,
+            true,
+            true,
+            false,
+        );
+        $this->assertTrue($v->isValid("e\u{0301}"));
+    }
+
+    public function testNonInventoryStillFailsUnderGoogleTts(): void
+    {
+        $v = TranscriptionValidator::fromDisk(
+            self::inventoryPath(),
+            self::normalizationPath(),
+            TranscriptionValidator::STRIP_DELIMITERS_NONE,
+            null,
+            true,
+            true,
+            true,
+        );
+        $this->assertFalse($v->isValid("\u{2603}\u{0301}"));
+    }
 }

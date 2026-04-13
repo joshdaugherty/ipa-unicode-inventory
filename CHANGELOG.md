@@ -8,6 +8,10 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+### Added
+
+- **PHP:** **`TranscriptionValidator`** optional **Google/TTS** normalization (`googleTtsNormalization` on **`fromDisk()`** / constructor), matching Wikimedia **`Validator`** char map and **U+0300–U+036F** removal; **`applyGoogleTtsNormalization()`** for tests; **`InvalidArgumentException`** if Google is enabled without **`wikimediaLegacyAscii`**.
+
 ## [1.4.0] - 2026-04-15
 
 ### Added

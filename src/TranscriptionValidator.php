@@ -10,10 +10,14 @@ namespace JoshDaugherty\IpaUnicodeInventory;
  * **Pipeline (in order):** optional delimiter stripping, `normalization.json` rules (**longest
  * `from` first**), optional legacy ASCII normalization aligned with Wikimedia
  * {@link https://github.com/wikimedia/mediawiki-libs-IPAValidator IPAValidator}
- * (`'`→ˈ, `:`→ː, `,`→ˌ), then allowlist checks for each remaining scalar.
+ * (`'`→ˈ, `:`→ː, `,`→ˌ), optional **Google/TTS** step (same char map + U+0300–U+036F removal as upstream
+ * when `$google` is true), then allowlist checks for each remaining scalar.
  *
- * **Not implemented:** Wikimedia `stripRegex`, Google/TTS normalization mode, or grapheme-cluster
- * segmentation.
+ * **Google/TTS:** requires **`$wikimediaLegacyAscii`** enabled (mirrors Wikimedia: Google implies normalize).
+ * Applied after legacy ASCII maps: remove `(` `)`, map ⁿ→n, ʰ→h, ɫ→l, ˡ→l, ʲ→j, then strip combining marks
+ * **U+0300–U+036F** (same character class as Wikimedia **`$diacriticsRegex`** in `Validator.php`).
+ *
+ * **Not implemented:** Wikimedia `stripRegex` preset, or grapheme-cluster segmentation.
  *
  * **Delimiter vs Wikimedia ASCII:** stripping runs first. ASCII apostrophe (**U+0027**) is a
  * **`delimiter`** in the default inventory, so with {@see STRIP_DELIMITERS_INVENTORY} it is removed
@@ -41,11 +45,14 @@ final class TranscriptionValidator
 
     private readonly bool $wikimediaLegacyAsciiNormalization;
 
+    private readonly bool $googleTtsNormalization;
+
     /**
      * @param  Inventory  $inventory  Allowlist used for the final per-scalar checks
      * @param  array<int, true>  $delimiterScalarsToStrip  Code points to remove before normalization; empty array = no stripping
      * @param  list<array{from: string, to: string}>  $normalizationRulesLongestFirst Rules from `normalization.json`, already sorted longest `from` first (see {@see sortNormalizationRules})
      * @param  bool  $wikimediaLegacyAsciiNormalization  When `true`, apply ASCII `'` / `:` / `,` → IPA stress/length characters after normalization rules
+     * @param  bool  $googleTtsNormalization  When `true`, apply Wikimedia Google/TTS maps and strip U+0300–U+036F (requires `$wikimediaLegacyAsciiNormalization`)
      *
      * @return void
      */
@@ -54,11 +61,18 @@ final class TranscriptionValidator
         array $delimiterScalarsToStrip,
         array $normalizationRulesLongestFirst,
         bool $wikimediaLegacyAsciiNormalization = false,
+        bool $googleTtsNormalization = false,
     ) {
+        if ($googleTtsNormalization && !$wikimediaLegacyAsciiNormalization) {
+            throw new \InvalidArgumentException(
+                'Google TTS normalization requires Wikimedia legacy ASCII normalization to be enabled (same invariant as Wikimedia IPAValidator: $google implies $normalize).',
+            );
+        }
         $this->inventory = $inventory;
         $this->delimiterScalarsToStrip = $delimiterScalarsToStrip;
         $this->normalizationRulesLongestFirst = $normalizationRulesLongestFirst;
         $this->wikimediaLegacyAsciiNormalization = $wikimediaLegacyAsciiNormalization;
+        $this->googleTtsNormalization = $googleTtsNormalization;
     }
 
     /**
@@ -70,11 +84,12 @@ final class TranscriptionValidator
      * @param  list<int>|array<int, true>|null  $customDelimiterScalars  When mode is {@see STRIP_DELIMITERS_CUSTOM}: list of ints or `cp => true` map; ignored for other modes
      * @param  bool  $applyNormalizationJson  When `false`, skip loading `normalization.json` and use no dataset normalization rules
      * @param  bool  $wikimediaLegacyAscii  When `true`, apply Wikimedia-style ASCII stress/length replacements after dataset rules
+     * @param  bool  $googleTtsNormalization  When `true`, apply Google/TTS normalization after legacy ASCII (requires `$wikimediaLegacyAscii`)
      * @param  bool  $validateSchema  When `true`, validate loaded JSON against bundled schema (requires `justinrainbow/json-schema`)
      *
      * @return self Configured validator instance
      *
-     * @throws \InvalidArgumentException if `$delimiterStripMode` is not a known constant
+     * @throws \InvalidArgumentException if `$delimiterStripMode` is not a known constant, or Google TTS is enabled without legacy ASCII
      * @throws \JsonException if JSON decoding fails
      * @throws \RuntimeException if files are missing, structurally invalid, or schema validation fails when enabled
      */
@@ -85,6 +100,7 @@ final class TranscriptionValidator
         ?array $customDelimiterScalars = null,
         bool $applyNormalizationJson = true,
         bool $wikimediaLegacyAscii = false,
+        bool $googleTtsNormalization = false,
         bool $validateSchema = false,
     ): self {
         $inventory = Inventory::fromDisk($inventoryJsonPath, $validateSchema);
@@ -101,7 +117,7 @@ final class TranscriptionValidator
             $rules = self::sortNormalizationRules($doc['rules']);
         }
 
-        return new self($inventory, $stripMap, $rules, $wikimediaLegacyAscii);
+        return new self($inventory, $stripMap, $rules, $wikimediaLegacyAscii, $googleTtsNormalization);
     }
 
     /**
@@ -127,6 +143,12 @@ final class TranscriptionValidator
         $s = $this->applyNormalizationRules($s);
         if ($this->wikimediaLegacyAsciiNormalization) {
             $s = self::applyWikimediaLegacyAsciiNormalization($s);
+        }
+        if ($this->googleTtsNormalization) {
+            $s = self::applyGoogleTtsNormalization($s);
+            if ($s === null) {
+                return false;
+            }
         }
 
         return $this->allScalarsAllowed($s);
@@ -180,6 +202,34 @@ final class TranscriptionValidator
         }
 
         return $utf8;
+    }
+
+    /**
+     * Wikimedia {@link https://github.com/wikimedia/mediawiki-libs-IPAValidator IPAValidator} Google/TTS branch:
+     * remove parentheses, map modifier letters to ASCII, then strip combining marks **U+0300–U+036F**
+     * (same order and regex as upstream `normalizeIPA` with `$google` after legacy ASCII maps).
+     *
+     * @param  string  $utf8  Well-formed UTF-8 input
+     *
+     * @return string|null Normalized string, or `null` if `preg_replace` fails
+     */
+    public static function applyGoogleTtsNormalization(string $utf8): ?string
+    {
+        $map = [
+            ['(', ''],
+            [')', ''],
+            ["\u{207F}", 'n'],
+            ["\u{02B0}", 'h'],
+            ["\u{026B}", 'l'],
+            ["\u{02E1}", 'l'],
+            ["\u{02B2}", 'j'],
+        ];
+        foreach ($map as [$from, $to]) {
+            $utf8 = \str_replace($from, $to, $utf8);
+        }
+        $result = \preg_replace('/[\x{0300}-\x{036F}]/u', '', $utf8);
+
+        return \is_string($result) ? $result : null;
     }
 
     /**

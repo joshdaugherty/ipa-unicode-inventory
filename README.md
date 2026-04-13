@@ -35,7 +35,7 @@ The inventory covers **core IPA** and **extIPA-oriented Unicode** (as above) plu
 
 1. **JSON:** Read `data/inventory.json` (or **`inventory.phonetic-strict.json`**) or the minified `build/output/inventory.min.json` / **`inventory.phonetic-strict.min.json`**. Build a `Set` of `cp` integers in memory.
 2. **PCRE (UTF-8 + `/u`):** Insert `build/output/pcre-class-fragment.txt` or **`pcre-class-fragment.phonetic-strict.txt`** inside a character class, e.g. `/^[...fragment...]+$/u` — the fragment uses `\x{H...}` escapes only (no surrounding `[` `]`).
-3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists **`inventory_json`**, **`normalization_json`**, **`schema_directory`**, and **`profiles`** (`corpus_inclusive`, `phonetic_strict`) relative to the package root. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, **`PROFILE_ID`**, and **`SCHEMA_VERSION`** from the default `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. For **phonetic-only** validation without stripping, point loaders at **`Resources::inventoryJsonPathForProfile(PolicyProfile::PHONETIC_STRICT)`**. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.4.0`**) so the package resolves.
+3. **PHP (Composer):** `composer require joshdaugherty/ipa-unicode-inventory`, then use `JoshDaugherty\IpaUnicodeInventory\Resources` for paths to the bundled JSON and `InventoryLoader::loadInventory()` / `InventoryLoader::codePointLookup()` for decoded data. **Tooling:** `composer.json` → **`extra.ipa-unicode-inventory.paths`** lists **`inventory_json`**, **`normalization_json`**, **`schema_directory`**, and **`profiles`** (`corpus_inclusive`, `phonetic_strict`) relative to the package root. **`MetaConstants`** exposes **`DATASET_VERSION`**, **`POLICY_ID`**, **`PROFILE_ID`**, and **`SCHEMA_VERSION`** from the default `inventory.json` → `meta` (generated into `src/MetaConstants.php` by **`npm run build`**; **`npm test`** checks it stays in sync). For a **cached scalar allowlist**, use `Inventory::fromDisk()` (optional path) and `isScalarAllowed(int $cp)` — surrogates and out-of-range code points return false. **`TranscriptionValidator::fromDisk()`** runs delimiter stripping (none, inventory `delimiter` rows, or a custom code-point set), optional **`normalization.json`** (longest `from` first), optional **Wikimedia-style ASCII** (`'`→ˈ, `:`→ː, `,`→ˌ), optional **Google/TTS** normalization (parentheses removal, modifier-letter → ASCII map, then strip **U+0300–U+036F**; requires **`wikimediaLegacyAscii`**), then **`isValid()`** per scalar — requires **`ext-mbstring`**. Delimiter stripping happens *before* legacy ASCII; U+0027 is a delimiter, so use `STRIP_DELIMITERS_NONE` or a custom strip set if you need `'`→ˈ. For **phonetic-only** validation without stripping, point loaders at **`Resources::inventoryJsonPathForProfile(PolicyProfile::PHONETIC_STRICT)`**. Submit the Git repo to [Packagist](https://packagist.org/) and tag a release (e.g. **`v1.4.0`**) so the package resolves.
 4. **PHP (generated array):** After `npm run build`, include `build/output/php/AllowedCodePoints.php` or **`AllowedCodePoints.phonetic-strict.php`** for a `0xNNN => true` map (generated only; not committed).
 5. **Integrity:** Check `build/output/manifest.json` SHA-256 digests after downloading release assets.
 
@@ -64,7 +64,7 @@ If you apply `data/normalization.json`, apply rules **longest-`from` first**, th
 By default, **`InventoryLoader`** only checks that **`meta`** and **`code_points`** / **`rules`** exist. To validate the full document against the bundled **draft 2020-12** wrappers under **`schema/`**:
 
 1. Install the optional dependency: **`composer require justinrainbow/json-schema`** (see **`suggest`** in this package’s `composer.json`). The repo’s **`require-dev`** includes it so **`composer test`** can cover strict mode.
-2. Pass **`true`** as the second argument: **`InventoryLoader::loadInventory($path, true)`**, **`loadNormalization($path, true)`**, **`codePointLookup($path, true)`**, **`delimiterScalarSet($path, true)`**; **`Inventory::fromDisk($path, true)`**; **`TranscriptionValidator::fromDisk(..., $validateSchema: true)`** (last parameter).
+2. Pass **`true`** as the second argument: **`InventoryLoader::loadInventory($path, true)`**, **`loadNormalization($path, true)`**, **`codePointLookup($path, true)`**, **`delimiterScalarSet($path, true)`**; **`Inventory::fromDisk($path, true)`**; **`TranscriptionValidator::fromDisk(..., $googleTtsNormalization: false, $validateSchema: true)`** (last parameter is **`$validateSchema`**).
 3. Or decode JSON yourself and call **`BundleSchemaValidator::assertInventoryDocumentValid($data)`** / **`assertNormalizationDocumentValid($data)`**. Use **`BundleSchemaValidator::isAvailable()`** if you need to branch before requiring the package.
 
 If strict mode is requested but **`justinrainbow/json-schema`** is not installed, a **`RuntimeException`** explains how to add it. Validation failures throw **`RuntimeException`** with schema error details.
@@ -88,13 +88,13 @@ Upstream library: [`mediawiki-libs-IPAValidator`](https://github.com/wikimedia/m
 | **Primary check** | `preg_match` on normalized string vs `$ipaRegex` | Scalar allowlist from `data/inventory.json` (or generated PCRE class fragment for whole-string regex) |
 | **Normalization** | Optional: ASCII `'`→ˈ, `:`→ː, `,`→ˌ (`$normalize`) | `normalization.json` (e.g. U+2018/U+2019→U+02BC, longest-`from` first) **plus** optional same ASCII map in `TranscriptionValidator` (`wikimediaLegacyAscii`) |
 | **Delimiter handling** | Optional `stripRegex` when `$strip` | Optional strip of inventory **`delimiter`** rows, custom code-point set, or none (`TranscriptionValidator`) |
-| **Pipeline order** | Strip → normalize (normalize may strip again) | Strip delimiters → `normalization.json` → optional Wikimedia ASCII → scalar checks |
-| **Google / TTS mode** | `$google` (extra replacements + diacritic stripping) | **Not implemented** |
+| **Pipeline order** | Strip → normalize (normalize may strip again) | Strip delimiters → `normalization.json` → optional Wikimedia ASCII → optional Google/TTS → scalar checks |
+| **Google / TTS mode** | `$google` (extra replacements + diacritic stripping) | **`TranscriptionValidator::fromDisk(..., $wikimediaLegacyAscii: true, $googleTtsNormalization: true)`** — same char map + **U+0300–U+036F** removal as upstream; **requires** legacy ASCII enabled |
 | **`@` (U+0040)** | Not in `$ipaRegex` (fails validation if present) | In inventory as **`delimiter`** (allowed in-band unless you strip delimiters) |
 | **Ligatures / digraph letters** | Allowed only if in `$ipaRegex` | Allowed if listed (e.g. **ʧ** U+02A7); no special “decompose ligature” step |
 | **Parity tooling** | — | `npm run compare:mediawiki` diffs **regex class** vs inventory (not full PHP behavior) |
 
-Start from **`TranscriptionValidator::fromDisk()`** if you want strip + normalize + scalar checks in one place; mirror Wikimedia by enabling **`wikimediaLegacyAscii`** and choosing delimiter stripping to approximate `$strip` / `$normalize` (note: U+0027 is an inventory delimiter, so **`STRIP_DELIMITERS_NONE`** is required if you rely on **`'`→ˈ**).
+Start from **`TranscriptionValidator::fromDisk()`** if you want strip + normalize + scalar checks in one place; mirror Wikimedia by enabling **`wikimediaLegacyAscii`** and choosing delimiter stripping to approximate `$strip` / `$normalize` (note: U+0027 is an inventory delimiter, so **`STRIP_DELIMITERS_NONE`** is required if you rely on **`'`→ˈ**). For **`$google`**, pass **`googleTtsNormalization: true`** after **`wikimediaLegacyAscii: true`**; enabling Google **strips all combining marks in U+0300–U+036F**, so narrow IPA with separate combining diacritics is only valid if every resulting scalar (after stripping) remains in the inventory—often you still have base letters allowed.
 
 ## Development
 
@@ -141,7 +141,7 @@ This fetches `index.html` and `accessiblechart.html` from the default branch. Us
 ### Feature request: Wikimedia `stripRegex`, Google/TTS mode, grapheme-cluster validation
 
 **Package:** [joshdaugherty/ipa-unicode-inventory](https://github.com/joshdaugherty/ipa-unicode-inventory)  
-**Context:** `TranscriptionValidator` currently documents that Wikimedia `stripRegex`, Google/TTS normalization, and grapheme-cluster segmentation are **not** implemented. Downstream apps (e.g. Laravel validation rules) re-implement delimiter stripping and Google/TTS steps locally. Consolidating these in the package would reduce duplication and keep behavior aligned with [mediawiki-libs-IPAValidator](https://github.com/wikimedia/mediawiki-libs-IPAValidator).
+**Context:** **`TranscriptionValidator`** implements **Google/TTS** normalization (see §2 below). **Wikimedia `stripRegex`** and **grapheme-cluster** segmentation remain **not** implemented; some downstream apps still duplicate delimiter stripping or `ext-intl` grapheme walks. A **`stripRegex` preset** and optional EGC mode would further align with [mediawiki-libs-IPAValidator](https://github.com/wikimedia/mediawiki-libs-IPAValidator) and UI frameworks.
 
 ---
 
@@ -175,28 +175,22 @@ Custom mode can emulate `stripRegex`, but a **named preset** avoids every consum
 
 ### 2. Google/TTS normalization mode
 
+**Status:** **Implemented** in `TranscriptionValidator` (`googleTtsNormalization` / `applyGoogleTtsNormalization()`). Remaining gaps vs Wikimedia are only around **`stripRegex`** and whole-string **`$ipaRegex`** matching (see migration table).
+
 #### Problem
 
 Wikimedia’s validator optionally applies a **Google TTS–oriented** branch after base normalization: remove parens, map superscript/modifier letters to ASCII-friendly letters, then strip combining marks in **U+0300–U+036F** (see `Validator::normalizeIPA` with `$google`).
 
-`TranscriptionValidator` PHPDoc states this mode is **not implemented**, so apps duplicate that logic next to `isValid()`.
+#### Shipped behavior
 
-#### Proposed behavior
-
-- Extend `TranscriptionValidator::fromDisk` / constructor with a boolean, e.g. **`$googleTtsNormalization`**, valid only when **`$wikimediaLegacyAscii`** (or broader **`$normalize`**) is true — mirroring Wikimedia’s “Google requires normalize” invariant.
-- Pipeline order (align with Wikimedia unless spec documents a deliberate change):
-  1. Delimiter stripping (per selected mode).
-  2. `normalization.json` rules (longest `from` first).
-  3. Wikimedia ASCII stress/length (`'`→ˈ, `:`→ː, `,`→ˌ) when enabled.
-  4. **Google/TTS** substitutions (same character map as Wikimedia).
-  5. Strip combining marks **U+0300–U+036F** (same regex semantics as Wikimedia).
-  6. Per-scalar allowlist check against `Inventory`.
+- **`TranscriptionValidator::fromDisk(..., $wikimediaLegacyAscii, $googleTtsNormalization, $validateSchema)`** — Google **requires** legacy ASCII (`InvalidArgumentException` otherwise).
+- Pipeline: delimiter strip → `normalization.json` → Wikimedia ASCII → Google char map → **`/[\x{0300}-\x{036F}]/u`** removal → per-scalar allowlist.
 
 #### Acceptance criteria
 
-- [ ] Flag(s) and invalid combinations throw or are rejected with clear `InvalidArgumentException` messages.
-- [ ] PHPUnit golden strings covering at least: superscript ⁿ → `n`, a string with combining marks that **passes** base mode and **changes** under Google mode, and a case that **fails** allowlist after stripping.
-- [ ] README: “Google mode” vs dataset policy; note that stripping **all** IPA combining marks may reject valid narrow transcriptions if the inventory still lists those scalars—document expected behavior.
+- [x] Flag(s) and invalid combinations throw or are rejected with clear `InvalidArgumentException` messages.
+- [x] PHPUnit golden strings covering at least: superscript ⁿ → `n`, combining-mark behavior under Google mode, and allowlist failure cases.
+- [x] README: Google mode vs dataset policy; combining strip behavior documented under **Migrating from Wikimedia IPAValidator**.
 
 ---
 
@@ -234,7 +228,7 @@ Recommendation: ship **Option A** first: same allowlist as today, but **iteratio
 ### Cross-cutting notes
 
 - **Versioning:** These are additive if defaults preserve current behavior; bump **minor** `dataset_version` only if bundled JSON changes; **package semver** per your policy for new API surface.
-- **Downstream:** Consumers (e.g. Laravel validation rules) can delete duplicated Google/TTS and custom strip logic once (2) and ideally (1) land.
+- **Downstream:** Consumers (e.g. Laravel validation rules) can rely on packaged Google/TTS; optional **`stripRegex`** preset (1) remains future work.
 
 ---
 
