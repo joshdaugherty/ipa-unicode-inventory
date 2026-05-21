@@ -19,6 +19,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Guard against Windows-1252 double-encoded UTF-8
+        run: npm run check:encoding
+
       - name: Validate, build, tests, manifest digests
         env:
           GITHUB_SHA: ${{ github.sha }}
