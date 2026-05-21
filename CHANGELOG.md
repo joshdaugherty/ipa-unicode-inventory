@@ -8,6 +8,17 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+## [1.6.1] - 2026-05-21
+
+### Added
+
+- **Docs:** README *Authoring fixtures and source files with correct UTF-8* section — canonical-byte vs Windows-1252 double-encoded mojibake reference table for common IPA scalars (`ʰ ʤ ʊ ɪ ə ɚ ɛ ɑ ˈ ː ̥ ̊`), editor configuration notes for VS Code / PhpStorm, hex verification commands, and a one-shot `mb_convert_encoding` repair snippet. Resolves the README hex-check half of [#1](https://github.com/joshdaugherty/ipa-unicode-inventory/issues/1) (PR [#2](https://github.com/joshdaugherty/ipa-unicode-inventory/pull/2)).
+- **CI:** `scripts/check-double-encoding.mjs` — guard that scans tracked files for the Windows-1252 double-encoded UTF-8 fingerprint and fails the build on detection. Wired into `npm test` and a dedicated CI step; also exposed as `npm run check:encoding`. Built-in self-test asserts the regex matches known mojibake samples and rejects clean UTF-8 IPA bytes. Resolves the CI-guard half of [#1](https://github.com/joshdaugherty/ipa-unicode-inventory/issues/1) (PR [#3](https://github.com/joshdaugherty/ipa-unicode-inventory/pull/3)).
+
+### Changed
+
+- `dataset_version` **1.6.1** (npm package, both inventories, `normalization.json`; **allowlist rows are byte-for-byte unchanged from 1.6.0**; `schema_version` **1.0.0**). This is a docs / CI patch release surfaced to Packagist so the new README authoring guide reaches consumers reading from `vendor/`.
+
 ## [1.6.0] - 2026-04-13
 
 ### Removed
@@ -105,6 +116,7 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
+[1.6.1]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.6.1
 [1.6.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.6.0
 [1.5.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.5.0
 [1.4.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.4.0
