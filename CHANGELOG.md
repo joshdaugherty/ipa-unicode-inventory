@@ -8,6 +8,13 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 ## [Unreleased]
 
+## [1.6.2] - 2026-05-21
+
+### Changed
+
+- **Dist:** `/scripts` is no longer `export-ignore`d in `.gitattributes`, so the Composer dist (and `git archive` tarballs) now includes `scripts/check-double-encoding.mjs`. Downstream PHP consumers installed via Packagist can invoke `node vendor/joshdaugherty/ipa-unicode-inventory/scripts/check-double-encoding.mjs` directly from their CI, keeping the detection logic in lockstep with the package version they pin instead of copying the script and risking drift. PR [#4](https://github.com/joshdaugherty/ipa-unicode-inventory/pull/4). The script is dependency-free (Node core modules only); dist size impact is ~5 KB. `tests/`, `node_modules/`, `package.json`, `package-lock.json`, and `.gitignore` remain export-ignored.
+- `dataset_version` **1.6.2** (npm package, both inventories, `normalization.json`; **allowlist rows are byte-for-byte unchanged from 1.6.0 / 1.6.1**; `schema_version` **1.0.0**).
+
 ## [1.6.1] - 2026-05-21
 
 ### Added
@@ -116,6 +123,7 @@ for `dataset_version` and `schema_version` as described in `schema/` and invento
 
 - `ipa-unicode-inventory-repository-spec.md`; repository layout and versioning are documented in `README.md`, `CONTRIBUTING.md`, `schema/`, and `data/inventory.json` → `meta`.
 
+[1.6.2]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.6.2
 [1.6.1]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.6.1
 [1.6.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.6.0
 [1.5.0]: https://github.com/joshdaugherty/ipa-unicode-inventory/releases/tag/v1.5.0

@@ -8,7 +8,7 @@ Static comparison of the character class inside [mediawiki-libs-IPAValidator `Va
 
 | Metric | Value |
 |--------|-------|
-| Inventory `dataset_version` | `1.6.1` |
+| Inventory `dataset_version` | `1.6.2` |
 | Inventory `policy_id` | `ipa-extipa-corpus-inclusive` |
 | Upstream class source | Live fetch from `main` on GitHub (raw) |
 | MediaWiki `$ipaRegex` class (expanded scalars) | 175 |
