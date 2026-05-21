@@ -2,7 +2,11 @@
 /.github export-ignore
 /node_modules export-ignore
 /tests export-ignore
-/scripts export-ignore
+# /scripts intentionally NOT export-ignored: downstream PHP consumers can then
+# invoke node vendor/joshdaugherty/ipa-unicode-inventory/scripts/check-double-encoding.mjs
+# directly from CI, keeping the detection logic in lockstep with the package
+# version they pin. The script is dependency-free; bundling it does not pull
+# anything else into the composer dist.
 /package.json export-ignore
 /package-lock.json export-ignore
 /.gitignore export-ignore
