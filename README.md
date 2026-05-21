@@ -103,6 +103,69 @@ Upstream library: [`mediawiki-libs-IPAValidator`](https://github.com/wikimedia/m
 
 Start from **`TranscriptionValidator::fromDisk()`** if you want strip + normalize + scalar checks in one place. For Wikimedia **`$strip`** parity on **`/` `[` `]`** only, use **`STRIP_DELIMITERS_WIKIMEDIA_SLASH_BRACKETS`** (equivalent to **`preg_replace('/[\/\[\]]/u', '', $s)`** on well-formed UTF-8); that keeps ASCII **`'`** so you can enable **`wikimediaLegacyAscii`** for **`'`→ˈ** without **`STRIP_DELIMITERS_NONE`**. **`STRIP_DELIMITERS_INVENTORY`** removes every inventory **`delimiter`**, including **`'`**, so it does **not** match upstream **`$stripRegex`**. For **`$google`**, pass **`googleTtsNormalization: true`** after **`wikimediaLegacyAscii: true`**; Google **strips combining marks in U+0300–U+036F**, so validate policy implications for narrow IPA.
 
+## Authoring fixtures and source files with correct UTF-8
+
+This inventory only works if the consuming code stores IPA characters as canonical UTF-8 — the same byte sequences the inventory itself uses. The most common authoring mistake is **Windows-1252 double-encoding**: an editor (or a `git`/`Composer`/CI step) reads UTF-8 bytes as cp1252, then re-encodes the (now wrong) codepoints back to UTF-8. The result is a string that *looks* normal to a tolerant PHP/Node runtime but is silently mojibake at the byte level, and stricter runtimes (Ubuntu PHP 8.4, ICU-backed `preg_match`, etc.) reject it. See [issue #1](https://github.com/joshdaugherty/ipa-unicode-inventory/issues/1) for the originating downstream incident.
+
+### Canonical byte reference for common IPA scalars
+
+If you copy these characters into a test fixture, the on-disk bytes must match the **Canonical UTF-8** column exactly. The **Mojibake** column lists the byte sequence you would see if the file was double-encoded via cp1252 — that is what a CI guard should reject.
+
+| Scalar | Codepoint | Canonical UTF-8 | cp1252-double-encoded mojibake |
+| --- | --- | --- | --- |
+| `ʰ` | U+02B0 | `CA B0` | `C3 8A C2 B0` |
+| `ʤ` | U+02A4 | `CA A4` | `C3 8A C2 A4` |
+| `ʊ` | U+028A | `CA 8A` | `C3 8A CB 86` |
+| `ɪ` | U+026A | `C9 AA` | `C3 89 C2 AA` |
+| `ə` | U+0259 | `C9 99` | `C3 89 E2 84 A2` |
+| `ɚ` | U+025A | `C9 9A` | `C3 89 C5 A1` |
+| `ɛ` | U+025B | `C9 9B` | `C3 89 E2 80 BA` |
+| `ɑ` | U+0251 | `C9 91` | `C3 89 E2 80 98` |
+| `ˈ` | U+02C8 | `CB 88` | `C3 8B CB 86` |
+| `ː` | U+02D0 | `CB 90` | `C3 8B C2 90` |
+| `̥`  | U+0325 | `CC A5` | `C3 8C C2 A5` |
+| `̊`  | U+030A | `CC 8A` | `C3 8C CB 86` |
+
+For example, the worked downstream string `pʰə̥ˈkj̊uːliɚ` is canonically `70 CA B0 C9 99 CC A5 CB 88 6B 6A CC 8A 75 CB 90 6C 69 C9 9A` on disk; any deviation (extra `C3 8A`, `C3 89`, `C3 8B`, `C3 8C` bytes, or the longer `E2 …` triplets shown above) means the file has been double-encoded.
+
+### How to verify a file's bytes
+
+```pwsh
+# PowerShell (Windows): dump a file's bytes as hex
+Format-Hex .\path\to\fixture.php
+
+# Or just the IPA characters of interest
+[System.Text.Encoding]::UTF8.GetBytes('ʰə̥') | ForEach-Object { '{0:X2}' -f $_ }
+```
+
+```bash
+# POSIX: same with xxd
+xxd path/to/fixture.php | head
+printf 'ʰə̥' | xxd
+```
+
+A correct fixture will show `CA B0 C9 99 CC A5` for `ʰə̥`. A double-encoded one will show the longer `C3 8A C2 B0 C3 89 …` runs from the table above.
+
+### Editor configuration
+
+The corruption almost always originates at editor-save time on a Windows host with a non-UTF-8 default. Set the file encoding explicitly:
+
+- **VS Code:** `"files.encoding": "utf8"` and `"files.autoGuessEncoding": false` in workspace settings; the status-bar encoding indicator should read **UTF-8** (not "Windows 1252" or "ISO 8859-1").
+- **PhpStorm / IntelliJ:** *Settings → Editor → File Encodings* → **Project Encoding = UTF-8**, **BOM policy = "do not use BOM"**.
+- **Notepad / generic editors:** avoid; if unavoidable, "Save As → UTF-8 (without BOM)".
+
+If you suspect an existing fixture is corrupt, the one-shot repair is:
+
+```php
+file_put_contents($path, mb_convert_encoding(file_get_contents($path), 'ISO-8859-1', 'UTF-8'));
+```
+
+This interprets the file's existing UTF-8 bytes as codepoints, then writes those codepoints as Latin-1 — producing the original (pre-corruption) UTF-8 byte stream.
+
+### Pre-commit / CI hook
+
+A guard that greps tracked files for the byte sequences in the **Mojibake** column above will catch the regression at commit / CI time. The patterns are not IPA-specific — the same cp1252 round-trip mangles em-dashes, curly quotes, currency symbols, modifier letters, and combining marks — so the same guard is reusable in any downstream repo that authors UTF-8 fixtures on Windows.
+
 ## Development
 
 ```bash
